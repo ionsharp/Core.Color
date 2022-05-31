@@ -76,7 +76,11 @@ public sealed class LCH : ColorVector3j
 
 /// <summary>
 /// Hue (H), Chroma (U), Lightness (V)
-/// <para><i>Author</i>: <see href="https://github.com/imagin-tech">Imagin</see> (2022)</para>
+/// 
+/// <i>Author</i>
+/// <list type="bullet">
+/// <item><see href="https://github.com/imagin-tech">Imagin</see> (2022)</item>
+/// </list>
 /// </summary>
 /// <remarks><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="XYZ"/> > 🞶 > <see cref="HUV"/></remarks>
 [Unfinished]
