@@ -8,11 +8,11 @@ Color management for shared projects.
 ##### Imagin.Core.Color
 > _`Install-Package Imagin.Core.Color -Version *.0.0`_
 
-[Learn more...](https://github.com/imagin-tech/Core.Color/wiki/Getting-Started#install-with-nuget-coming-soon)
+[Learn more...](https://github.com/imagin-tech/Core.Color/wiki)
 
 Wiki ![](https://img.shields.io/badge/style-Coming%20soon!-red.svg?style=flat&label=)
 ---
-For help or to find out more, head over to [the wiki](https://github.com/imagin-tech/Core.Color/wiki/Getting-Started).
+For help or to find out more, head over to [the wiki](https://github.com/imagin-tech/Core.Color/wiki).
 
 Donate
 ---
