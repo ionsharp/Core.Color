@@ -14,8 +14,10 @@ namespace Imagin.Core.Colors;
 /// <para>https://en.wikipedia.org/wiki/Color_model</para>
 /// </summary>
 [Serializable]
-public abstract class ColorVector
+public abstract class ColorVector : IEquatable<ColorVector>
 {
+    #region Fields
+
     static readonly Dictionary<Type, Vector<Component>> Components = new();
 
     /// <summary>Gets the index (based on the type) corresponding to each <see cref="ColorVector"/> in the shader file (<see cref="FilePath"/>).</summary>
@@ -24,7 +26,9 @@ public abstract class ColorVector
     /// <summary>Gets the type (based on the index) corresponding to each <see cref="ColorVector"/> in the shader file (<see cref="FilePath"/>).</summary>
     public static Dictionary<int, Type> Type = new();
 
-    //...
+    #endregion
+
+    #region Properties
 
     public Vector Value { get; protected set; }
 
@@ -34,11 +38,25 @@ public abstract class ColorVector
         set => Value = new(i == 0 ? value : Value[0], i == 1 ? value : Value[1], i == 2 ? value : Value[2]);
     }
 
-    //...
+    #endregion
+
+    #region ColorVector
+
+    protected ColorVector(params double[] input) : base() => Value = new Vector(input);
+
+    public static implicit operator Vector(ColorVector input) => input.Value;
+
+    public static explicit operator double[](ColorVector input) => input.Value;
+
+    #endregion
+
+    #region ColorVector (static)
 
     /// <remarks>Rearrange lines to match indices in relevant shader file.</remarks>
     static ColorVector()
     {
+        #region i<T>()
+
         var index = 0;
         void i<T>()
         {
@@ -55,57 +73,211 @@ public abstract class ColorVector
             index++;
         }
 
+        #endregion
+
         i<RGB>();
         i<CMY>();
-        i<HCV>();
-        i<HCY>();
+        i<HCV>(); i<HCY>();
         i<HPLuv>();
-        i<HSB>();
-        i<HSBok>();
-        i<HSL>();
-        i<HSLok>();
-        i<HSLuv>();
+        i<HSB>(); i<HSBk>();
+        i<HSL>(); i<HSLk>(); i<HSLuv>();
         i<HSM>();
         i<HSP>();
-        i<HUVab>();
-        i<HUVabh>();
-        i<HUVuv>();
-        i<HzUzVz>();
-        i<HWB>();
+        i<HWBsb>(); i<HWBsbk>();
         i<ICtCp>();
         i<JPEG>();
-        i<JzAzBz>();
-        i<JzCzHz>();
-        i<Lab>();
-        i<Labh>();
-        i<LCHab>();
-        i<LCHabh>();
-        i<LCHuv>();
-        i<LMS>();
-        i<Luv>();
-        i<OKLab>();
+        i<Lab>(); i<Labh>(); i<Labi>(); i<Labj>(); i<Labk>();
+        i<LCHab>(); i<LCHabh>(); i<LCHabj>(); i<LCHuv>();
+        i<LMS>(); i<Luv>();
         i<TSL>();
-        i<UCS>();
-        i<UVW>();
-        i<xvYCC>();
-        i<xyY>();
-        i<XYZ>();
-        i<YCbCr>();
-        i<YCoCg>();
-        i<YDbDr>();
-        i<YES>();
-        i<YIQ>();
-        i<YPbPr>();
-        i<YUV>();
+        i<UCS>(); i<UVW>();
+        i<xvYCC>(); i<xyY>(); i<xyYC>(); i<XYZ>();
+        i<YCbCr>(); i<YCoCg>(); i<YDbDr>(); i<YES>(); i<YIQ>(); i<YPbPr>(); i<YUV>();
     }
 
-    protected ColorVector(params double[] input) : base() => Value = new Vector(input);
+    #endregion
 
-    //...
+    #region Methods
 
-    public static implicit operator Vector(ColorVector input) => input.Value;
+    public override string ToString() => Value.ToString();
 
-    public static explicit operator double[](ColorVector input) => input.Value;
+    #endregion
+
+    #region Adapt
+
+    /// <summary>(🗸) <see cref="LMS"/> (0) > <see cref="LMS"/> (1)</summary>
+    protected LMS Adapt(LMS input, WorkingProfile source, WorkingProfile target)
+    {        
+        //XYZ (0) > LMS (0)
+        var a = new LMS();
+        a.FromXYZ(source.White, source);
+
+        //XYZ (1) > LMS (1)
+        var b = new LMS();
+        b.FromXYZ(target.White, target);
+
+        //LMS (0) > LMS (1)
+        return new VonKriesAdaptation().Convert(input, a, b);
+    }
+
+    /// <summary>(🗸) <see cref="RGB"/> (0) > <see cref="XYZ"/> (0) > <see cref="LMS"/> (0) > <see cref="LMS"/> (1) > <see cref="XYZ"/> (1) > <see cref="RGB"/> (1)</summary>
+    protected RGB Adapt(RGB input, WorkingProfile source, WorkingProfile target)
+    {
+        //RGB (0) > XYZ (0)
+        var xyz = new XYZ();
+        xyz.FromRGB(input, source);
+
+        //XYZ (0) > LMS (0) > LMS (1) > XYZ (1)
+        xyz = Adapt(xyz, source, target);
+
+        //XYZ (1) > RGB (1)
+        return xyz.ToRGB(target);
+    }
+
+    /// <summary>(🗸) <see cref="XYZ"/> (0) > <see cref="LMS"/> (0) > <see cref="LMS"/> (1) > <see cref="XYZ"/> (1)</summary>
+    protected XYZ Adapt(XYZ input, WorkingProfile source, WorkingProfile target)
+    {
+        //XYZ (0) > LMS (0)
+        var lms = new LMS();
+        lms.FromXYZ(input, source);
+
+        //LMS (0) > LMS (1)
+        lms = Adapt(lms, source, target);
+
+        //LMS (1) > XYZ (1)
+        return lms.ToXYZ(target);
+    }
+
+    /// <summary>(🗸) <see cref="ColorVector">this</see> (0) > <see cref="RGB"/> (0) > <see cref="XYZ"/> (0) > <see cref="LMS"/> (0) > <see cref="LMS"/> (1) > <see cref="XYZ"/> (1) > <see cref="RGB"/> (1) > <see cref="ColorVector">this</see> (1)</summary>
+    public virtual void Adapt(WorkingProfile source, WorkingProfile target)
+    {
+        var result = ToRGB(source);
+        Value = Adapt(result, source, target);
+    }
+
+    #endregion
+
+    #region this > (L)rgb
+
+    /// <summary>(🗸) this > <see cref="Lrgb"/> > <see cref="RGB"/></summary>
+    public RGB ToRGB(WorkingProfile profile)
+    {
+        var a = ToLrgb(profile);
+
+        var b = new RGB();
+        b.FromLrgb(a, profile);
+        return b;
+    }
+
+    /// <summary>(🗸) this > <see cref="Lrgb"/></summary>
+    public abstract Lrgb ToLrgb(WorkingProfile profile);
+
+    #endregion
+
+    #region (L)rgb > this
+
+    /// <summary>(🗸) <see cref="RGB"/> > <see cref="Lrgb"/> > this</summary>
+    public void FromRGB(RGB input, WorkingProfile profile)
+    {
+        var result = input.ToLrgb(profile);
+        FromLrgb(result, profile);
+    }
+
+    /// <summary>(🗸) <see cref="Lrgb"/> > this</summary>
+    public abstract void FromLrgb(Lrgb input, WorkingProfile profile);
+
+    #endregion
+
+    #region ==
+
+    public bool Equals(ColorVector other) => Value.Equals(other.Value);
+
+    public override bool Equals(object i) => i is ColorVector j && Equals(j);
+
+    public override int GetHashCode() => Value.GetHashCode();
+
+    public static bool operator ==(ColorVector left, ColorVector right) => Equals(left, right);
+
+    public static bool operator !=(ColorVector left, ColorVector right) => !Equals(left, right);
+
+    #endregion
+
+    #region New
+
+    public static ColorVector3 New(Type type) => type.Create<ColorVector3>();
+
+    public static ColorVector3 New<T>() where T : ColorVector3 => New(typeof(T));
+
+    public static ColorVector3 New(Type type, Vector3<double> values)
+    {
+        var result = New(type);
+        result.Value = new(values);
+        return result;
+    }
+
+    public static ColorVector3 New<T>(Vector3<double> values) => New(typeof(T), values);
+
+    public static ColorVector3 New(Type type, RGB rgb, WorkingProfile profile)
+    {
+        var result = New(type);
+        result.FromRGB(rgb, profile);
+        return result;
+    }
+
+    public static ColorVector3 New<T>(RGB rgb, WorkingProfile profile) where T : ColorVector3 => New(typeof(T), rgb, profile);
+
+    #endregion
+
+    #region Static
+
+    /// <summary>Converts all <see cref="RGB"/> colors to the given <see cref="ColorVector">color space</see> and back, and gets an estimate of accuracy for converting back and forth.</summary>
+    /// <param name="depth">A number in the range [1, ∞].</param>
+    public static double GetAccuracy(Type model, WorkingProfile profile, uint depth = 10, int precision = 3)
+    {
+        try
+        {
+            var xyz = New(model);
+
+            double sA = 0, n = 0;
+            for (var r = 0.0; r < depth; r++)
+            {
+                for (var g = 0.0; g < depth; g++)
+                {
+                    for (var b = 0.0; b < depth; b++)
+                    {
+                        //RGB > Lrgb > *
+                        var rgb0 = new RGB(r / (depth - 1), g / (depth - 1), b / (depth - 1));
+                        xyz.FromRGB(rgb0, profile);
+
+                        //* > Lrgb > RGB
+                        var rgb1 = xyz.ToRGB(profile);
+
+                        //Absolute difference
+                        var rD = M.Clamp(1 - Abs(rgb0[0] - rgb1[0]).NaN(1), MaxValue);
+                        var gD = M.Clamp(1 - Abs(rgb0[1] - rgb1[1]).NaN(1), MaxValue);
+                        var bD = M.Clamp(1 - Abs(rgb0[2] - rgb1[2]).NaN(1), MaxValue);
+
+                        //Average of [absolute difference]
+                        var dA = (rD + gD + bD) / 3;
+
+                        //Sum of (average of [absolute difference])
+                        sA += dA;
+                        n++;
+                    }
+                }
+            }
+            return (sA / n * 100).Round(precision);
+        }
+        catch (Exception e)
+        {
+            Analytics.Log.Write<ColorVector>(e);
+            return 0;
+        }
+    }
+
+    /// <summary>Converts all <see cref="RGB"/> colors to the given <see cref="ColorVector">color space</see> and back, and gets an estimate of accuracy for converting back and forth.</summary>
+    /// <param name="depth">A number in the range [1, ∞].</param>
+    public static double GetAccuracy<T>(WorkingProfile profile, uint depth = 10, int precision = 3) where T : ColorVector3 => GetAccuracy(typeof(T), profile, depth, precision);
 
     //...
 
@@ -119,165 +291,54 @@ public abstract class ColorVector
 
     public static Vector<Component> GetComponents<T>() => Components[typeof(T)];
 
-    public override string ToString() => Value.ToString();
+    //...
 
-    //... (Adapt)
+    public static Vector GetMaximum(Type model) 
+        => new(Components[model][0].Maximum, Components[model][1].Maximum, Components[model][2].Maximum);
 
-    /// <summary><see cref="LMS"/> (0) : <see cref="LMS"/> (1)</summary>
-    LMS Adapt(LMS input, WorkingProfile source, WorkingProfile target)
-    {
-        var sWhite = new LMS();
-        sWhite.FromXYZ(source.White, source);
+    public static Vector GetMaximum<T>() 
+        => GetMaximum(typeof(T));
 
-        var tWhite = new LMS();
-        tWhite.FromXYZ(target.White, source);
-        return new VonKriesChromaticAdaptation().Convert(input, sWhite, tWhite);
-    }
+    public static Vector GetMinimum(Type model) 
+        => new(Components[model][0].Minimum, Components[model][1].Minimum, Components[model][2].Minimum);
 
-    /// <summary><see cref="RGB"/> (0) : <see cref="XYZ"/> (0) : <see cref="LMS"/> (0) : <see cref="LMS"/> (1) : <see cref="XYZ"/> (1) : <see cref="RGB"/> (1)</summary>
-    RGB Adapt(RGB input, WorkingProfile source, WorkingProfile target)
-    {
-        var xyz = new XYZ();
-        xyz.FromLrgb(input.ToLrgb(source), source);
+    public static Vector GetMinimum<T>() 
+        => GetMinimum(typeof(T));
 
-        xyz = Adapt(xyz, source, target);
-        return xyz.ToLrgb(target).ToRGB(target);
-    }
+    //...
 
-    /// <summary><see cref="XYZ"/> (0) : <see cref="LMS"/> (0) : <see cref="LMS"/> (1) : <see cref="XYZ"/> (1)</summary>
-    XYZ Adapt(XYZ input, WorkingProfile source, WorkingProfile target)
-    {
-        var lms = new LMS();
-        lms.FromLrgb(input.ToLrgb(source), source);
+    public static Range<Vector> GetRange(Type model) 
+        => new(GetMinimum(model), GetMaximum(model));
 
-        lms = Adapt(lms, source, target);
+    public static Range<Vector> GetRange<T>() 
+        => GetRange(typeof(T));
 
-        var result = new XYZ();
-        result.FromLrgb(lms.ToLrgb(target), target);
-        return result;
-    }
-
-    /// <summary><see cref="ColorVector">this</see> (0) : <see cref="RGB"/> (0) : <see cref="XYZ"/> (0) : <see cref="LMS"/> (0) : <see cref="LMS"/> (1) : <see cref="XYZ"/> (1) : <see cref="RGB"/> (1) : <see cref="ColorVector">this</see> (1)</summary>
-    public ColorVector Adapt(WorkingProfile source, WorkingProfile target)
-    {
-        //this (0) : Adapt(XYZ) : this (1)
-        if (this is RGB rgb)
-            goto Default;
-
-        //Adapt(XYZ)
-        if (this is XYZ xyz)
-            return Adapt(xyz, source, target);
-
-        //this (0) : RGB (0) : Adapt(XYZ) : RGB (1) : this (1)
-        rgb = ToLrgb(source).ToRGB(source);
-        Default: return Adapt(rgb, source, target);
-    }
-
-    //... (Convert)
-
-    public RGB ToRGB(WorkingProfile profile)
-    {
-        var rgb = new RGB();
-        rgb.FromLrgb(ToLrgb(profile), profile);
-        return rgb;
-    }
-
-    public abstract Lrgb ToLrgb(WorkingProfile profile);
-
-    public void FromRGB(RGB input, WorkingProfile profile)
-    {
-        var lrgb = input.ToLrgb(profile);
-        FromLrgb(lrgb, profile);
-    }
-
-    public abstract void FromLrgb(Lrgb input, WorkingProfile profile);
-
-    //... (Equals)
-
-    public bool Equals(ColorVector other) => Value.Equals(other.Value);
-
-    public override bool Equals(object i) => i is ColorVector j && Equals(j);
-
-    public override int GetHashCode() => Value.GetHashCode();
-
-    public static bool operator ==(ColorVector left, ColorVector right) => Equals(left, right);
-
-    public static bool operator !=(ColorVector left, ColorVector right) => !Equals(left, right);
-
-    //... (Log)
-
-    /// <summary>Converts all <see cref="RGB"/> colors to the given <see cref="ColorVector">color space</see> and back, and prints an estimate of accuracy for converting back and forth.</summary>
-    /// <param name="precision">A number in the range [1, ∞].</param>
-    public static void LogAccuracy(Type model, WorkingProfile profile, uint precision = 10)
-    {
-        try
-        {
-            var xyz = New(model);
-
-            double sA = 0, n = 0;
-            for (var r = 0.0; r < precision; r++)
-            {
-                for (var g = 0.0; g < precision; g++)
-                {
-                    for (var b = 0.0; b < precision; b++)
-                    {
-                        //RGB > Lrgb > *
-                        var rgb0 = new RGB(r / (precision - 1), g / (precision - 1), b / (precision - 1));
-                        xyz.FromRGB(rgb0, profile);
-
-                        //* > Lrgb > RGB
-                        var rgb1 = xyz.ToRGB(profile);
-
-                        //Absolute difference
-                        var rD = (1 - Abs(rgb0[0] - rgb1[0]).ReplaceNaN(1)).Clamp(MaxValue);
-                        var gD = (1 - Abs(rgb0[1] - rgb1[1]).ReplaceNaN(1)).Clamp(MaxValue);
-                        var bD = (1 - Abs(rgb0[2] - rgb1[2]).ReplaceNaN(1)).Clamp(MaxValue);
-
-                        //Average of [absolute difference]
-                        var dA = (rD + gD + bD) / 3;
-
-                        //Sum of (average of [absolute difference])
-                        sA += dA;
-                        n++;
-                    }
-                }
-            }
-            Analytics.Log.Write<ColorVector>($"{model.Name} (Accuracy): \n{(sA / n * 100).Round(3)}%\n");
-        }
-        catch (Exception e)
-        {
-            Analytics.Log.Write<ColorVector>(e);
-        }
-    }
-
-    /// <summary>Converts all <see cref="RGB"/> colors to the given <see cref="ColorVector">color space</see> and back, and prints an estimate of accuracy for converting back and forth.</summary>
-    /// <param name="accuracy">A number in the range [1, ∞].</param>
-    public static void LogAccuracy<T>(WorkingProfile profile, uint accuracy = 10) where T : ColorVector3 => LogAccuracy(typeof(T), profile, accuracy);
+    //...
 
     /// <summary>
-    /// Converts all <see cref="RGB"/> colors to the given <see cref="ColorVector">color space</see> and prints the estimated range of that <see cref="ColorVector">color space</see>.
+    /// Converts all <see cref="RGB"/> colors to the given <see cref="ColorVector">color space</see> and gets the estimated range of that <see cref="ColorVector">color space</see>.
     /// </summary>
-    /// <param name="precision">A number in the range [1, ∞].</param>
-    public static void LogRange(Type model, WorkingProfile profile, bool reverse = false, uint precision = 10)
+    /// <param name="depth">A number in the range [1, ∞].</param>
+    public static Range<Vector3> GetRange(Type model, WorkingProfile profile, bool reverse = false, uint depth = 10, int precision = 3)
     {
-        Try.Invoke(() =>
+        try
         {
             var rgb = new RGB();
             var xyz = New(model);
 
             double minA = MaxValue, minB = MaxValue, minC = MaxValue, maxA = MinValue, maxB = MinValue, maxC = MinValue;
-            for (var r = 0.0; r < precision; r++)
+            for (var r = 0.0; r < depth; r++)
             {
-                for (var g = 0.0; g < precision; g++)
+                for (var g = 0.0; g < depth; g++)
                 {
-                    for (var b = 0.0; b < precision; b++)
+                    for (var b = 0.0; b < depth; b++)
                     {
                         //[0, 1]
-                        var x = r / (precision - 1);
+                        var x = r / (depth - 1);
                         //[0, 1]
-                        var y = g / (precision - 1);
+                        var y = g / (depth - 1);
                         //[0, 1]
-                        var z = b / (precision - 1);
+                        var z = b / (depth - 1);
 
                         if (reverse)
                         {
@@ -327,58 +388,20 @@ public abstract class ColorVector
                     }
                 }
             }
-            Analytics.Log.Write<ColorVector>($"{model.Name} (Range): \n([{minA.Round(3)}, {minB.Round(3)}, {minC.Round(3)}], [{maxA.Round(3)}, {maxB.Round(3)}, {maxC.Round(3)}])\n");
-        },
-        e => Analytics.Log.Write<ColorVector>(e));
+            return new(new(minA.Round(precision), minB.Round(precision), minC.Round(precision)), new(maxA.Round(precision), maxB.Round(precision), maxC.Round(precision)));
+        }
+        catch (Exception e)
+        {
+            Analytics.Log.Write<ColorVector>(e);
+            return new(Vector3.Zero, Vector3.Zero);
+        }
     }
 
     /// <summary>
-    /// Converts all <see cref="RGB"/> colors to the given <see cref="ColorVector">color space</see> and prints the estimated range of that <see cref="ColorVector">color space</see>.
+    /// Converts all <see cref="RGB"/> colors to the given <see cref="ColorVector">color space</see> and gets the estimated range of that <see cref="ColorVector">color space</see>.
     /// </summary>
-    /// <param name="accuracy">A number in the range [1, ∞].</param>
-    public static void LogRange<T>(WorkingProfile profile, bool reverse, uint accuracy = 10) => LogRange(typeof(T), profile, reverse, accuracy);
+    /// <param name="depth">A number in the range [1, ∞].</param>
+    public static Range<Vector3> GetRange<T>(WorkingProfile profile, bool reverse, uint depth = 10, int precision = 3) => GetRange(typeof(T), profile, reverse, depth, precision);
 
-    //... (New)
-
-    public static ColorVector3 New(Type type) => type.Create<ColorVector3>();
-
-    public static ColorVector3 New<T>() where T : ColorVector3 => New(typeof(T));
-
-    public static ColorVector3 New(Type type, Vector3<double> values)
-    {
-        var result = New(type);
-        result.Value = new(values);
-        return result;
-    }
-
-    public static ColorVector3 New<T>(Vector3<double> values) => New(typeof(T), values);
-
-    public static ColorVector3 New(Type type, RGB rgb, WorkingProfile profile)
-    {
-        var result = New(type);
-        result.FromRGB(rgb, profile);
-        return result;
-    }
-
-    public static ColorVector3 New<T>(RGB rgb, WorkingProfile profile) where T : ColorVector3 => New(typeof(T), rgb, profile);
-
-    //... (Range)
-
-    public static Vector GetMaximum(Type model) 
-        => new(Components[model][0].Maximum, Components[model][1].Maximum, Components[model][2].Maximum);
-
-    public static Vector GetMaximum<T>() 
-        => GetMaximum(typeof(T));
-
-    public static Vector GetMinimum(Type model) 
-        => new(Components[model][0].Minimum, Components[model][1].Minimum, Components[model][2].Minimum);
-
-    public static Vector GetMinimum<T>() 
-        => GetMinimum(typeof(T));
-
-    public static Range<Vector> GetRange(Type model) 
-        => new(GetMinimum(model), GetMaximum(model));
-
-    public static Range<Vector> GetRange<T>() 
-        => GetRange(typeof(T));
+    #endregion
 }

@@ -21,7 +21,7 @@ public class Component : Base
 
     public Component(char unit, string symbol, string name) : base()
     {
-        Unit = unit; Symbol = symbol; Name = name;
+        Unit = unit; Symbol = symbol; Name = name?.Length > 0 ? name : symbol;
     }
 
     public Component(double minimum, double maximum, char unit, string symbol, string name) : this(unit, symbol, name) { Minimum = minimum; Maximum = maximum; }
