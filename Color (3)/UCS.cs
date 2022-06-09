@@ -23,7 +23,7 @@ namespace Imagin.Core.Colors;
 /// </list>
 /// </summary>
 /// <remarks>https://github.com/colorjs/color-space/blob/master/ucs.js</remarks>
-[Component(0, 100, '%', "U", "U"), Component(0, 100, '%', "C", "V"), Component(0, 100, '%', "S", "W")]
+[Component(100, '%', "U", "U"), Component(100, '%', "C", "V"), Component(100, '%', "S", "W")]
 [Serializable]
 public class UCS : XYZ
 {

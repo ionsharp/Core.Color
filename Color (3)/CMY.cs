@@ -12,7 +12,7 @@ namespace Imagin.Core.Colors;
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="CMY"/></para>
 /// </summary>
 /// <remarks>https://github.com/colorjs/color-space/blob/master/cmy.js</remarks>
-[Component(0, 1, "C", "Cyan"), Component(0, 1, "M", "Magenta"), Component(0, 1, "Y", "Yellow")]
+[Component(1, "C", "Cyan"), Component(1, "M", "Magenta"), Component(1, "Y", "Yellow")]
 [Serializable]
 public class CMY : ColorVector3
 {

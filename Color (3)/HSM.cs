@@ -13,7 +13,7 @@ namespace Imagin.Core.Colors;
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="HSM"/></para>
 /// </summary>
 /// <remarks>https://seer.ufrgs.br/rita/article/viewFile/rita_v16_n2_p141/7428</remarks>
-[Component(0, 360, '°', "H", "Hue"), Component(0, 100, '%', "S", "Saturation"), Component(0, 255, ' ', "M", "Mixture")]
+[Component(360, '°', "H", "Hue"), Component(100, '%', "S", "Saturation"), Component(255, ' ', "M", "Mixture")]
 [Serializable, Unfinished]
 public class HSM : ColorVector3, IHs
 {

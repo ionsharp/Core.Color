@@ -1,16 +1,17 @@
 ﻿using System;
+using static System.Math;
 
 namespace Imagin.Core.Colors;
 
-[DisplayName(name), Index(3)]
-public struct Rec709Compression : ICompress
+[DisplayName(name), Index(5)]
+public struct Rec709Transfer : ITransfer
 {
     const string name = "Rec709";
 
     [Index(-1), Label(false), ReadOnly, Visible]
     public string Name => name;
 
-    public Rec709Compression() { }
+    public Rec709Transfer() { }
 
     public double CompandInverse(double channel)
     {
@@ -22,7 +23,7 @@ public struct Rec709Compression : ICompress
     public double Compand(double channel)
     {
         var L = channel;
-        var V = L < 0.018 ? 4500 * L : 1.099 * L - 0.099;
+        var V = L < 0.018 ? 4500 * L : 1.099 * Pow(L, 0.45) - 0.099;
         return V;
     }
 }

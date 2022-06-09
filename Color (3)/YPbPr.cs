@@ -17,7 +17,7 @@ namespace Imagin.Core.Colors;
 /// </list>
 /// </summary>
 /// <remarks>https://github.com/colorjs/color-space/blob/master/ypbpr.js</remarks>
-[Component(0, 1, '%', "Y", "Luminance"), Component(-0.5, 0.5, ' ', "Pb", ""), Component(-0.5, 0.5, ' ', "Pr", "")]
+[Component(1, '%', "Y", "Luminance"), Component(-0.5, 0.5, ' ', "Pb", ""), Component(-0.5, 0.5, ' ', "Pr", "")]
 [Serializable]
 public class YPbPr : ColorVector3
 {

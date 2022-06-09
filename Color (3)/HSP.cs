@@ -12,7 +12,7 @@ namespace Imagin.Core.Colors;
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="HSP"/></para>
 /// </summary>
 /// <remarks>https://github.com/colorjs/color-space/blob/master/hsp.js</remarks>
-[Component(0, 360, '°', "H", "Hue"), Component(0, 100, '%', "S", "Saturation"), Component(0, 255, ' ', "P", "Percieved brightness")]
+[Component(360, '°', "H", "Hue"), Component(100, '%', "S", "Saturation"), Component(255, ' ', "P", "Percieved brightness")]
 [Serializable]
 public class HSP : ColorVector3, IHs
 {

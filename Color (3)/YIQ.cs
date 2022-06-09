@@ -13,7 +13,7 @@ namespace Imagin.Core.Colors;
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="YIQ"/></para>
 /// </summary>
 /// <remarks>https://github.com/colorjs/color-space/blob/master/yiq.js</remarks>
-[Component(0,       1,      '%', "Y", "Luminance"), Component(-0.5957, 0.5957, ' ', "I"), Component(-0.5226, 0.5226, ' ', "Q")]
+[Component(      1,      '%', "Y", "Luminance"), Component(-0.5957, 0.5957, ' ', "I"), Component(-0.5226, 0.5226, ' ', "Q")]
 [Serializable]
 public class YIQ : ColorVector3
 {

@@ -13,7 +13,7 @@ namespace Imagin.Core.Colors;
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="CMYK"/></para>
 /// </summary>
 /// <remarks>https://github.com/colorjs/color-space/blob/master/cmyk.js</remarks>
-[Component(0, 100, '%', "C", "Cyan"), Component(0, 100, '%', "M", "Magenta"), Component(0, 100, '%', "Y", "Yellow"), Component(0, 100, '%', "K", "Black")]
+[Component(100, '%', "C", "Cyan"), Component(100, '%', "M", "Magenta"), Component(100, '%', "Y", "Yellow"), Component(100, '%', "K", "Black")]
 [Serializable]
 public sealed class CMYK : ColorVector4
 {

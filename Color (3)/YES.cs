@@ -9,7 +9,7 @@ namespace Imagin.Core.Colors;
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="YES"/></para>
 /// </summary>
 /// <remarks>https://github.com/colorjs/color-space/blob/master/yes.js</remarks>
-[Component(0, 1, '%', "Y", "Luminance"), Component(0, 1, '%', "E", "E-factor"), Component(0, 1, '%', "S", "S-factor")]
+[Component(1, '%', "Y", "Luminance"), Component(1, '%', "E", "E-factor"), Component(1, '%', "S", "S-factor")]
 [Serializable]
 public class YES : ColorVector3
 {

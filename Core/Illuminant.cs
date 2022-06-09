@@ -18,8 +18,16 @@ public static class Illuminant
 
     //...
 
+    /// <summary>Gets the chromacity coordinates of the given <see cref="XYZ"/> color.</summary><remarks><b>Verify returning (x, y), and not (x, z) or (y, z). (Y) always equals 1.</b></remarks>
+    public static Vector2 GetChroma2(XYZ input)
+    {
+        var XYZ = input[0] + input[1] + input[2];
+        var x = input[0] / XYZ; var y = input[1] / XYZ; var z = input[2] / XYZ;
+        return new(x, y);
+    }
+
     /// <summary>Gets the chromacity coordinates of the given <see cref="XYZ"/> color.</summary>
-    public static Vector3<double> GetChromacity(XYZ input)
+    public static Vector3 GetChroma3(XYZ input)
     {
         var XYZ = input[0] + input[1] + input[2];
         var x = input[0] / XYZ; var y = input[1] / XYZ; var z = input[2] / XYZ;

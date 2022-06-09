@@ -16,7 +16,7 @@ namespace Imagin.Core.Colors;
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="XYZ"/> > <see cref="Luv"/> > <see cref="LCHuv"/></para>
 /// </summary>
 /// <remarks>https://github.com/tompazourek/Colourful</remarks>
-[Component(0, 100, '%', "L", "Luminance"), Component(0, 100, '%', "C", "Chroma"), Component(0, 360, '°', "H", "Hue")]
+[Component(100, '%', "L", "Luminance"), Component(100, '%', "C", "Chroma"), Component(360, '°', "H", "Hue")]
 [Serializable]
 public class LCHuv : Luv, ILCh
 {

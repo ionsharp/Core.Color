@@ -11,7 +11,7 @@ namespace Imagin.Core.Colors;
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="HCV"/></para>
 /// </summary>
 /// <remarks>https://github.com/helixd2s/hcv-color</remarks>
-[Component(0, 360, '°', "H", "Hue"), Component(0, 100, '%', "C", "Chroma"), Component(0, 100, '%', "V", "Gray")]
+[Component(360, '°', "H", "Hue"), Component(100, '%', "C", "Chroma"), Component(100, '%', "V", "Gray")]
 [Serializable]
 public class HCV : ColorVector3, IHc
 {

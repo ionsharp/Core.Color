@@ -10,7 +10,7 @@ namespace Imagin.Core.Colors;
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="HSB"/> > <see cref="HWBsb"/></para>
 /// </summary>
 /// <remarks>https://drafts.csswg.org/css-color/#the-hwb-notation</remarks>
-[Component(0, 360, '°', "H", "Hue"), Component(0, 100, '%', "W", "Whiteness"), Component(0, 100, '%', "B", "Blackness")]
+[Component(360, '°', "H", "Hue"), Component(100, '%', "W", "Whiteness"), Component(100, '%', "B", "Blackness")]
 [Serializable]
 public class HWBsb : HSB, IHWb
 {

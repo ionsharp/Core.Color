@@ -2,6 +2,7 @@
 using Imagin.Core.Numerics;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 using static System.Double;
@@ -14,17 +15,20 @@ namespace Imagin.Core.Colors;
 /// <para>https://en.wikipedia.org/wiki/Color_model</para>
 /// </summary>
 [Serializable]
-public abstract class ColorVector : IEquatable<ColorVector>
+public abstract class ColorModel : IEquatable<ColorModel>
 {
     #region Fields
 
     static readonly Dictionary<Type, Vector<Component>> Components = new();
 
-    /// <summary>Gets the index (based on the type) corresponding to each <see cref="ColorVector"/> in the shader file (<see cref="FilePath"/>).</summary>
-    public static Dictionary<Type, int> Index = new();
+    /// <summary>Gets the index (based on the type) corresponding to each <see cref="ColorModel"/> in the relevant shader file.</summary>
+    internal static readonly Dictionary<Type, int> Index = new();
 
-    /// <summary>Gets the type (based on the index) corresponding to each <see cref="ColorVector"/> in the shader file (<see cref="FilePath"/>).</summary>
-    public static Dictionary<int, Type> Type = new();
+    /// <summary>Gets the type (based on the index) corresponding to each <see cref="ColorModel"/> in the relevant shader file.</summary>
+    internal static readonly Dictionary<int, Type> Type = new();
+
+    /// <summary>Gets all (shader-supported) color models as an <see cref="ObservableCollection{T}"/>.</summary>
+    public static ObservableCollection<Type> Types => new(Type.Select(i => i.Value));
 
     #endregion
 
@@ -42,18 +46,18 @@ public abstract class ColorVector : IEquatable<ColorVector>
 
     #region ColorVector
 
-    protected ColorVector(params double[] input) : base() => Value = new Vector(input);
+    protected ColorModel(params double[] input) : base() => Value = new Vector(input);
 
-    public static implicit operator Vector(ColorVector input) => input.Value;
+    public static implicit operator Vector(ColorModel input) => input.Value;
 
-    public static explicit operator double[](ColorVector input) => input.Value;
+    public static explicit operator double[](ColorModel input) => input.Value;
 
     #endregion
 
     #region ColorVector (static)
 
     /// <remarks>Rearrange lines to match indices in relevant shader file.</remarks>
-    static ColorVector()
+    static ColorModel()
     {
         #region i<T>()
 
@@ -84,7 +88,7 @@ public abstract class ColorVector : IEquatable<ColorVector>
         i<HSM>();
         i<HSP>();
         i<HWBsb>(); i<HWBsbk>();
-        i<ICtCp>();
+        i<ICtCp>(); i<IPT>();
         i<JPEG>();
         i<Lab>(); i<Labh>(); i<Labi>(); i<Labj>(); i<Labk>();
         i<LCHab>(); i<LCHabh>(); i<LCHabj>(); i<LCHuv>();
@@ -92,7 +96,7 @@ public abstract class ColorVector : IEquatable<ColorVector>
         i<TSL>();
         i<UCS>(); i<UVW>();
         i<xvYCC>(); i<xyY>(); i<xyYC>(); i<XYZ>();
-        i<YCbCr>(); i<YCoCg>(); i<YDbDr>(); i<YES>(); i<YIQ>(); i<YPbPr>(); i<YUV>();
+        i<YCbCr>(); i<YCoCg>(); i<YCwCm>(); i<YDbDr>(); i<YES>(); i<YIQ>(); i<YPbPr>(); i<YUV>();
     }
 
     #endregion
@@ -105,6 +109,12 @@ public abstract class ColorVector : IEquatable<ColorVector>
 
     #region Adapt
 
+    protected LMS Convert(LMS color, LMS sW, LMS dW)
+    {
+        var result = Matrix.Diagonal(dW[0] / sW[0], dW[1] / sW[1], dW[2] / sW[2]).Multiply(color.Value);
+        return new(result);
+    }
+
     /// <summary>(🗸) <see cref="LMS"/> (0) > <see cref="LMS"/> (1)</summary>
     protected LMS Adapt(LMS input, WorkingProfile source, WorkingProfile target)
     {        
@@ -114,10 +124,10 @@ public abstract class ColorVector : IEquatable<ColorVector>
 
         //XYZ (1) > LMS (1)
         var b = new LMS();
-        b.FromXYZ(target.White, target);
+        b.FromXYZ(target.White, source);
 
         //LMS (0) > LMS (1)
-        return new VonKriesAdaptation().Convert(input, a, b);
+        return Convert(input, a, b);
     }
 
     /// <summary>(🗸) <see cref="RGB"/> (0) > <see cref="XYZ"/> (0) > <see cref="LMS"/> (0) > <see cref="LMS"/> (1) > <see cref="XYZ"/> (1) > <see cref="RGB"/> (1)</summary>
@@ -148,7 +158,7 @@ public abstract class ColorVector : IEquatable<ColorVector>
         return lms.ToXYZ(target);
     }
 
-    /// <summary>(🗸) <see cref="ColorVector">this</see> (0) > <see cref="RGB"/> (0) > <see cref="XYZ"/> (0) > <see cref="LMS"/> (0) > <see cref="LMS"/> (1) > <see cref="XYZ"/> (1) > <see cref="RGB"/> (1) > <see cref="ColorVector">this</see> (1)</summary>
+    /// <summary>(🗸) <see cref="ColorModel">this</see> (0) > <see cref="RGB"/> (0) > <see cref="XYZ"/> (0) > <see cref="LMS"/> (0) > <see cref="LMS"/> (1) > <see cref="XYZ"/> (1) > <see cref="RGB"/> (1) > <see cref="ColorModel">this</see> (1)</summary>
     public virtual void Adapt(WorkingProfile source, WorkingProfile target)
     {
         var result = ToRGB(source);
@@ -190,47 +200,47 @@ public abstract class ColorVector : IEquatable<ColorVector>
 
     #region ==
 
-    public bool Equals(ColorVector other) => Value.Equals(other.Value);
+    public bool Equals(ColorModel other) => Value.Equals(other.Value);
 
-    public override bool Equals(object i) => i is ColorVector j && Equals(j);
+    public override bool Equals(object i) => i is ColorModel j && Equals(j);
 
     public override int GetHashCode() => Value.GetHashCode();
 
-    public static bool operator ==(ColorVector left, ColorVector right) => Equals(left, right);
+    public static bool operator ==(ColorModel left, ColorModel right) => Equals(left, right);
 
-    public static bool operator !=(ColorVector left, ColorVector right) => !Equals(left, right);
+    public static bool operator !=(ColorModel left, ColorModel right) => !Equals(left, right);
 
     #endregion
 
     #region New
 
-    public static ColorVector3 New(Type type) => type.Create<ColorVector3>();
+    public static ColorVector3 New(Type model) => model.Create<ColorVector3>();
 
     public static ColorVector3 New<T>() where T : ColorVector3 => New(typeof(T));
 
-    public static ColorVector3 New(Type type, Vector3<double> values)
+    public static ColorVector3 New(Type model, Vector3 input)
     {
-        var result = New(type);
-        result.Value = new(values);
+        var result = New(model);
+        result.Value = new(input);
         return result;
     }
 
-    public static ColorVector3 New<T>(Vector3<double> values) => New(typeof(T), values);
+    public static ColorVector3 New<T>(Vector3 input) => New(typeof(T), input);
 
-    public static ColorVector3 New(Type type, RGB rgb, WorkingProfile profile)
+    public static ColorVector3 New(Type model, RGB input, WorkingProfile profile)
     {
-        var result = New(type);
-        result.FromRGB(rgb, profile);
+        var result = New(model);
+        result.FromRGB(input, profile);
         return result;
     }
 
-    public static ColorVector3 New<T>(RGB rgb, WorkingProfile profile) where T : ColorVector3 => New(typeof(T), rgb, profile);
+    public static ColorVector3 New<T>(RGB input, WorkingProfile profile) where T : ColorVector3 => New(typeof(T), input, profile);
 
     #endregion
 
     #region Static
 
-    /// <summary>Converts all <see cref="RGB"/> colors to the given <see cref="ColorVector">color space</see> and back, and gets an estimate of accuracy for converting back and forth.</summary>
+    /// <summary>Converts all <see cref="RGB"/> colors to the given <see cref="ColorModel">color space</see> and back, and gets an estimate of accuracy for converting back and forth.</summary>
     /// <param name="depth">A number in the range [1, ∞].</param>
     public static double GetAccuracy(Type model, WorkingProfile profile, uint depth = 10, int precision = 3)
     {
@@ -246,7 +256,7 @@ public abstract class ColorVector : IEquatable<ColorVector>
                     for (var b = 0.0; b < depth; b++)
                     {
                         //RGB > Lrgb > *
-                        var rgb0 = new RGB(r / (depth - 1), g / (depth - 1), b / (depth - 1));
+                        var rgb0 = new RGB(r / (depth - 1) * 255, g / (depth - 1) * 255, b / (depth - 1) * 255);
                         xyz.FromRGB(rgb0, profile);
 
                         //* > Lrgb > RGB
@@ -270,12 +280,12 @@ public abstract class ColorVector : IEquatable<ColorVector>
         }
         catch (Exception e)
         {
-            Analytics.Log.Write<ColorVector>(e);
+            Analytics.Log.Write<ColorModel>(e);
             return 0;
         }
     }
 
-    /// <summary>Converts all <see cref="RGB"/> colors to the given <see cref="ColorVector">color space</see> and back, and gets an estimate of accuracy for converting back and forth.</summary>
+    /// <summary>Converts all <see cref="RGB"/> colors to the given <see cref="ColorModel">color space</see> and back, and gets an estimate of accuracy for converting back and forth.</summary>
     /// <param name="depth">A number in the range [1, ∞].</param>
     public static double GetAccuracy<T>(WorkingProfile profile, uint depth = 10, int precision = 3) where T : ColorVector3 => GetAccuracy(typeof(T), profile, depth, precision);
 
@@ -290,6 +300,14 @@ public abstract class ColorVector : IEquatable<ColorVector>
     public static Component GetComponent(Type type, Components component) => Components[type][(int)component];
 
     public static Vector<Component> GetComponents<T>() => Components[typeof(T)];
+
+    //...
+
+    /// <summary>Gets the index (based on the type) corresponding to each <see cref="ColorModel"/> in the relevant shader file.</summary>
+    public static int GetIndex<T>() => GetIndex(typeof(T));
+
+    /// <summary>Gets the index (based on the type) corresponding to each <see cref="ColorModel"/> in the relevant shader file.</summary>
+    public static int GetIndex(Type input) => Index[input];
 
     //...
 
@@ -316,7 +334,7 @@ public abstract class ColorVector : IEquatable<ColorVector>
     //...
 
     /// <summary>
-    /// Converts all <see cref="RGB"/> colors to the given <see cref="ColorVector">color space</see> and gets the estimated range of that <see cref="ColorVector">color space</see>.
+    /// Converts all <see cref="RGB"/> colors to the given <see cref="ColorModel">color space</see> and gets the estimated range of that <see cref="ColorModel">color space</see>.
     /// </summary>
     /// <param name="depth">A number in the range [1, ∞].</param>
     public static Range<Vector3> GetRange(Type model, WorkingProfile profile, bool reverse = false, uint depth = 10, int precision = 3)
@@ -349,7 +367,7 @@ public abstract class ColorVector : IEquatable<ColorVector>
                             y = nRange.Convert(min[1], max[1], y);
                             z = nRange.Convert(min[2], max[2], z);
 
-                            xyz = New(model, new Vector3<double>(x, y, z));
+                            xyz = New(model, new(x, y, z));
                             rgb = xyz.ToRGB(profile);
 
                             if (rgb[0] < minA)
@@ -368,7 +386,7 @@ public abstract class ColorVector : IEquatable<ColorVector>
                         }
                         else
                         {
-                            rgb = new RGB(x, y, z);
+                            rgb = new RGB(x * 255, y * 255, z * 255);
                             xyz.FromRGB(rgb, profile);
 
                             if (xyz[0] < minA)
@@ -392,16 +410,21 @@ public abstract class ColorVector : IEquatable<ColorVector>
         }
         catch (Exception e)
         {
-            Analytics.Log.Write<ColorVector>(e);
+            Analytics.Log.Write<ColorModel>(e);
             return new(Vector3.Zero, Vector3.Zero);
         }
     }
 
     /// <summary>
-    /// Converts all <see cref="RGB"/> colors to the given <see cref="ColorVector">color space</see> and gets the estimated range of that <see cref="ColorVector">color space</see>.
+    /// Converts all <see cref="RGB"/> colors to the given <see cref="ColorModel">color space</see> and gets the estimated range of that <see cref="ColorModel">color space</see>.
     /// </summary>
     /// <param name="depth">A number in the range [1, ∞].</param>
     public static Range<Vector3> GetRange<T>(WorkingProfile profile, bool reverse, uint depth = 10, int precision = 3) => GetRange(typeof(T), profile, reverse, depth, precision);
+
+    //...
+
+    /// <summary>Gets the type (based on the index) corresponding to each <see cref="ColorModel"/> in the relevant shader file.</summary>
+    public static Type GetType(int input) => Type[input];
 
     #endregion
 }

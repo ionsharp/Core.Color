@@ -12,7 +12,7 @@ namespace Imagin.Core.Colors;
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="YCwCm"/></para>
 /// </summary>
 /// <remarks>https://github.com/tommyettinger/colorful-gdx</remarks>
-[Component(0, 1, '%', "Y", "Luminance"), Component(0, 1, '%', "Cw", "Chromatic warmth"), Component(0, 1, '%', "Cm", "Chromatic mildness")]
+[Component(1, '%', "Y", "Luminance"), Component(1, '%', "Cw", "Chromatic warmth"), Component(1, '%', "Cm", "Chromatic mildness")]
 [Serializable, Unfinished]
 public class YCwCm : ColorVector3
 {

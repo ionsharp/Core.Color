@@ -5,11 +5,17 @@ namespace Imagin.Core.Colors;
 
 public interface IColorVector3 { }
 
-/// <summary>A <see cref="ColorVector"/> with three (3) components.</summary>
+/// <summary>A <see cref="ColorModel"/> with three (3) components.</summary>
 /// <inheritdoc/>
 [Serializable]
-public abstract class ColorVector3 : ColorVector, IColorVector3
+public abstract class ColorVector3 : ColorModel, IColorVector3
 {
+    public Vector3 Value3
+    {
+        get => new(Value[0], Value[1], Value[2]);
+        set => Value = new(value.X, value.Y, value.Z);
+    }
+
     /// <summary>The first component.</summary>
     public double X => Value[0];
 

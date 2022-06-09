@@ -17,7 +17,7 @@ namespace Imagin.Core.Colors;
 /// </list>
 /// </summary>
 /// <remarks>https://github.com/colorjs/color-space/blob/master/ycgco.js</remarks>
-[Component(0,    1,   '%', "Y", "Luminance"), Component(-0.5, 0.5, ' ', "Co"), Component(-0.5, 0.5, ' ', "Cg")]
+[Component(   1,   '%', "Y", "Luminance"), Component(-0.5, 0.5, ' ', "Co"), Component(-0.5, 0.5, ' ', "Cg")]
 [Serializable]
 public class YCoCg : ColorVector3
 {

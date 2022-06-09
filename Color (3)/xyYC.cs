@@ -23,7 +23,7 @@ namespace Imagin.Core.Colors;
 /// <para>https://github.com/colorjs/color-space/blob/master/coloroid.js</para>
 /// <para>http://hej.sze.hu/ARC/ARC-030520-A/arc030520a.pdf</para>
 /// </remarks>
-[Component(MinHue, MaxHue, "A", "Hue"), Component(0, 100, "T"), Component(0, 100, "V")]
+[Component(MinHue, MaxHue, "A", "Hue"), Component(100, "T"), Component(100, "V")]
 [Serializable]
 public class xyYC : xyY
 {

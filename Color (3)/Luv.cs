@@ -25,7 +25,7 @@ namespace Imagin.Core.Colors;
 /// </list>
 /// </summary>
 /// <remarks>https://github.com/tompazourek/Colourful</remarks>
-[Component(0, 100, '%', "L*", "Lightness"), Component(-134, 224, ' ', "u*"), Component(-140, 122, ' ', "v*")]
+[Component(100, '%', "L*", "Lightness"), Component(-134, 224, ' ', "u*"), Component(-140, 122, ' ', "v*")]
 [Serializable]
 public class Luv : XYZ, ILAb
 {

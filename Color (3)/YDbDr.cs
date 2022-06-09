@@ -12,7 +12,7 @@ namespace Imagin.Core.Colors;
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="YDbDr"/></para>
 /// </summary>
 /// <remarks>https://github.com/colorjs/color-space/blob/master/ydbdr.js</remarks>
-[Component(0, 1, '%', "Y", "Luminance"), Component(-1.333, 1.333, ' ', "Db"), Component(-1.333, 1.333, ' ', "Dr")]
+[Component(1, '%', "Y", "Luminance"), Component(-1.333, 1.333, ' ', "Db"), Component(-1.333, 1.333, ' ', "Dr")]
 [Serializable]
 public class YDbDr : ColorVector3
 {

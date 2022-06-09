@@ -17,7 +17,7 @@ namespace Imagin.Core.Colors;
 /// </list>
 /// </summary>
 /// <remarks>https://colour.readthedocs.io/en/develop/_modules/colour/models/oklab.html</remarks>
-[Component(0, 1, '°', "L", "Perceived lightness"), Component(0, 1, '%', "a", "Red/green"), Component(0, 1, '%', "b", "Blue/yellow")]
+[Component(1, '°', "L", "Perceived lightness"), Component(1, '%', "a", "Red/green"), Component(1, '%', "b", "Blue/yellow")]
 [Serializable]
 public class Labk : XYZ, ILAb
 {

@@ -1,16 +1,17 @@
 ﻿using System;
+using static System.Math;
 
 namespace Imagin.Core.Colors;
 
 [DisplayName(name), Index(4)]
-public struct Rec2020Compression : ICompress
+public struct Rec2020Transfer : ITransfer
 {
     const string name = "Rec2020";
 
     [Index(-1), Label(false), ReadOnly, Visible]
     public string Name => name;
 
-    public Rec2020Compression() { }
+    public Rec2020Transfer() { }
 
     public double CompandInverse(double channel)
     {
@@ -22,7 +23,7 @@ public struct Rec2020Compression : ICompress
     public double Compand(double channel)
     {
         var L = channel;
-        var V = L < 0.0181 ? 4500 * L : 1.0993 * L - 0.0993;
+        var V = L < 0.0181 ? 4500 * L : 1.0993 * Pow(L, 0.45) - 0.0993;
         return V;
     }
 }

@@ -3,14 +3,14 @@
 namespace Imagin.Core.Colors;
 
 [DisplayName(name), Index(6)]
-public struct sRGBCompression : ICompress
+public struct sRGBTransfer : ITransfer
 {
     const string name = "sRGB";
 
     [Index(-1), Label(false), ReadOnly, Visible]
     public string Name => name;
 
-    public sRGBCompression() { }
+    public sRGBTransfer() { }
 
     public double CompandInverse(double channel)
     {

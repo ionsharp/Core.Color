@@ -14,7 +14,7 @@ namespace Imagin.Core.Colors;
 /// </list>
 /// </summary>
 /// <remarks>https://colour.readthedocs.io/en/develop/_modules/colour/models/oklab.html</remarks>
-[Component(0, 360, '°', "H", "Hue"), Component(0, 100, '%', "W", "Whiteness"), Component(0, 100, '%', "B", "Blackness")]
+[Component(360, '°', "H", "Hue"), Component(100, '%', "W", "Whiteness"), Component(100, '%', "B", "Blackness")]
 [Serializable]
 public class HWBsbk : HSBk, IHWb
 {

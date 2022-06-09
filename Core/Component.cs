@@ -40,8 +40,12 @@ public class ComponentAttribute : Attribute
 
     public ComponentAttribute(char unit, string symbol, string name = "") : this(default, default, unit, symbol, name) { }
 
+    public ComponentAttribute(double maximum, char unit, string symbol, string name = "") : this(0, maximum, unit, symbol, name) { }
+
     public ComponentAttribute(double minimum, double maximum, char unit, string symbol, string name = "") : base()
         => Info = new Component(minimum, maximum, unit, symbol, name);
+
+    public ComponentAttribute(double maximum, string symbol, string name = "") : this(0, maximum, symbol, name) { }
 
     public ComponentAttribute(double minimum, double maximum, string symbol, string name = "") : this(minimum, maximum, ' ', symbol, name) { }
 }

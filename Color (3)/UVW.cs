@@ -26,7 +26,7 @@ namespace Imagin.Core.Colors;
 /// </list>
 /// </summary>
 /// <remarks>https://github.com/colorjs/color-space/blob/master/uvw.js</remarks>
-[Component(-134, 224, ' ', "U*"), Component(-140, 122, ' ', "V*"), Component(0, 100, '%', "W*")]
+[Component(-134, 224, ' ', "U*"), Component(-140, 122, ' ', "V*"), Component(100, '%', "W*")]
 [Serializable, Unfinished]
 public class UVW : XYZ
 {

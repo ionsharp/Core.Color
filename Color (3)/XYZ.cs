@@ -22,7 +22,7 @@ namespace Imagin.Core.Colors;
 /// </list>
 /// </summary>
 /// <remarks>https://github.com/tompazourek/Colourful</remarks>
-[Component(0, 1, "X"), Component(0, 1, "Y"), Component(0, 1, "Z")]
+[Component(1, "X"), Component(1, "Y"), Component(1, "Z")]
 [Serializable]
 public class XYZ : ColorVector3
 {

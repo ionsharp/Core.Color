@@ -15,6 +15,7 @@ namespace Imagin.Core.Colors;
 /// </list>
 /// </summary>
 /// <remarks>https://github.com/tompazourek/Colourful</remarks>
+[Component(1, '%', "R", "Red"), Component(1, '%', "G", "Green"), Component(1, '%', "B", "Blue")]
 [Hidden, Serializable]
 public class Lrgb : ColorVector3
 {

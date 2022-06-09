@@ -18,7 +18,7 @@ namespace Imagin.Core.Colors;
 /// </list>
 /// </summary>
 /// <remarks>https://observablehq.com/@jrus/jzazbz</remarks>
-[Component(0, 1, '%', "L", "Luminance"), Component(0, 1, '%', "C", "Chroma"), Component(0, 360, '°', "H", "Hue")]
+[Component(1, '%', "L", "Luminance"), Component(1, '%', "C", "Chroma"), Component(360, '°', "H", "Hue")]
 [Serializable]
 public class LCHabj : Labj, ILCh
 {

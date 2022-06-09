@@ -4,15 +4,15 @@ using static Imagin.Core.Numerics.M;
 
 namespace Imagin.Core.Colors;
 
-[DisplayName(name), Index(1)]
-public struct LCompression : ICompress
+[DisplayName(name), Index(2)]
+public struct LinearTransfer : ITransfer
 {
-    const string name = "L";
+    const string name = "Linear";
 
     [Index(-1), Label(false), ReadOnly, Visible]
     public string Name => name;
 
-    public LCompression() { }
+    public LinearTransfer() { }
 
     public double Compand(double channel)
     {

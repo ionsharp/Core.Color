@@ -12,7 +12,7 @@ namespace Imagin.Core.Colors;
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="HCY"/></para>
 /// </summary>
 /// <remarks>https://github.com/colorjs/color-space/blob/master/hcy.js</remarks>
-[Component(0, 360, '°', "H", "Hue"), Component(0, 100, '%', "C", "Chroma"), Component(0, 255, ' ', "Y", "Luminance")]
+[Component(360, '°', "H", "Hue"), Component(100, '%', "C", "Chroma"), Component(255, ' ', "Y", "Luminance")]
 [Serializable]
 public class HCY : ColorVector3, IHc
 {

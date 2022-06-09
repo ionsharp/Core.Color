@@ -12,7 +12,7 @@ namespace Imagin.Core.Colors;
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="YPbPr"/> > <see cref="YCbCr"/> > <see cref="JPEG"/></para>
 /// </summary>
 /// <remarks>https://github.com/colorjs/color-space/blob/master/jpeg.js</remarks>
-[Component(0, 255, "Y", "Luminance"), Component(0, 255, "Cb"), Component(0, 255, "Cr")]
+[Component(255, "Y", "Luminance"), Component(255, "Cb"), Component(255, "Cr")]
 [Serializable]
 public class JPEG : YCbCr
 {

@@ -9,7 +9,7 @@ namespace Imagin.Core.Colors;
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="XYZ"/> > <see cref="xyY"/></para>
 /// </summary>
 /// <remarks>https://github.com/colorjs/color-space/blob/master/xyy.js</remarks>
-[Component(0, 1, "x"), Component(0, 1, "y"), Component(0, 1, '%', "Y")]
+[Component(1, "x"), Component(1, "y"), Component(1, '%', "Y")]
 [Serializable]
 public class xyY : XYZ
 {

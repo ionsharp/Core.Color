@@ -3,7 +3,7 @@
 namespace Imagin.Core.Colors;
 
 [DisplayName(name), Index(0)]
-public struct GammaCompression : ICompress
+public struct GammaTransfer : ITransfer
 {
     const string name = "Gamma";
 
@@ -12,9 +12,9 @@ public struct GammaCompression : ICompress
 
     public double Gamma { get; private set; } = 2.4;
 
-    public GammaCompression() { }
+    public GammaTransfer() { }
 
-    public GammaCompression(double gamma) : this() => Gamma = gamma;
+    public GammaTransfer(double gamma) : this() => Gamma = gamma;
 
     public double Compand(double channel)
     {

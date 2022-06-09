@@ -1,5 +1,6 @@
 ﻿using Imagin.Core.Numerics;
 using System;
+using static Imagin.Core.Numerics.M;
 
 namespace Imagin.Core.Colors;
 
@@ -19,7 +20,7 @@ namespace Imagin.Core.Colors;
 /// </list>
 /// </summary>
 /// <remarks>https://github.com/tompazourek/Colourful</remarks>
-[Component(0, 1, "R", "Red"), Component(0, 1, "G", "Green"), Component(0, 1, "B", "Blue")]
+[Component(255, "R", "Red"), Component(255, "G", "Green"), Component(255, "B", "Blue")]
 [Serializable]
 public class RGB : ColorVector3
 {
@@ -33,16 +34,14 @@ public class RGB : ColorVector3
     /// <summary>(🗸) <see cref="RGB"/> > <see cref="Lrgb"/></summary>
     public override Lrgb ToLrgb(WorkingProfile profile)
     {
-        var oldValue = Value;
-        var newValue = oldValue.Transform(i => profile.Compression.CompandInverse(i));
-        return new(newValue);
+        var oldValue = Normalize(Value3, new(0), new(255));
+        return oldValue.Transform((i, j) => profile.Transfer.CompandInverse(j));
     }
 
     /// <summary>(🗸) <see cref="Lrgb"/> > <see cref="RGB"/></summary>
     public override void FromLrgb(Lrgb input, WorkingProfile profile)
     {
-        var oldValue = input.Value;
-        var newValue = oldValue.Transform(i => profile.Compression.Compand(i));
-        Value = new(newValue);
+        var result = input.Value3.Transform((i, j) => profile.Transfer.Compand(j));
+        Value3 = Denormalize(result, new(0), new(255));
     }
 }

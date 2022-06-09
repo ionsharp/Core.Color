@@ -15,7 +15,7 @@ namespace Imagin.Core.Colors;
 /// </list>
 /// </summary>
 /// <remarks>https://github.com/colorjs/color-space/blob/master/yuv.js</remarks>
-[Component(0, 1, '%', "Y", "Luminance"), Component(-0.5, 0.5, ' ', "U"), Component(-0.5, 0.5, ' ', "V")]
+[Component(1, '%', "Y", "Luminance"), Component(-0.5, 0.5, ' ', "U"), Component(-0.5, 0.5, ' ', "V")]
 [Serializable]
 public class YUV : ColorVector3
 {

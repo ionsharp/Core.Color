@@ -23,7 +23,7 @@ namespace Imagin.Core.Colors;
 /// </list>
 /// </summary>
 /// <remarks>https://en.wikipedia.org/wiki/TSL_color_space#Conversion_between_RGB_and_TSL</remarks>
-[Component(0, 1, '%', "T", "Tint"), Component(0, 1, '%', "S", "Saturation"), Component(0, 1, '%', "L", "Lightness")]
+[Component(1, '%', "T", "Tint"), Component(1, '%', "S", "Saturation"), Component(1, '%', "L", "Lightness")]
 [Serializable, Unfinished]
 public class TSL : ColorVector3
 {

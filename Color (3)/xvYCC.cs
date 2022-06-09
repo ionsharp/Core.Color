@@ -17,7 +17,7 @@ namespace Imagin.Core.Colors;
 /// </list>
 /// </summary>
 /// <remarks>https://github.com/colorjs/color-space/blob/master/xvycc.js</remarks>
-[Component(0, 255, ' ', "x", "Y"), Component(0, 255, ' ', "v", "Cb"), Component(0, 255, ' ', "Y", "Cr")]
+[Component(255, ' ', "x", "Y"), Component(255, ' ', "v", "Cb"), Component(255, ' ', "Y", "Cr")]
 [Serializable]
 public class xvYCC : YPbPr
 {

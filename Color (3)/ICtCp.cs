@@ -11,7 +11,7 @@ namespace Imagin.Core.Colors;
 /// <para>≡ 0%</para>
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="ICtCp"/></para>
 /// 
-/// <para>Requires <see cref="Rec2020Compression">Rec2100Companding</see>?</para>
+/// <para>Requires <see cref="Rec2020Transfer">Rec2100Companding</see>?</para>
 /// 
 /// <i>Alias</i>
 /// <list type="bullet">
@@ -25,7 +25,7 @@ namespace Imagin.Core.Colors;
 /// </list>
 /// </summary>
 /// <remarks></remarks>
-[Component(0, 1, '%', "I", "Intensity"), Component(-1, 1, '%', "Ct", "Blue/yellow"), Component(-1, 1, '%', "Cp", "Red/green")]
+[Component(1, '%', "I", "Intensity"), Component(-1, 1, '%', "Ct", "Blue/yellow"), Component(-1, 1, '%', "Cp", "Red/green")]
 [Serializable, Unfinished]
 public class ICtCp : ColorVector3
 {
