@@ -1,15 +1,13 @@
 ﻿using Imagin.Core.Numerics;
+using static System.Math;
 using System;
 
 namespace Imagin.Core.Colors;
 
 /// <summary>
-/// <para>(🞩) <b>Intensity (I), Cyan/red (P), Blue/yellow (T)</b></para>
-/// 
-/// <para>Similar to <see cref="YCwCm"/>, but with smoother transitions between hues. <see cref="P"/> stands for protanopia (or red-green colorblindness) and <see cref="T"/> stands for tritanopia (another form of colorblindness).</para>
-/// 
-/// <para>≡ 0%</para>
-/// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="IPT"/></para>
+/// <para><b>Intensity (I), Cyan/red (P), Blue/yellow (T)</b></para>
+/// <para>The preceder to <see cref="ICtCp"/>, similar to <see cref="YCwCm"/>, but with smoother transitions between hues. <see cref="P"/> stands for protanopia (or red-green colorblindness) and <see cref="T"/> stands for tritanopia (another form of colorblindness).</para>
+/// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="XYZ"/> > <see cref="LMS"/> > <see cref="IPT"/></para>
 /// 
 /// <i>Author</i>
 /// <list type="bullet">
@@ -18,22 +16,45 @@ namespace Imagin.Core.Colors;
 /// </summary>
 /// <remarks>https://github.com/tommyettinger/colorful-gdx</remarks>
 [Component(1, '%', "I", "Intensity"), Component(1, '%', "P", "Cyan/red"), Component(1, '%', "T", "Blue/yellow")]
-[Serializable, Unfinished]
-public class IPT : ColorVector3
+[Serializable]
+public class IPT : ColorModel3
 {
-    public double Intensity => X;
+    public static Matrix M = new Matrix
+    (
+        new double[][]
+        {
+            new[] { 0.4000,  0.4000,  0.2000 },
+            new[] { 4.4550, -4.8510,  0.3960 },
+            new[] { 0.8056,  0.3572, -1.1628 }
+        }
+    );
 
-    public double P => Y;
+    public IPT() : base() { }
 
-    public double T => Z;
+    /// <summary>(🗸) <see cref="Lrgb"/> > <see cref="IPT"/></summary>
+    public override void From(Lrgb input, WorkingProfile profile) 
+    {
+        var lms = new LMS();
+        lms.From(input, profile);
 
-    public IPT(params double[] input) : base(input) { }
+        var l = lms[0] >= 0 ? Pow(lms[0], 0.43) : -Pow(-lms[0], 0.43);
+        var m = lms[1] >= 0 ? Pow(lms[1], 0.43) : -Pow(-lms[1], 0.43);
+        var s = lms[2] >= 0 ? Pow(lms[2], 0.43) : -Pow(-lms[2], 0.43);
 
-    public static implicit operator IPT(Vector3 input) => new(input.X, input.Y, input.Z);
+        Value = M * new Vector(l, m, s);
+    }
 
     /// <summary>(🞩) <see cref="IPT"/> > <see cref="Lrgb"/></summary>
-    public override Lrgb ToLrgb(WorkingProfile profile) => new();
+    public override Lrgb To(WorkingProfile profile)
+    {
+        //(1) IPT > LMS
+        var m = M.Invert3By3() * Value;
 
-    /// <summary>(🞩) <see cref="Lrgb"/> > <see cref="IPT"/></summary>
-    public override void FromLrgb(Lrgb input, WorkingProfile profile) { }
+        var lms = Colour.New<LMS>(m[0], m[1], m[2]);
+
+        //(2) ?
+
+        //(3) LMS > Lrgb
+        return lms.To(profile);
+    }
 }

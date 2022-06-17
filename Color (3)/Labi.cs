@@ -1,17 +1,12 @@
-﻿using Imagin.Core.Numerics;
-using System;
-
+﻿using System;
 using static Imagin.Core.Numerics.M;
 using static System.Math;
 
 namespace Imagin.Core.Colors;
 
 /// <summary>
-/// <para>(🞩) <b>Lightness (L), Yellow/blue (j), Green/red (g)</b></para>
-/// 
+/// <para><b>Lightness (L), Yellow/blue (j), Green/red (g)</b></para>
 /// A color space that attempts to accurately represent uniform color differences in each direction.
-/// 
-/// <para>≡ 50%</para>
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="XYZ"/> > <see cref="Labi"/></para>
 /// 
 /// <i>Alias</i>
@@ -32,14 +27,50 @@ namespace Imagin.Core.Colors;
 /// </remarks>
 [Component(-10, 8, "L", "Lightness"), Component(-6, 12, "j", "Red/green"), Component(-10, 6, "g", "Yellow/blue")]
 [Hidden, Serializable]
-public class Labi : XYZ, ILAb
+public class Labi : ColorModel3<XYZ>
 {
-    public Labi(params double[] input) : base(input) { }
+	public Labi() : base() { }
 
-    public static implicit operator Labi(Vector3 input) => new(input.X, input.Y, input.Z);
+	/// <summary>(🞩) <see cref="XYZ"/> > <see cref="Labi"/></summary>
+	public override void From(XYZ input, WorkingProfile profile)
+	{
+		double X = input[0], Y = input[1], Z = input[2];
 
-	/// <summary>(🞩) <see cref="Labi"/> > <see cref="Lrgb"/></summary>
-	public override Lrgb ToLrgb(WorkingProfile profile)
+		var x = X / (X + Y + Z);
+		var y = Y / (X + Y + Z);
+
+		//FIXME: there might be a typo, wiki states 1.8103 as a constant value
+		var K = 4.4934 * x * x + 4.3034 * y * y - 4.276 * x * y - 1.3744 * x - 2.56439 * y + 1.8103;
+		var Y0 = K * Y;
+
+		var L_ = 5.9 * (Pow(Y0, 1 / 3) - 2 / 3 + 0.042 * Pow(Max(Y0, 30) - 30, 1 / 3));
+		var L = (L_ - 14.3993) / Sqrt(2);
+
+		var C = L_ / (5.9 * (Pow(Y0, 1 / 3) - 2 / 3));
+
+		var R = 0.7790 * X + 0.4194 * Y - 0.1648 * Z;
+		var G = -0.4493 * X + 1.3265 * Y + 0.0927 * Z;
+		var B = -0.1149 * X + 0.3394 * Y + 0.7170 * Z;
+
+		R = Cbrt(R);
+		G = Cbrt(G);
+		B = Cbrt(B);
+
+		var a = -13.7 * R + 17.7 * G - 4 * B;
+		var b = 1.7 * R + 8 * G - 9.7 * B;
+
+		var g = C * a;
+		var j = C * b;
+
+		//Polar form
+		//var p   = Sqrt(j * j + g * g);
+		//var phi = Atan2(j, g);
+
+		Value = new(L, j, g);
+	}
+
+	/// <summary>(🞩) <see cref="Labi"/> > <see cref="XYZ"/></summary>
+	public override void To(out XYZ result, WorkingProfile profile)
 	{
 		var L = Value[0] * Sqrt(2) + 14.3993;
 		//0  = f(t) := Pow3((L' / 5.9) + (2 / 3) - t) - Pow3(0.042) * (Pow3(t) - 30)
@@ -93,47 +124,6 @@ public class Labi : XYZ, ILAb
 		//Then φ(w) = Y0~(w) - Y0
 		//If the difference between Y0~(w) and Y0 from (6) is 0, the correct w has been found.
 		double x = 0, y = 0, z = 0;
-		return new XYZ(x, y, z).ToLrgb(profile);
-	}
-
-	/// <summary>(🞩) <see cref="Lrgb"/> > <see cref="Labi"/></summary>
-	public override void FromLrgb(Lrgb input, WorkingProfile profile)
-	{
-		var xyz = new XYZ();
-		xyz.FromLrgb(input, profile);
-
-		double X = xyz[0], Y = xyz[1], Z = xyz[2];
-
-		var x = X / (X + Y + Z);
-		var y = Y / (X + Y + Z);
-
-		//FIXME: there might be a typo, wiki states 1.8103 as a constant value
-		var K = 4.4934 * x * x + 4.3034 * y * y - 4.276 * x * y - 1.3744 * x - 2.56439 * y + 1.8103;
-		var Y0 = K * Y;
-
-		var L_ = 5.9 * (Pow(Y0, 1 / 3) - 2 / 3 + 0.042 * Pow(Max(Y0, 30) - 30, 1 / 3));
-		var L = (L_ - 14.3993) / Sqrt(2);
-
-		var C = L_ / (5.9 * (Pow(Y0, 1 / 3) - 2 / 3));
-
-		var R = 0.7790 * X + 0.4194 * Y - 0.1648 * Z;
-		var G = -0.4493 * X + 1.3265 * Y + 0.0927 * Z;
-		var B = -0.1149 * X + 0.3394 * Y + 0.7170 * Z;
-
-		R = Cbrt(R);
-		G = Cbrt(G);
-		B = Cbrt(B);
-
-		var a = -13.7 * R + 17.7 * G - 4 * B;
-		var b = 1.7 * R + 8 * G - 9.7 * B;
-
-		var g = C * a;
-		var j = C * b;
-
-		//Polar form
-		//var p   = Sqrt(j * j + g * g);
-		//var phi = Atan2(j, g);
-
-		Value = new(L, j, g);
+		result = Colour.New<XYZ>(x, y, z);
 	}
 }

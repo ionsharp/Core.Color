@@ -7,11 +7,8 @@ using static System.Math;
 namespace Imagin.Core.Colors;
 
 /// <summary>
-/// (🗸) <b>Hue (H), Saturation (S), Lightness (L)</b>
-/// 
+/// <b>Hue (H), Saturation (S), Lightness (L)</b>
 /// <para>A color space similar to <see cref="HSB"/> where "lightness" (a perfectly light color is pure white) replaces "brightness" (a perfectly bright color is analogous to shining a white light on a colored object).</para>
-/// 
-/// <para>≡ 73.105%</para>
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="HSL"/></para>
 /// 
 /// <i>Alias</i>
@@ -23,16 +20,14 @@ namespace Imagin.Core.Colors;
 /// <remarks>https://github.com/colorjs/color-space/blob/master/hsl.js</remarks>
 [Component(360, '°', "H", "Hue"), Component(100, '%', "S", "Saturation"), Component(100, '%', "L", "Lightness")]
 [Serializable]
-public class HSL : ColorVector3, IHs
+public class HSL : ColorModel3
 {
-    public HSL(params double[] input) : base(input) { }
-
-    public static implicit operator HSL(Vector3 input) => new(input.X, input.Y, input.Z);
+    public HSL() : base() { }
 
     /// <summary>(🗸) <see cref="HSL"/> > <see cref="Lrgb"/></summary>
-    public override Lrgb ToLrgb(WorkingProfile profile)
+    public override Lrgb To(WorkingProfile profile)
     {
-        var max = GetMaximum<HSL>();
+        var max = Colour.Maximum<HSL>();
 
         double h = Value[0] / 60.0, s = Value[1] / max[1], l = Value[2] / max[2];
 
@@ -75,13 +70,13 @@ public class HSL : ColorVector3, IHs
             b = result[2] + m;
         }
 
-        return new(r, g, b);
+        return Colour.New<Lrgb>(r, g, b);
     }
 
     /// <summary>(🗸) <see cref="Lrgb"/> > <see cref="HSL"/></summary>
-    public override void FromLrgb(Lrgb input, WorkingProfile profile)
+    public override void From(Lrgb input, WorkingProfile profile)
     {
-        var max = GetMaximum<HSL>();
+        var max = Colour.Maximum<HSL>();
 
         var m = Max(Max(input.Value[0], input.Value[1]), input.Value[2]);
         var n = Min(Min(input.Value[0], input.Value[1]), input.Value[2]);

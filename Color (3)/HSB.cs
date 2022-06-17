@@ -6,11 +6,8 @@ using static System.Math;
 namespace Imagin.Core.Colors;
 
 /// <summary>
-/// <para>(🗸) <b>Hue (H), Saturation (S), Brightness (B)</b></para>
-/// 
+/// <para><b>Hue (H), Saturation (S), Brightness (B)</b></para>
 /// <para>A color space that defines color as having a hue (color), saturation (colorfulness), and brightness (color intensity).</para>
-/// 
-/// <para>≡ 76.778%</para>
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="HSB"/></para>
 /// 
 /// <i>Alias</i>
@@ -21,18 +18,16 @@ namespace Imagin.Core.Colors;
 /// <remarks>https://github.com/colorjs/color-space/blob/master/hsb.js</remarks>
 [Component(360, '°', "H", "Hue"), Component(100, '%', "S", "Saturation"), Component(100, '%', "B", "Brightness")]
 [Serializable]
-public class HSB : ColorVector3, IHs
+public class HSB : ColorModel3
 {
-    public HSB(params double[] input) : base(input) { }
-
-    public static implicit operator HSB(Vector3 input) => new(input.X, input.Y, input.Z);
+    public HSB() : base() { }
 
     /// <summary>(🗸) <see cref="HSB"/> > <see cref="Lrgb"/></summary>
-    public override Lrgb ToLrgb(WorkingProfile profile)
+    public override Lrgb To(WorkingProfile profile)
     {
         var hsb = new Vector(Value[0] / 360, Value[1] / 100, Value[2] / 100);
         if (hsb[1] == 0)
-            return new(hsb[2], hsb[2], hsb[2]);
+            return Colour.New<Lrgb>(hsb[2], hsb[2], hsb[2]);
 
         var h = hsb[0] * 6;
         if (h == 6)
@@ -58,13 +53,13 @@ public class HSB : ColorVector3, IHs
         else
         { r = hsb[2]; g = x; b = y; }
 
-        return new(r, g, b);
+        return Colour.New<Lrgb>(r, g, b);
     }
 
     /// <summary>(🗸) <see cref="Lrgb"/> > <see cref="HSB"/></summary>
-    public override void FromLrgb(Lrgb input, WorkingProfile profile)
+    public override void From(Lrgb input, WorkingProfile profile)
     {
-        var max = GetMaximum<HSB>();
+        var max = Colour.Maximum<HSB>();
 
         var r = input[0]; var g = input[1]; var b = input[2];
 

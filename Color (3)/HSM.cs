@@ -1,5 +1,4 @@
-﻿using Imagin.Core.Numerics;
-using System;
+﻿using System;
 
 using static Imagin.Core.Numerics.M;
 using static System.Math;
@@ -7,24 +6,21 @@ using static System.Math;
 namespace Imagin.Core.Colors;
 
 /// <summary>
-/// (🞩) <b>Hue (H), Saturation (S), Mixture (M)</b>
+/// <b>Hue (H), Saturation (S), Mixture (M)</b>
 /// <para>🞩 <i>Only one hue seemingly displayed.</i></para>
-/// <para>≡ 62.752%</para>
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="HSM"/></para>
 /// </summary>
 /// <remarks>https://seer.ufrgs.br/rita/article/viewFile/rita_v16_n2_p141/7428</remarks>
 [Component(360, '°', "H", "Hue"), Component(100, '%', "S", "Saturation"), Component(255, ' ', "M", "Mixture")]
-[Serializable, Unfinished]
-public class HSM : ColorVector3, IHs
+[Serializable]
+public class HSM : ColorModel3
 {
-    public HSM(params double[] input) : base(input) { }
-
-    public static implicit operator HSM(Vector3 input) => new(input.X, input.Y, input.Z);
+    public HSM() : base() { }
 
     /// <summary>(🞩) <see cref="HSM"/> > <see cref="Lrgb"/></summary>
-    public override Lrgb ToLrgb(WorkingProfile profile)
+    public override Lrgb To(WorkingProfile profile)
     {
-        var max = GetMaximum<HSM>();
+        var max = Colour.Maximum<HSM>();
 
         double h = X / max[0], s = Y / max[1], m = Z / max[2];
         double r, g, b;
@@ -37,11 +33,11 @@ public class HSM : ColorVector3, IHs
         g = (w * v + (23 * m) - (19 * r)) / 4;
         b = ((11 * r) - (9 * m) - (w * v)) / 2;
 
-        return new(r, g, b);
+        return Colour.New<Lrgb>(r, g, b);
     }
 
     /// <summary>(🞩) <see cref="Lrgb"/> > <see cref="HSM"/></summary>
-    public override void FromLrgb(Lrgb input, WorkingProfile profile)
+    public override void From(Lrgb input, WorkingProfile profile)
     {
         var m = ((4 * input.X) + (2 * input.Y) + input.Z) / 7;
 
@@ -86,7 +82,7 @@ public class HSM : ColorVector3, IHs
         double h = w / PI2;
         double s = Sqrt(u) / Sqrt(v);
 
-        var max = GetMaximum<HSM>();
+        var max = Colour.Maximum<HSM>();
         Value = new(h * max[0], s * max[1], m * max[2]);
     }
 }

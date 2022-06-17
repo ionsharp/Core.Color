@@ -1,29 +1,29 @@
-﻿using System;
-using static System.Math;
+﻿using static System.Math;
 
 namespace Imagin.Core.Colors;
 
+/// <summary><b>Rec. 2020</b></summary>
 [DisplayName(name), Index(4)]
-public struct Rec2020Transfer : ITransfer
+public struct Rec2020Compression : ICompress
 {
-    const string name = "Rec2020";
+    const string name = "Rec. 2020";
 
     [Index(-1), Label(false), ReadOnly, Visible]
     public string Name => name;
 
-    public Rec2020Transfer() { }
+    public Rec2020Compression() { }
 
-    public double CompandInverse(double channel)
-    {
-        var V = channel;
-        var L = V < 0.08145 ? V / 4.5 : Math.Pow((V + 0.0993) / 1.0993, 1 / 0.45);
-        return L;
-    }
-
-    public double Compand(double channel)
+    public double Transfer(double channel)
     {
         var L = channel;
-        var V = L < 0.0181 ? 4500 * L : 1.0993 * Pow(L, 0.45) - 0.0993;
+        var V = L < CIE.Beta ? 4.5 * L : CIE.Alpha * Pow(L, y: 0.45) - (CIE.Alpha - 1.0);
         return V;
+    }
+
+    public double TransferInverse(double channel)
+    {
+        var V = channel;
+        var L = V < CIE.BetaInverse ? V / 4.5 : Pow((V + CIE.Alpha - 1.0) / CIE.Alpha, 1 / 0.45);
+        return L;
     }
 }

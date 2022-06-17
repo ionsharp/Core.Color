@@ -1,8 +1,17 @@
 ﻿namespace Imagin.Core.Colors;
 
-/// <summary>International Commission on Illumination</summary>
+/// <summary>Constants defined by the <b>International Commission on Illumination</b> (CIE).</summary>
 public static class CIE
 {
+    /// <remarks>Standard</remarks>
+    public const double Alpha = 1.09929682680944;
+
+    /// <remarks>Standard</remarks>
+    public const double Beta = 0.018053968510807;
+
+    /// <remarks>Standard</remarks>
+    public const double BetaInverse = Beta * 4.5;
+
     /// <remarks>Standard</remarks>
     public const double Epsilon = 0.008856451679035631;
 

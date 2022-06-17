@@ -91,9 +91,9 @@ public class Histogram : Base
                     var dZ = M.Denormalize(color.Z);
 
                     r[dX]++; g[dY]++; b[dZ]++;
-                    rgb = new(dX, dY, dZ);
+                    rgb = Colour.New<RGB>(dX, dY, dZ);
 
-                    hsl.FromRGB(rgb, profile);
+                    hsl.From(rgb, profile);
 
                     s[(int)(hsl.Y / 100 * 255)]++;
                     l[(int)(hsl.Z / 100 * 255)]++;

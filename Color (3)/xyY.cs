@@ -1,47 +1,42 @@
-﻿using Imagin.Core.Numerics;
+﻿using Imagin.Core.Linq;
+using Imagin.Core.Numerics;
 using System;
+using System.Diagnostics.CodeAnalysis;
+using static System.Math;
 
 namespace Imagin.Core.Colors;
 
 /// <summary>
-/// (🗸) <b>x, y, Y</b>
-/// <para>≡ 100%</para>
+/// <b>Chroma (x), Chroma (y), Luminance (Y)</b>
+/// <para>A color with two <b>Chroma</b> components and one <b>Luminance</b> component.</para>
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="XYZ"/> > <see cref="xyY"/></para>
 /// </summary>
 /// <remarks>https://github.com/colorjs/color-space/blob/master/xyy.js</remarks>
-[Component(1, "x"), Component(1, "y"), Component(1, '%', "Y")]
+[Component(1, "x", "Chroma"), Component(1, "y", "Chroma"), Component(1, '%', "Y", "Luminance")]
 [Serializable]
-public class xyY : XYZ
+[SuppressMessage("Style", "IDE1006:Naming Styles")]
+public class xyY : ColorModel3<XYZ>
 {
-    public xyY(params double[] input) : base(input) { }
+    public xyY() : base() { }
 
-    public static implicit operator xyY(Vector3 input) => new(input.X, input.Y, input.Z);
+    //...
 
-    /// <summary>(🗸) <see cref="xyY"/> > <see cref="Lrgb"/></summary>
-    public override Lrgb ToLrgb(WorkingProfile profile)
+    public static explicit operator xyY(xy input) => Colour.New<xyY>(input.X, input.Y, 1);
+
+    public static explicit operator xyY(XYZ input)
     {
-        double x = this[0], y = this[1], Y = this[2];
-        if (y == 0)
-            return new(0, 0, 0);
-
-        return new XYZ(x * Y / y, Y, (1 - x - y) * Y / y).ToLrgb(profile);
-	}
-
-    /// <summary>(🗸) <see cref="Lrgb"/> > <see cref="xyY"/></summary>
-    public override void FromLrgb(Lrgb input, WorkingProfile profile)
-	{
-		var result = new XYZ();
-		result.FromLrgb(input, profile);
-
-        double sum, X, Y, Z;
-        X = input[0]; Y = input[1]; Z = input[2];
-
-        sum = X + Y + Z;
-        if (sum == 0)
-        {
-            Value = new(.0, 0, Y);
-            return;
-        }
-        Value = new(X / sum, Y / sum, Y);
+        var result = new xyY();
+        result.From(input, WorkingProfile.Default);
+        return result;
     }
+
+    //...
+
+    /// <summary>(🗸) <see cref="XYZ"/> > <see cref="xyY"/></summary>
+    public override void From(XYZ input, WorkingProfile profile)
+        => Value = input.Value.Sum() is double sum && sum == 0 ? new Vector3(0, 0, input.Y) : new(input.X / sum, input.Y / sum, input.Y);
+
+    /// <summary>(🗸) <see cref="xyY"/> > <see cref="XYZ"/></summary>
+    public override void To(out XYZ result, WorkingProfile profile)
+        => result = Y == 0 ? Colour.New<XYZ>(0) : Colour.New<XYZ>(X * Z / Y, Z, (1 - X - Y) * Z / Y);
 }

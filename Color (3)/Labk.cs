@@ -1,14 +1,12 @@
 ﻿using Imagin.Core.Numerics;
 using System;
-
 using static Imagin.Core.Numerics.M;
 using static System.Math;
 
 namespace Imagin.Core.Colors;
 
 /// <summary>
-/// (🗸) <b>Perceived lightness (L), Red/green (a), Blue/yellow (b)</b>
-/// <para>≡ 100%</para>
+/// <b>Perceived lightness (L), Red/green (a), Blue/yellow (b)</b>
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="XYZ"/> > <see cref="Labk"/></para>
 /// 
 /// <i>Alias</i>
@@ -19,11 +17,9 @@ namespace Imagin.Core.Colors;
 /// <remarks>https://colour.readthedocs.io/en/develop/_modules/colour/models/oklab.html</remarks>
 [Component(1, '°', "L", "Perceived lightness"), Component(1, '%', "a", "Red/green"), Component(1, '%', "b", "Blue/yellow")]
 [Serializable]
-public class Labk : XYZ, ILAb
+public class Labk : ColorModel3<XYZ>
 {
-    public Labk(params double[] input) : base(input) { }
-
-    public static implicit operator Labk(Vector3 input) => new(input.X, input.Y, input.Z);
+    public Labk() : base() { }
 
     public static Matrix XYZ_LMS => new double[][]
     {
@@ -41,8 +37,21 @@ public class Labk : XYZ, ILAb
     };
     public static Matrix LAB_LMS => LMS_LAB.Invert3By3();
 
-    /// <summary>(🗸) <see cref="Labk"/> > <see cref="Lrgb"/></summary>
-    public override Lrgb ToLrgb(WorkingProfile profile)
+    /// <summary>(🗸) <see cref="XYZ"/> > <see cref="Labk"/></summary>
+    public override void From(XYZ input, WorkingProfile profile)
+    {
+        var v = input.Value / (XYZ)(xyY)(xy)profile.Chromacity;
+        input = Colour.New<XYZ>(v[0], v[1], v[2]);
+
+        var lms = XYZ_LMS.Multiply(input);
+        var lmsPrime = Colour.New<LMS>(Cbrt(lms[0]), Cbrt(lms[1]), Cbrt(lms[2]));
+
+        var lab = LMS_LAB.Multiply(lmsPrime);
+        Value = new(lab);
+    }
+
+    /// <summary>(🗸) <see cref="Labk"/> > <see cref="XYZ"/></summary>
+    public override void To(out XYZ result, WorkingProfile profile)
     {
         var lab = Value;
 
@@ -50,23 +59,8 @@ public class Labk : XYZ, ILAb
         var lmsPrime = new Vector(Pow(lms[0], 3), Pow(lms[1], 3), Pow(lms[2], 3));
 
         var xyz = LMS_XYZ.Multiply(lmsPrime);
-        xyz = new(xyz * profile.White);
+        xyz = new(xyz * profile.Chromacity);
 
-        return new XYZ(xyz).ToLrgb(profile);
-    }
-
-    /// <summary>(🗸) <see cref="Lrgb"/> > <see cref="Labk"/></summary>
-    public override void FromLrgb(Lrgb input, WorkingProfile profile)
-    {
-        var xyz = new XYZ();
-        xyz.FromLrgb(input, profile);
-
-        xyz = new(xyz.Value / profile.White);
-
-        var lms = XYZ_LMS.Multiply(xyz);
-        var lmsPrime = new LMS(Cbrt(lms[0]), Cbrt(lms[1]), Cbrt(lms[2]));
-
-        var lab = LMS_LAB.Multiply(lmsPrime);
-        Value = new(lab);
+        result = Colour.New<XYZ>(xyz[0], xyz[1], xyz[2]);
     }
 }

@@ -1,5 +1,4 @@
-﻿using Imagin.Core.Numerics;
-using System;
+﻿using System;
 
 using static Imagin.Core.Numerics.M;
 using static System.Math;
@@ -7,11 +6,8 @@ using static System.Math;
 namespace Imagin.Core.Colors;
 
 /// <summary>
-/// (🞩) <b>Tint (T), Saturation (S), Lightness (L)</b>
-/// 
+/// <b>Tint (T), Saturation (S), Lightness (L)</b>
 /// <para>A perceptual color space developed primarily for the purpose of face detection that defines color as tint (like hue with white added), the colorfulness of a stimulus relative to its own brightness (S), and the brightness of a stimulus relative to a stimulus that appears white in similar viewing conditions (L).</para>
-/// 
-/// <para>≡ 36.884%</para>
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="TSL"/></para>
 /// 
 /// <para>🞩 <i>The color space repeats unless <see cref="T"/> / 4. Is this expected?</i></para>
@@ -24,8 +20,8 @@ namespace Imagin.Core.Colors;
 /// </summary>
 /// <remarks>https://en.wikipedia.org/wiki/TSL_color_space#Conversion_between_RGB_and_TSL</remarks>
 [Component(1, '%', "T", "Tint"), Component(1, '%', "S", "Saturation"), Component(1, '%', "L", "Lightness")]
-[Serializable, Unfinished]
-public class TSL : ColorVector3
+[Serializable]
+public class TSL : ColorModel3
 {
     public double T => X;
 
@@ -33,12 +29,10 @@ public class TSL : ColorVector3
 
     public double L => Z;
 
-    public TSL(params double[] input) : base(input) { }
-
-    public static implicit operator TSL(Vector3 input) => new(input.X, input.Y, input.Z);
+    public TSL() : base() { }
 
     /// <summary>(🞩) <see cref="TSL"/> > <see cref="Lrgb"/></summary>
-    public override Lrgb ToLrgb(WorkingProfile profile)
+    public override Lrgb To(WorkingProfile profile)
     {
         double T = this[0] / 4, S = this[1], L = this[2];
 
@@ -55,11 +49,11 @@ public class TSL : ColorVector3
         var k = L / (r * 0.185 + g * 0.473 + 0.114);
 
         var R = k * r; var G = k * g; var B = k * (1 - r - g);
-        return new(R, G, B);
+        return Colour.New<Lrgb>(R, G, B);
     }
 
     /// <summary>(🞩) <see cref="Lrgb"/> > <see cref="TSL"/></summary>
-    public override void FromLrgb(Lrgb input, WorkingProfile profile)
+    public override void From(Lrgb input, WorkingProfile profile)
     {
         var R = input[0]; var G = input[1]; var B = input[2];
 

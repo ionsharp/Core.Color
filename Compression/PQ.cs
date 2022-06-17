@@ -10,16 +10,16 @@ namespace Imagin.Core.Colors;
 /// </summary>
 /// <remarks>https://en.wikipedia.org/wiki/Perceptual_quantizer</remarks>
 [DisplayName(name), Index(3)]
-public struct PQTransfer : ITransfer
+public struct PQCompression : ICompress
 {
     const string name = "PQ";
 
     [Index(-1), Label(false), ReadOnly, Visible]
     public string Name => name;
 
-    public PQTransfer() { }
+    public PQCompression() { }
 
-    public double Compand(double E)
+    public double Transfer(double E)
     {
         var c2 = 18.8515625;
         var c3 = 18.6875;
@@ -29,7 +29,7 @@ public struct PQTransfer : ITransfer
         return 10000 * Max(Pow(E, 1 / m2) - c1, 0) / (c2 - c3 * Pow(E, 1 / m2));
     }
 
-    public double CompandInverse(double Y)
+    public double TransferInverse(double Y)
     {
         var c2 = 18.8515625;
         var c3 = 18.6875;

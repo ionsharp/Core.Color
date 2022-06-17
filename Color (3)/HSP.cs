@@ -7,21 +7,18 @@ using static System.Math;
 namespace Imagin.Core.Colors;
 
 /// <summary>
-/// (🗸) <b>Hue (H), Saturation (S), Percieved brightness (P)</b>
-/// <para>≡ 99.818%</para>
+/// <b>Hue (H), Saturation (S), Percieved brightness (P)</b>
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="HSP"/></para>
 /// </summary>
 /// <remarks>https://github.com/colorjs/color-space/blob/master/hsp.js</remarks>
 [Component(360, '°', "H", "Hue"), Component(100, '%', "S", "Saturation"), Component(255, ' ', "P", "Percieved brightness")]
 [Serializable]
-public class HSP : ColorVector3, IHs
+public class HSP : ColorModel3
 {
-    public HSP(params double[] input) : base(input) { }
-
-    public static implicit operator HSP(Vector3 input) => new(input.X, input.Y, input.Z);
+    public HSP() : base() { }
 
     /// <summary>(🗸) <see cref="HSP"/> > <see cref="Lrgb"/></summary>
-    public override Lrgb ToLrgb(WorkingProfile profile)
+    public override Lrgb To(WorkingProfile profile)
     {
         const double Pr = 0.299;
         const double Pg = 0.587;
@@ -139,11 +136,11 @@ public class HSP : ColorVector3, IHs
                 g = 0.0;
             }
         }
-        return new Lrgb(new Vector(r.Round() / 255.0, g.Round() / 255.0, b.Round() / 255.0).Coerce(0, 1));
+        return Colour.New<Lrgb>(r.Round() / 255.0, g.Round() / 255.0, b.Round() / 255.0);
     }
 
     /// <summary>(🗸) <see cref="Lrgb"/> > <see cref="HSP"/></summary>
-    public override void FromLrgb(Lrgb input, WorkingProfile profile)
+    public override void From(Lrgb input, WorkingProfile profile)
     {
         const double Pr = 0.299;
         const double Pg = 0.587;

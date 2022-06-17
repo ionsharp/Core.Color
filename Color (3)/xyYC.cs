@@ -1,16 +1,14 @@
 ﻿using Imagin.Core.Numerics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-
 using static System.Math;
 
 namespace Imagin.Core.Colors;
 
 /// <summary>
-/// (🞩) <b>xyYC</b> (Coloroid)
-/// 
-/// <para>≡ 100%</para>
+/// <b>xyYC</b> (Coloroid)
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="XYZ"/> > <see cref="xyY"/> > <see cref="xyYC"/></para>
 /// 
 /// <i>Alias</i>
@@ -25,7 +23,8 @@ namespace Imagin.Core.Colors;
 /// </remarks>
 [Component(MinHue, MaxHue, "A", "Hue"), Component(100, "T"), Component(100, "V")]
 [Serializable]
-public class xyYC : xyY
+[SuppressMessage("Style", "IDE1006:Naming Styles")]
+public class xyYC : ColorModel3<xyY>
 {
 	public const int MaxHue = 76;
 
@@ -97,63 +96,17 @@ public class xyYC : xyY
 		sColors = a.Concat(b).ToList();
 	}
 
-    public xyYC(params double[] input) : base(input) { }
+    public xyYC() : base() { }
 
-    public static implicit operator xyYC(Vector3 input) => new(input.X, input.Y, input.Z);
-
-	/// <summary>(🗸) <see cref="xyYC"/> > <see cref="Lrgb"/></summary>
-	public override Lrgb ToLrgb(WorkingProfile profile)
+	/// <summary>(🞩) <see cref="xyY"/> > <see cref="xyYC"/></summary>
+	public override void From(xyY input, WorkingProfile profile)
 	{
-		double A = Value[0], T = Value[1], V = Value[2];
+		double x = input[0], y = input[1], Y = input[2];
 
-		var Xn = profile.White.X;
-		var Yn = profile.White.Y;
-		var Zn = profile.White.Z;
-
-		var yM = Xn / (Xn + Yn + Zn);
-		var xM = Yn / (Xn + Yn + Zn);
-		var zM = (Xn + Yn + Zn) / 100;
-
-		//Find the closest row
-		Vector result = default;
-		for (var i = 0; i < Colors.Count; i++)
-		{
-			if (A <= Colors[i][0])
-			{
-				result = Colors[i];
-				break;
-			}
-		}
-
-		double xL = result[4], yL = result[2], zL = result[3];
-
-		var Y = V * V / 100;
-
-		var xyL = xL * yL * 100;
-
-		var x = (100 * Y * xM * zM + 100 * zL * yL * T - xyL * T * xM * zM) / (100 * T * yL - xyL * T * zM + 100 * Y * zM);
-		var y = (100 * Y + 100 * T * xL * yL - xyL * T) / (Y * zM * 100 + T * 100 * yL - T * xyL * zM);
-
-		//var x = (100*Y*ew*x0 + 100*T*el*xl - T*Yl*ew*x0) / (100*T*el - T*Yl*ew + 100*Y*ew);
-		//var y = 100*Y / (100*T*el + 100*T*ew*Yl + 100*ew*Y);
-
-		//var x = (ew*x0*(V*V - 100*T*row[6]) + 100*T*el*xl) / (ew*(V*V - 100*T*row[6]) + 100*T*el);
-		//var y = V*V/(ew*(V*V + 100*T*row[6]) + 100*T*el);
-
-		return new xyY(x, y, Y).ToLrgb(profile);
-	}
-
-	/// <summary>(🗸) <see cref="Lrgb"/> > <see cref="xyYC"/></summary>
-	public override void FromLrgb(Lrgb input, WorkingProfile profile)
-	{
-		var xyy = new xyY();
-		xyy.FromLrgb(input, profile);
-
-		double x = xyy[0], y = xyy[1], Y = xyy[2];
-
-		var Xn = profile.White.X;
-		var Yn = profile.White.Y;
-		var Zn = profile.White.Z;
+		var xyzN = (XYZ)(xyY)(xy)profile.Chromacity;
+		var Xn = xyzN.X * 100;
+		var Yn = xyzN.Y * 100;
+		var Zn = xyzN.Z * 100;
 
 		var yM = Xn / (Xn + Yn + Zn);
 		var xM = Yn / (Xn + Yn + Zn);
@@ -194,5 +147,49 @@ public class xyYC : xyY
 		//var T = 100 * Y * (1 - y * ew) / (100 * (y * el - yl * el) + Yl * (1 - y * ew));
 
 		Value = new(A, T, V);
+	}
+
+	/// <summary>(🞩) <see cref="xyYC"/> > <see cref="xyY"/></summary>
+	public override void To(out xyY result, WorkingProfile profile)
+	{
+		double A = Value[0], T = Value[1], V = Value[2];
+
+		var xyzN = (XYZ)(xyY)(xy)profile.Chromacity;
+
+		var Xn = xyzN.X;
+		var Yn = xyzN.Y;
+		var Zn = xyzN.Z;
+
+		var yM = Xn / (Xn + Yn + Zn);
+		var xM = Yn / (Xn + Yn + Zn);
+		var zM = (Xn + Yn + Zn) / 100;
+
+		//Find the closest row
+		Vector row = default;
+		for (var i = 0; i < Colors.Count; i++)
+		{
+			if (A <= Colors[i][0])
+			{
+				row = Colors[i];
+				break;
+			}
+		}
+
+		double xL = row[4], yL = row[2], zL = row[3];
+
+		var Y = V * V / 100;
+
+		var xyL = xL * yL * 100;
+
+		var x = (100 * Y * xM * zM + 100 * zL * yL * T - xyL * T * xM * zM) / (100 * T * yL - xyL * T * zM + 100 * Y * zM);
+		var y = (100 * Y + 100 * T * xL * yL - xyL * T) / (Y * zM * 100 + T * 100 * yL - T * xyL * zM);
+
+		//var x = (100*Y*ew*x0 + 100*T*el*xl - T*Yl*ew*x0) / (100*T*el - T*Yl*ew + 100*Y*ew);
+		//var y = 100*Y / (100*T*el + 100*T*ew*Yl + 100*ew*Y);
+
+		//var x = (ew*x0*(V*V - 100*T*row[6]) + 100*T*el*xl) / (ew*(V*V - 100*T*row[6]) + 100*T*el);
+		//var y = V*V/(ew*(V*V + 100*T*row[6]) + 100*T*el);
+
+		result = Colour.New<xyY>(x, y, Y);
 	}
 }

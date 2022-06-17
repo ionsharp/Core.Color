@@ -1,16 +1,12 @@
-﻿using Imagin.Core.Numerics;
-using System;
+﻿using System;
 using static System.Double;
 using static System.Math;
 
 namespace Imagin.Core.Colors;
 
 /// <summary>
-/// <para>(🗸) <b>Lightness (L*), u*, v*</b></para>
-/// 
+/// <para><b>Lightness (L*), u*, v*</b></para>
 /// <para>An Adams chromatic valence color space that attempts perceptual uniformity (the successor to UVW).</para>
-/// 
-/// <para>≡ 100%</para>
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="XYZ"/> > <see cref="Luv"/></para>
 /// 
 /// <i>Alias</i>
@@ -27,22 +23,50 @@ namespace Imagin.Core.Colors;
 /// <remarks>https://github.com/tompazourek/Colourful</remarks>
 [Component(100, '%', "L*", "Lightness"), Component(-134, 224, ' ', "u*"), Component(-140, 122, ' ', "v*")]
 [Serializable]
-public class Luv : XYZ, ILAb
+public class Luv : ColorModel3<XYZ>
 {
-    public Luv(params double[] input) : base(input) { }
+    public Luv() : base() { }
 
-    public static implicit operator Luv(Vector3 input) => new(input.X, input.Y, input.Z);
+    /// <summary>(🗸) <see cref="XYZ"/> > <see cref="Luv"/></summary>
+    public override void From(XYZ input, WorkingProfile profile)
+    {
+        static double Compute_up(XYZ i) => 4 * i.X / (i.X + 15 * i.Y + 3 * i.Z);
+        static double Compute_vp(XYZ i) => 9 * i.Y / (i.X + 15 * i.Y + 3 * i.Z);
 
-    /// <summary>(🗸) <see cref="Luv"/> > <see cref="Lrgb"/></summary>
-    public override Lrgb ToLrgb(WorkingProfile profile)
+        var yr = input.Y / profile.Chromacity.Y;
+        var up = Compute_up(input);
+        var vp = Compute_vp(input);
+
+        var upr = Compute_up((XYZ)(xyY)(xy)profile.Chromacity);
+        var vpr = Compute_vp((XYZ)(xyY)(xy)profile.Chromacity);
+
+        var L = yr > CIE.IEpsilon ? 116 * Pow(yr, 1 / 3d) - 16 : CIE.IKappa * yr;
+
+        if (IsNaN(L) || L < 0)
+            L = 0;
+
+        var u = 13 * L * (up - upr);
+        var v = 13 * L * (vp - vpr);
+
+        if (IsNaN(u))
+            u = 0;
+
+        if (IsNaN(v))
+            v = 0;
+
+        Value = new(L, u, v);
+    }
+
+    /// <summary>(🗸) <see cref="Luv"/> > <see cref="XYZ"/></summary>
+    public override void To(out XYZ result, WorkingProfile profile)
     {
         static double Compute_u0(XYZ input) => 4 * input.X / (input.X + 15 * input.Y + 3 * input.Z);
         static double Compute_v0(XYZ input) => 9 * input.Y / (input.X + 15 * input.Y + 3 * input.Z);
 
         double L = Value[0], u = Value[1], v = Value[2];
 
-        var u0 = Compute_u0(profile.White);
-        var v0 = Compute_v0(profile.White);
+        var u0 = Compute_u0((XYZ)(xyY)(xy)profile.Chromacity);
+        var v0 = Compute_v0((XYZ)(xyY)(xy)profile.Chromacity);
 
         var Y = L > CIE.IKappa * CIE.IEpsilon
             ? Pow((L + 16) / 116, 3)
@@ -65,39 +89,6 @@ public class Luv : XYZ, ILAb
         if (IsNaN(Z) || Z < 0)
             Z = 0;
 
-        return new XYZ(X, Y, Z).ToLrgb(profile);
-    }
-
-    /// <summary>(🗸) <see cref="Lrgb"/> > <see cref="Luv"/></summary>
-    public override void FromLrgb(Lrgb input, WorkingProfile profile)
-    {
-        var xyz = new XYZ();
-        xyz.FromLrgb(input, profile);
-
-        static double Compute_up(XYZ i) => 4 * i.X / (i.X + 15 * i.Y + 3 * i.Z);
-        static double Compute_vp(XYZ i) => 9 * i.Y / (i.X + 15 * i.Y + 3 * i.Z);
-
-        var yr = input.Y / profile.White.Y;
-        var up = Compute_up(xyz);
-        var vp = Compute_vp(xyz);
-
-        var upr = Compute_up(profile.White);
-        var vpr = Compute_vp(profile.White);
-
-        var L = yr > CIE.IEpsilon ? 116 * Pow(yr, 1 / 3d) - 16 : CIE.IKappa * yr;
-
-        if (IsNaN(L) || L < 0)
-            L = 0;
-
-        var u = 13 * L * (up - upr);
-        var v = 13 * L * (vp - vpr);
-
-        if (IsNaN(u))
-            u = 0;
-
-        if (IsNaN(v))
-            v = 0;
-
-        Value = new(L, u, v);
+        result = Colour.New<XYZ>(X, Y, Z);
     }
 }

@@ -1,9 +1,10 @@
-﻿using System;
+﻿using static System.Math;
 
 namespace Imagin.Core.Colors;
 
+/// <summary><b>Gamma</b></summary>
 [DisplayName(name), Index(0)]
-public struct GammaTransfer : ITransfer
+public struct GammaCompression : ICompress
 {
     const string name = "Gamma";
 
@@ -12,21 +13,21 @@ public struct GammaTransfer : ITransfer
 
     public double Gamma { get; private set; } = 2.4;
 
-    public GammaTransfer() { }
+    public GammaCompression() { }
 
-    public GammaTransfer(double gamma) : this() => Gamma = gamma;
+    public GammaCompression(double gamma) : this() => Gamma = gamma;
 
-    public double Compand(double channel)
+    public double Transfer(double channel)
     {
         var v = channel;
-        var V = Math.Pow(v, 1 / Gamma);
+        var V = Pow(v, 1 / Gamma);
         return V;
     }
 
-    public double CompandInverse(double channel)
+    public double TransferInverse(double channel)
     {
         var V = channel;
-        var v = Math.Pow(V, Gamma);
+        var v = Pow(V, Gamma);
         return v;
     }
 }

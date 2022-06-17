@@ -1,14 +1,10 @@
-﻿using Imagin.Core.Numerics;
-using System;
+﻿using System;
 
 namespace Imagin.Core.Colors;
 
 /// <summary>
-/// (🗸) <b>Y, Pb, Pr</b>
-/// 
+/// <b>Y, Pb, Pr</b>
 /// <para>A gamma-corrected and numerically equivalent YCbCr color space designed for use in analog systems.</para>
-/// 
-/// <para>≡ 100%</para>
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="YPbPr"/></para>
 /// 
 /// <i>Alias</i>
@@ -19,14 +15,12 @@ namespace Imagin.Core.Colors;
 /// <remarks>https://github.com/colorjs/color-space/blob/master/ypbpr.js</remarks>
 [Component(1, '%', "Y", "Luminance"), Component(-0.5, 0.5, ' ', "Pb", ""), Component(-0.5, 0.5, ' ', "Pr", "")]
 [Serializable]
-public class YPbPr : ColorVector3
+public class YPbPr : ColorModel3
 {
-    public YPbPr(params double[] input) : base(input) { }
-
-    public static implicit operator YPbPr(Vector3 input) => new(input.X, input.Y, input.Z);
+    public YPbPr() : base() { }
 
     /// <summary>(🗸) <see cref="YPbPr"/> > <see cref="Lrgb"/></summary>
-    public override Lrgb ToLrgb(WorkingProfile profile)
+    public override Lrgb To(WorkingProfile profile)
     {
         double y = Value[0], pb = Value[1], pr = Value[2];
 
@@ -38,11 +32,11 @@ public class YPbPr : ColorVector3
         var b = y + 2 * pb * (1 - kb);
         var g = (y - kr * r - kb * b) / (1 - kr - kb);
 
-        return new(r, g, b);
+        return Colour.New<Lrgb>(r, g, b);
     }
 
     /// <summary>(🗸) <see cref="Lrgb"/> > <see cref="YPbPr"/></summary>
-    public override void FromLrgb(Lrgb input, WorkingProfile profile)
+    public override void From(Lrgb input, WorkingProfile profile)
     {
         double r = input[0], g = input[1], b = input[2];
 

@@ -1,11 +1,9 @@
-﻿using Imagin.Core.Numerics;
-using System;
+﻿using System;
 
 namespace Imagin.Core.Colors;
 
 /// <summary>
-/// (🞩) <b>Hue (H), Saturation (S), Lightness (L)</b>
-/// <para>≡ 0%</para>
+/// <b>Hue (H), Saturation (S), Lightness (L)</b>
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="XYZ"/> > <see cref="Labk"/> > <see cref="HSLk"/></para>
 /// 
 /// <i>Alias</i>
@@ -17,24 +15,14 @@ namespace Imagin.Core.Colors;
 /// </summary>
 /// <remarks>https://colour.readthedocs.io/en/develop/_modules/colour/models/oklab.html</remarks>
 [Component(360, '°', "H", "Hue"), Component(100, '%', "S", "Saturation"), Component(100, '%', "L", "Lightness")]
-[Serializable, Unfinished]
-public class HSLk : Labk, IHs
+[Serializable]
+public class HSLk : ColorModel3<Labk>
 {
-    public HSLk(params double[] input) : base(input) { }
+    public HSLk() : base() { }
 
-    public static implicit operator HSLk(Vector3 input) => new(input.X, input.Y, input.Z);
+    /// <summary>(🞩) <see cref="Labk"/> > <see cref="HSLk"/></summary>
+    public override void From(Labk input, WorkingProfile profile) { }
 
-    /// <summary>(🞩) <see cref="HSLk"/> > <see cref="Lrgb"/></summary>
-    public override Lrgb ToLrgb(WorkingProfile profile)
-    {
-        var result = Vector3.Zero;
-        return new Labk(result).ToLrgb(profile);
-    }
-
-    /// <summary>(🞩) <see cref="Lrgb"/> > <see cref="HSLk"/></summary>
-    public override void FromLrgb(Lrgb input, WorkingProfile profile)
-    {
-        var result = new Labk();
-        result.FromLrgb(input, profile);
-    }
+    /// <summary>(🞩) <see cref="HSLk"/> > <see cref="Labk"/></summary>
+    public override void To(out Labk result, WorkingProfile profile) => result = new();
 }

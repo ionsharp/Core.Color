@@ -1,12 +1,10 @@
-﻿using Imagin.Core.Numerics;
-using System;
+﻿using System;
 using static System.Math;
 
 namespace Imagin.Core.Colors;
 
 /// <summary>
-/// <para>(🗸) <b>Luminance (Y), U, V</b></para>
-/// <para>≡ 99.886%</para>
+/// <para><b>Luminance (Y), U, V</b></para>
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="YUV"/></para>
 /// 
 /// <i>Alias</i>
@@ -17,14 +15,12 @@ namespace Imagin.Core.Colors;
 /// <remarks>https://github.com/colorjs/color-space/blob/master/yuv.js</remarks>
 [Component(1, '%', "Y", "Luminance"), Component(-0.5, 0.5, ' ', "U"), Component(-0.5, 0.5, ' ', "V")]
 [Serializable]
-public class YUV : ColorVector3
+public class YUV : ColorModel3
 {
-    public YUV(params double[] input) : base(input) { }
-
-    public static implicit operator YUV(Vector3 input) => new(input.X, input.Y, input.Z);
+    public YUV() : base() { }
 
     /// <summary>(🗸) <see cref="YUV"/> > <see cref="Lrgb"/></summary>
-    public override Lrgb ToLrgb(WorkingProfile profile)
+    public override Lrgb To(WorkingProfile profile)
     {
         double
             y = Value[0],
@@ -46,11 +42,11 @@ public class YUV : ColorVector3
         g = Min(Max(0, g), 1);
         b = Min(Max(0, b), 1);
 
-        return new(r, g, b);
+        return Colour.New<Lrgb>(r, g, b);
     }
 
     /// <summary>(🗸) <see cref="Lrgb"/> > <see cref="YUV"/></summary>
-    public override void FromLrgb(Lrgb input, WorkingProfile profile)
+    public override void From(Lrgb input, WorkingProfile profile)
     {
         double
             r = input[0],

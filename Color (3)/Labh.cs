@@ -1,5 +1,5 @@
-﻿using Imagin.Core.Numerics;
-using System;
+﻿using System;
+using Imagin.Core.Numerics;
 
 using static System.Double;
 using static System.Math;
@@ -7,8 +7,7 @@ using static System.Math;
 namespace Imagin.Core.Colors;
 
 /// <summary>
-/// <para>(🗸) <b>Lightness (L), a, b</b></para>
-/// <para>≡ 100%</para>
+/// <para><b>Lightness (L), a, b</b></para>
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="XYZ"/> > <see cref="Labh"/></para>
 /// 
 /// <i>Alias</i>
@@ -24,55 +23,35 @@ namespace Imagin.Core.Colors;
 /// <remarks>https://github.com/tompazourek/Colourful</remarks>
 [Component(100, '%', "L", "Lightness"), Component(-100, 100, ' ', "a"), Component(-100, 100, ' ', "b")]
 [Serializable]
-public class Labh : XYZ, ILAb
+public class Labh : ColorModel3<XYZ>
 {
-    public Labh(params double[] input) : base(input) { }
+    public Labh() : base() { }
 
-    public static implicit operator Labh(Vector3 input) => new(input.X, input.Y, input.Z);
-
-    /// <summary>Computes the Ka parameter.</summary>
-    public static double ComputeKa(XYZ whitePoint)
+    /// <summary>Computes the <b>Ka</b> parameter.</summary>
+    public static double ComputeKa(Vector3 whitePoint)
     {
-        if (whitePoint == Illuminant.GetWhite(Illuminant2.C))
+        if (whitePoint == (XYZ)(xyY)(xy)Illuminant2.C)
             return 175;
 
         var Ka = 100 * (175 / 198.04) * (whitePoint.X + whitePoint.Y);
         return Ka;
     }
 
-    /// <summary>Computes the Kb parameter.</summary>
-    public static double ComputeKb(XYZ whitePoint)
+    /// <summary>Computes the <b>Kb</b> parameter.</summary>
+    public static double ComputeKb(Vector3 whitePoint)
     {
-        if (whitePoint == Illuminant.GetWhite(Illuminant2.C))
+        if (whitePoint == (XYZ)(xyY)(xy)Illuminant2.C)
             return 70;
 
         var Ka = 100 * (70 / 218.11) * (whitePoint.Y + whitePoint.Z);
         return Ka;
     }
 
-    /// <summary>(🗸) <see cref="Labh"/> > <see cref="Lrgb"/></summary>
-    public override Lrgb ToLrgb(WorkingProfile profile)
+    /// <summary>(🗸) <see cref="XYZ"/> > <see cref="Labh"/></summary>
+    public override void From(XYZ input, WorkingProfile profile)
     {
-        double L = Value[0], a = Value[1], b = Value[2];
+        double X = input.X, Y = input.Y, Z = input.Z;
         double Xn = profile.White.X, Yn = profile.White.Y, Zn = profile.White.Z;
-
-        var Ka = ComputeKa(profile.White);
-        var Kb = ComputeKb(profile.White);
-
-        var Y = Pow(L / 100d, 2) * Yn;
-        var X = (a / Ka * Sqrt(Y / Yn) + Y / Yn) * Xn;
-        var Z = (b / Kb * Sqrt(Y / Yn) - Y / Yn) * -Zn;
-        return new XYZ(X, Y, Z).ToLrgb(profile);
-    }
-
-    /// <summary>(🗸) <see cref="Lrgb"/> > <see cref="Labh"/></summary>
-    public override void FromLrgb(Lrgb input, WorkingProfile profile)
-    {
-        var xyz = new XYZ();
-        xyz.FromLrgb(input, profile);
-
-        double X = xyz.X, Y = xyz.Y, Z = xyz.Z;
-        double Xn = profile.White[0], Yn = profile.White[1], Zn = profile.White[2];
 
         var Ka = ComputeKa(profile.White);
         var Kb = ComputeKb(profile.White);
@@ -88,5 +67,20 @@ public class Labh : XYZ, ILAb
             b = 0;
 
         Value = new(L, a, b);
+    }
+
+    /// <summary>(🗸) <see cref="Labh"/> > <see cref="XYZ"/></summary>
+    public override void To(out XYZ result, WorkingProfile profile)
+    {
+        double L = X, a = Y, b = Z;
+        double Xn = profile.White.X, Yn = profile.White.Y, Zn = profile.White.Z;
+
+        var Ka = ComputeKa(profile.White);
+        var Kb = ComputeKb(profile.White);
+
+        var y = Pow(L / 100.0, 2) * Yn;
+        var x = (a / Ka * Sqrt(y / Yn) + y / Yn) * Xn;
+        var z = (b / Kb * Sqrt(y / Yn) - y / Yn) * -Zn;
+        result = Colour.New<XYZ>(x, y, z);
     }
 }

@@ -1,11 +1,9 @@
-﻿using Imagin.Core.Numerics;
-using System;
+﻿using System;
 
 namespace Imagin.Core.Colors;
 
 /// <summary>
-/// <para>(🗸) <b>U, C (V), S (W)</b></para>
-/// <para>≡ 100%</para>
+/// <para><b>U, C (V), S (W)</b></para>
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="XYZ"/> > <see cref="UCS"/></para>
 /// 
 /// <i>Alias</i>
@@ -25,26 +23,21 @@ namespace Imagin.Core.Colors;
 /// <remarks>https://github.com/colorjs/color-space/blob/master/ucs.js</remarks>
 [Component(100, '%', "U", "U"), Component(100, '%', "C", "V"), Component(100, '%', "S", "W")]
 [Serializable]
-public class UCS : XYZ
+public class UCS : ColorModel3<XYZ>
 {
-    public UCS(params double[] input) : base(input) { }
+    public UCS() : base() { }
 
-    public static implicit operator UCS(Vector3 input) => new(input.X, input.Y, input.Z);
-
-    /// <summary>(🗸) <see cref="UCS"/> > <see cref="Lrgb"/></summary>
-    public override Lrgb ToLrgb(WorkingProfile profile)
+    /// <summary>(🗸) <see cref="XYZ"/> > <see cref="UCS"/></summary>
+    public override void From(XYZ input, WorkingProfile profile)
     {
-        double u = this[0], v = this[1], w = this[2];
-        return new XYZ(1.5 * u, v, 1.5 * u - 3 * v + 2 * w).ToLrgb(profile);
+        double x = input[0], y = input[1], z = input[2];
+        Value = new(x * 2 / 3, y, 0.5 * (-x + 3 * y + z));
     }
 
-    /// <summary>(🗸) <see cref="Lrgb"/> > <see cref="UCS"/></summary>
-    public override void FromLrgb(Lrgb input, WorkingProfile profile)
+    /// <summary>(🗸) <see cref="UCS"/> > <see cref="XYZ"/></summary>
+    public override void To(out XYZ result, WorkingProfile profile)
     {
-        var xyz = new XYZ();
-        xyz.FromLrgb(input, profile);
-
-        double x = xyz[0], y = xyz[1], z = xyz[2];
-        Value = new(x * 2 / 3, y, 0.5 * (-x + 3 * y + z));
+        double u = this[0], v = this[1], w = this[2];
+        result = Colour.New<XYZ>(1.5 * u, v, 1.5 * u - 3 * v + 2 * w);
     }
 }

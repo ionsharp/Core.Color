@@ -1,28 +1,22 @@
-﻿using Imagin.Core.Numerics;
-using System;
+﻿using System;
 using static System.Math;
 
 namespace Imagin.Core.Colors;
 
 /// <summary>
-/// (🞩) <b>Y, I, Q</b>
-/// 
+/// <b>Y, I, Q</b>
 /// <para>The color space used by the analog NTSC color TV system.</para>
-/// 
-/// <para>≡ 99.765%</para>
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="YIQ"/></para>
 /// </summary>
 /// <remarks>https://github.com/colorjs/color-space/blob/master/yiq.js</remarks>
-[Component(      1,      '%', "Y", "Luminance"), Component(-0.5957, 0.5957, ' ', "I"), Component(-0.5226, 0.5226, ' ', "Q")]
+[Component(1, '%', "Y", "Luminance"), Component(-0.5957, 0.5957, ' ', "I"), Component(-0.5226, 0.5226, ' ', "Q")]
 [Serializable]
-public class YIQ : ColorVector3
+public class YIQ : ColorModel3
 {
-    public YIQ(params double[] input) : base(input) { }
-
-    public static implicit operator YIQ(Vector3 input) => new(input.X, input.Y, input.Z);
+    public YIQ() : base() { }
 
     /// <summary>(🗸) <see cref="YIQ"/> > <see cref="Lrgb"/></summary>
-    public override Lrgb ToLrgb(WorkingProfile profile)
+    public override Lrgb To(WorkingProfile profile)
     {
         double y = Value[0], i = Value[1], q = Value[2], r, g, b;
         r = (y * 1) + (i * 0.956) + (q * 0.621);
@@ -32,11 +26,11 @@ public class YIQ : ColorVector3
         r = Min(Max(0, r), 1);
         g = Min(Max(0, g), 1);
         b = Min(Max(0, b), 1);
-        return new(r, g, b);
+        return Colour.New<Lrgb>(r, g, b);
     }
 
     /// <summary>(🗸) <see cref="Lrgb"/> > <see cref="YIQ"/></summary>
-    public override void FromLrgb(Lrgb input, WorkingProfile profile)
+    public override void From(Lrgb input, WorkingProfile profile)
     {
         double r = input[0], g = input[1], b = input[2];
 

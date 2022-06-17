@@ -1,24 +1,20 @@
-﻿using Imagin.Core.Numerics;
-using System;
+﻿using System;
 
 namespace Imagin.Core.Colors;
 
 /// <summary>
-/// (🗸) <b>Luminance (Y), E-factor (E), S-factor (S)</b>
-/// <para>≡ 100%</para>
+/// <b>Luminance (Y), E-factor (E), S-factor (S)</b>
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="YES"/></para>
 /// </summary>
 /// <remarks>https://github.com/colorjs/color-space/blob/master/yes.js</remarks>
 [Component(1, '%', "Y", "Luminance"), Component(1, '%', "E", "E-factor"), Component(1, '%', "S", "S-factor")]
 [Serializable]
-public class YES : ColorVector3
+public class YES : ColorModel3
 {
-    public YES(params double[] input) : base(input) { }
-
-    public static implicit operator YES(Vector3 input) => new(input.X, input.Y, input.Z);
+    public YES() : base() { }
 
     /// <summary>(🗸) <see cref="YES"/> > <see cref="Lrgb"/></summary>
-    public override Lrgb ToLrgb(WorkingProfile profile)
+    public override Lrgb To(WorkingProfile profile)
     {
         double y = Value[0], e = Value[1], s = Value[2];
 
@@ -34,11 +30,11 @@ public class YES : ColorVector3
             g = y * m[3] + e * m[4] + s * m[5],
             b = y * m[6] + e * m[7] + s * m[8];
 
-        return new(r, g, b);
+        return Colour.New<Lrgb>(r, g, b);
     }
 
     /// <summary>(🗸) <see cref="Lrgb"/> > <see cref="YES"/></summary>
-    public override void FromLrgb(Lrgb input, WorkingProfile profile)
+    public override void From(Lrgb input, WorkingProfile profile)
     {
         double r = input[0], g = input[1], b = input[2];
 

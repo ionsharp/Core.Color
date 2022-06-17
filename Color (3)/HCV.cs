@@ -1,31 +1,26 @@
-﻿using Imagin.Core.Numerics;
-using System;
-
+﻿using System;
 using static System.Math;
 
 namespace Imagin.Core.Colors;
 
 /// <summary>
-/// (🗸) <b>Hue (H), Chroma (C), Gray (V)</b>
-/// <para>≡ 98.379%</para>
+/// <b>Hue (H), Chroma (C), Gray (V)</b>
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="HCV"/></para>
 /// </summary>
 /// <remarks>https://github.com/helixd2s/hcv-color</remarks>
 [Component(360, '°', "H", "Hue"), Component(100, '%', "C", "Chroma"), Component(100, '%', "V", "Gray")]
 [Serializable]
-public class HCV : ColorVector3, IHc
+public class HCV : ColorModel3
 {
-    public HCV(params double[] input) : base(input) { }
-
-    public static implicit operator HCV(Vector3 input) => new(input.X, input.Y, input.Z);
+    public HCV() : base() { }
 
     /// <summary>(🗸) <see cref="HCV"/> > <see cref="Lrgb"/></summary>
-    public override Lrgb ToLrgb(WorkingProfile profile)
+    public override Lrgb To(WorkingProfile profile)
     {
         double h = Value[0] / 360, c = Value[1] / 100.0, g = Value[2] / 100.0;
 
         if (c == 0)
-            return new Lrgb(g, g, g);
+            return Colour.New<Lrgb>(g, g, g);
 
         var hi = (h % 1.0) * 6.0;
         var v = hi % 1.0;
@@ -49,7 +44,7 @@ public class HCV : ColorVector3, IHc
         }
 
         var mg = (1.0 - c) * g;
-        return new Lrgb
+        return Colour.New<Lrgb>
         (
             c * pure[0] + mg,
             c * pure[1] + mg,
@@ -58,7 +53,7 @@ public class HCV : ColorVector3, IHc
     }
 
     /// <summary>(🗸) <see cref="Lrgb"/> > <see cref="HCV"/></summary>
-    public override void FromLrgb(Lrgb input, WorkingProfile profile)
+    public override void From(Lrgb input, WorkingProfile profile)
     {
         double r = input.Value[0], g = input.Value[1], b = input.Value[2];
 

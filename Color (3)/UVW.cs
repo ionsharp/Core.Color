@@ -7,11 +7,8 @@ using static System.Math;
 namespace Imagin.Core.Colors;
 
 /// <summary>
-/// <para>(🗸) <b>U*, V*, W*</b></para>
-/// 
+/// <para><b>U*, V*, W*</b></para>
 /// <para>A color space based on UCS that was invented to calculate color differences without having to hold the luminance constant.</para>
-/// 
-/// <para>≡ 56.288%</para>
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="XYZ"/> > <see cref="UVW"/></para>
 /// 
 /// <i>Alias</i>
@@ -27,46 +24,17 @@ namespace Imagin.Core.Colors;
 /// </summary>
 /// <remarks>https://github.com/colorjs/color-space/blob/master/uvw.js</remarks>
 [Component(-134, 224, ' ', "U*"), Component(-140, 122, ' ', "V*"), Component(100, '%', "W*")]
-[Serializable, Unfinished]
-public class UVW : XYZ
+[Serializable]
+public class UVW : ColorModel3<XYZ>
 {
-    public UVW(params double[] input) : base(input) { }
+    public UVW() : base() { }
 
-    public static implicit operator UVW(Vector3 input) => new(input.X, input.Y, input.Z);
-
-    /// <summary>(🗸) <see cref="UVW"/> > <see cref="Lrgb"/></summary>
-    public override Lrgb ToLrgb(WorkingProfile profile)
+    /// <summary>(🗸) <see cref="XYZ"/> > <see cref="UVW"/></summary>
+    public override void From(XYZ input, WorkingProfile profile)
     {
-        double _u, _v, w, u, v, x, y, z, xn, yn, zn, un, vn;
-        u = this[0]; v = this[1]; w = this[2];
+        double x = input.X, y = input.Y, z = input.Z, xn, yn, zn, un, vn;
 
-        if (w == 0)
-            return new(0, 0, 0);
-
-        xn = profile.White[0]; yn = profile.White[1].Single(); zn = profile.White[2].Single();
-        un = (4 * xn) / (xn + (15 * yn) + (3 * zn));
-        vn = (6 * yn) / (xn + (15 * yn) + (3 * zn));
-
-        y = Pow((w + 17f) / 25f, 3f).Single();
-
-        _u = 13 * w == 0 ? 0 : u / (13 * w) + un;
-        _v = 13 * w == 0 ? 0 : v / (13 * w) + vn;
-
-        x = (6 / 4) * y * _u / _v;
-        z = y * (2 / _v - 0.5 * _u / _v - 5).Single();
-
-        return new XYZ(x / 100, y / 100, z / 100).ToLrgb(profile);
-    }
-
-    /// <summary>(🗸) <see cref="Lrgb"/> > <see cref="UVW"/></summary>
-    public override void FromLrgb(Lrgb input, WorkingProfile profile)
-    {
-        var xyz = new XYZ();
-        xyz.FromLrgb(input, profile);
-
-        double x = xyz[0], y = xyz[1], z = xyz[2], xn, yn, zn, un, vn;
-
-        xn = profile.White[0]; yn = profile.White[1]; zn = profile.White[2];
+        xn = profile.White.X; yn = profile.White.Y; zn = profile.White.Z;
         un = (4 * xn) / (xn + (15 * yn) + (3 * zn));
         vn = (6 * yn) / (xn + (15 * yn) + (3 * zn));
 
@@ -78,5 +46,32 @@ public class UVW : XYZ
         var u = 13 * w * (_u - un);
         var v = 13 * w * (_v - vn);
         Value = new(u, v, w);
+    }
+
+    /// <summary>(🗸) <see cref="UVW"/> > <see cref="XYZ"/></summary>
+    public override void To(out XYZ result, WorkingProfile profile)
+    {
+        double _u, _v, w, u, v, x, y, z, xn, yn, zn, un, vn;
+        u = X; v = Y; w = Z;
+
+        if (w == 0)
+        {
+            result = Colour.New<XYZ>(0);
+            return;
+        }
+
+        xn = profile.White.X; yn = profile.White.Y; zn = profile.White.Z;
+        un = (4 * xn) / (xn + (15 * yn) + (3 * zn));
+        vn = (6 * yn) / (xn + (15 * yn) + (3 * zn));
+
+        y = Pow((w + 17f) / 25f, 3f).Single();
+
+        _u = 13 * w == 0 ? 0 : u / (13 * w) + un;
+        _v = 13 * w == 0 ? 0 : v / (13 * w) + vn;
+
+        x = (6 / 4) * y * _u / _v;
+        z = y * (2 / _v - 0.5 * _u / _v - 5).Single();
+
+        result = Colour.New<XYZ>(new Vector3(x, y, z) / 100);
     }
 }
