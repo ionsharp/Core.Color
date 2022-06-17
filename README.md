@@ -5,7 +5,7 @@ Color management for shared projects.
 Color models
 ---
 ## 3D
--	    | Name      |
+Preview	| Name      |
 --------|-----------|
 <img src="https://github.com/imagin-tech/Core.Color/blob/main/Images/CMY.png?raw=true" width="64" />	| CMY		| 
 <img src="https://github.com/imagin-tech/Core.Color/blob/main/Images/HCV.png?raw=true" width="64" />	| HCV		|
@@ -52,7 +52,7 @@ Color models
 <img src="https://github.com/imagin-tech/Core.Color/blob/main/Images/YUV.png?raw=true" width="64" />	| YUV		|
 
 ## 4D
--       | Name      |
+Preview | Name      |
 --------|-----------|
 <img src="https://github.com/imagin-tech/Core.Color/blob/main/Images/CMYK.png?raw=true" width="64" /> | CMYK	|
 <img src="https://github.com/imagin-tech/Core.Color/blob/main/Images/CMYW.png?raw=true" width="64" /> | CMYW	|
