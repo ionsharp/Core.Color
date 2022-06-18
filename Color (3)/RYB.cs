@@ -5,7 +5,7 @@ namespace Imagin.Core.Colors;
 
 /// <summary>
 /// <para><b>Red (R), Yellow (Y), Blue (B)</b></para>
-/// <para>A variation of <see cref="RGB"/> in which the red and blue primary colors are added with the yellow secondary color.</para>
+/// <para>A variation of <see cref="RGB"/> in which the <b>Red</b> and <b>Blue</b> <i>primary</i> colors are added with the <b>Yellow</b> <i>secondary</i> color.</para>
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="RYB"/></para>
 /// </summary>
 /// <remarks>http://www.deathbysoftware.com/colors/index.html</remarks>
@@ -72,48 +72,34 @@ public class RYB : ColorModel3
     {
 		var r = X; var y = Y; var b = Z;
 
-		//Remove the whiteness from the color.
+		//Remove the whiteness
 		var white = Min(r, Min(y, b));
-
-		r -= white;
-		y -= white;
-		b -= white;
+		r -= white; y -= white; b -= white;
 
 		var mY = Max(r, Max(y, b));
 
-		//Get the green out of the yellow/ blue
+		//Get the green out of the yellow/blue
 		var g = Min(y, b);
-
-		y -= g;
-		b -= g;
+		y -= g; b -= g;
 
 		if (b > 0 && g > 0)
 		{
-			b *= 2.0;
-			g *= 2.0;
+			b *= 2.0; g *= 2.0;
 		}
 
 		//Redistribute the remaining yellow
-		r += y;
-		g += y;
+		r += y; g += y;
 
 		//Normalize
 		var mG = Max(r, Max(g, b));
-
 		if (mG > 0)
 		{
 			var mN = mY / mG;
-
-			r *= mN;
-			g *= mN;
-			b *= mN;
+			r *= mN; g *= mN; b *= mN;
 		}
 
 		//Add the white back in
-		r += white;
-		g += white;
-		b += white;
-
+		r += white; g += white; b += white;
 		return Colour.New<Lrgb>(Floor(r), Floor(g), Floor(b));
 	}
 }

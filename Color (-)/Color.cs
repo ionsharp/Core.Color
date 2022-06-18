@@ -48,7 +48,7 @@ public static partial class Colour
         #endregion
 
         //(3)
-        i<RGB>(); i<RYB>();
+        i<RCA>(); i<RGB>(); i<RGV>(); i<RYB>();
         i<CMY>();
         i<HCV>(); i<HCY>();
         i<HPLuv>();
@@ -62,6 +62,7 @@ public static partial class Colour
         i<Lab>(); i<Labh>(); i<Labi>(); i<Labj>(); i<Labk>();
         i<LCHab>(); i<LCHabh>(); i<LCHabj>(); i<LCHuv>(); i<LCHxy>();
         i<LMS>(); i<Luv>();
+        i<rgG>();
         i<TSL>();
         i<UCS>(); i<UVW>();
         i<xvYCC>(); i<xyY>(); i<xyYC>(); i<XYZ>();

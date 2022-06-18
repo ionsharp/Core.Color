@@ -9,7 +9,7 @@ namespace Imagin.Core.Colors;
 /// <summary>
 /// <para><b>Red (R), Green (G), Blue (B)</b></para>
 /// 
-/// <para>An additive color model in which the red, green, and blue primary colors are added together.</para>
+/// <para>An additive color model in which the <b>Red</b>, <b>Green</b>, and <b>Blue</b> <i>primary</i> colors are added together.</para>
 /// 
 /// <i>Alias</i>
 /// <list type="bullet">
