@@ -91,7 +91,7 @@ Illuminants
 🗸 | 🞩 | 4103 | **LED-B<sub>3</sub>**		| *Phosphor-converted blue* |
 🗸 | 🞩 | 5109 | **LED-B<sub>4</sub>**		| *Phosphor-converted blue* |
 🗸 | 🞩 | 6598 | **LED-B<sub>5</sub>**		| *Phosphor-converted blue* |
-🗸 | 🞩 | 2851 | **LED-BH<sub>1</sub>	**		| *Mixing of phosphor-converted blue LED and red LED (blue-hybrid)* |
+🗸 | 🞩 | 2851 | **LED-BH<sub>1</sub>**		| *Mixing of phosphor-converted blue LED and red LED (blue-hybrid)* |
 🗸 | 🞩 | 2840 | **LED-RGB**					| *Mixing of red, green, and blue LEDs* |
 🗸 | 🞩 | 2724 | **LED-V<sub>1</sub>**		| *Phosphor-converted violet* |
 🗸 | 🞩 | 4070 | **LED-V<sub>2</sub>**		| *Phosphor-converted violet* |
