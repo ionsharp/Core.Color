@@ -80,8 +80,8 @@ Illuminants
 🗸 | 🗸 | 2940 | **F<sub>4</sub>**			| *Warm white fluorescent* |
 🗸 | 🗸 | 6350 | **F<sub>5</sub>**			| *Daylight fluorescent* |
 🗸 | 🗸 | 4150 | **F<sub>6</sub>**			| *Light white fluorescent* |
-🗸 | 🗸 | 6500 | **F<sub>7</sub>**			| *D65 simulator (daylight simulator)* |
-🗸 | 🗸 | 5000 | **F<sub>8</sub>**			| *D50 simulator (Sylvania F40 Design 50)* |
+🗸 | 🗸 | 6500 | **F<sub>7</sub>**			| *D<sub>65</sub> simulator (daylight simulator)* |
+🗸 | 🗸 | 5000 | **F<sub>8</sub>**			| *D<sub>50</sub> simulator (Sylvania F40 Design 50)* |
 🗸 | 🗸 | 4150 | **F<sub>9</sub>**			| *Cool white deluxe fluorescent* |
 🗸 | 🗸 | 5000 | **F<sub>10</sub>**			| *Philips TL85, Ultralume 50* |
 🗸 | 🗸 | 4000 | **F<sub>11</sub>**			| *Philips TL84, Ultralume 40* |
