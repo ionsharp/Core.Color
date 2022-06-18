@@ -61,40 +61,40 @@ Models
 
 Illuminants
 ---
-2° | 10° | Temperature (K) | Name | Description |
----|-----|-----------------|------|-------------|
-🗸 | 🗸 | 2856 | A			| *Incandescent / tungsten* |
-🗸 | 🗸 | 4874 | B			| *Direct sunlight at noon* |
-🗸 | 🗸 | 6774 | C			| *Average / North sky daylight* |
-🗸 | 🗸 | 5003 | D50			| *Horizon light* |
-🗸 | 🗸 | 5503 | D55			| *Mid-morning / Mid-afternoon daylight* |
-🗸 | 🞩 | 6000 | D60			| \- |
-🗸 | 🞩 | 6300 | D63			| \- |
-🗸 | 🗸 | 6504 | D65			| *Noon daylight* |
-🗸 | 🗸 | 7504 | D75			| *North sky daylight* |
-🗸 | 🗸 | 9305 | D93			| *High-efficiency blue phosphor monitors* |
-🗸 | 🗸 | 2856 | E			| *Equal energy* |
-🗸 | 🗸 | 6430 | F1			| *Daylight fluorescent* |
-🗸 | 🗸 | 4230 | F2			| *Cool white fluorescent* |
-🗸 | 🗸 | 3450 | F3			| *White fluorescent* |
-🗸 | 🗸 | 2940 | F4			| *Warm white fluorescent* |
-🗸 | 🗸 | 6350 | F5			| *Daylight fluorescent* |
-🗸 | 🗸 | 4150 | F6			| *Light white fluorescent* |
-🗸 | 🗸 | 6500 | F7			| *D65 simulator (daylight simulator)* |
-🗸 | 🗸 | 5000 | F8			| *D50 simulator (Sylvania F40 Design 50)* |
-🗸 | 🗸 | 4150 | F9			| *Cool white deluxe fluorescent* |
-🗸 | 🗸 | 5000 | F10			| *Philips TL85, Ultralume 50* |
-🗸 | 🗸 | 4000 | F11			| *Philips TL84, Ultralume 40* |
-🗸 | 🗸 | 3000 | F12			| *Philips TL83, Ultralume 30* |
-🗸 | 🞩 | 2733 | LED-B1		| *Phosphor-converted blue* |
-🗸 | 🞩 | 2998 | LED-B2		| *Phosphor-converted blue* |
-🗸 | 🞩 | 4103 | LED-B3		| *Phosphor-converted blue* |
-🗸 | 🞩 | 5109 | LED-B4		| *Phosphor-converted blue* |
-🗸 | 🞩 | 6598 | LED-B5		| *Phosphor-converted blue* |
-🗸 | 🞩 | 2851 | LED-BH1		| *Mixing of phosphor-converted blue LED and red LED (blue-hybrid)* |
-🗸 | 🞩 | 2840 | LED-RGB		| *Mixing of red, green, and blue LEDs* |
-🗸 | 🞩 | 2724 | LED-V1		| *Phosphor-converted violet* |
-🗸 | 🞩 | 4070 | LED-V2		| *Phosphor-converted violet* |
+2° | 10° | K | Name | Description |
+---|-----|---|------|-------------|
+🗸 | 🗸 | 2856 | **A**			| *Incandescent / tungsten* |
+🗸 | 🗸 | 4874 | **B**			| *Direct sunlight at noon* |
+🗸 | 🗸 | 6774 | **C**			| *Average / North sky daylight* |
+🗸 | 🗸 | 5003 | **D50**			| *Horizon light* |
+🗸 | 🗸 | 5503 | **D55**			| *Mid-morning / Mid-afternoon daylight* |
+🗸 | 🞩 | 6000 | **D60**			| \- |
+🗸 | 🞩 | 6300 | **D63**			| \- |
+🗸 | 🗸 | 6504 | **D65**			| *Noon daylight* |
+🗸 | 🗸 | 7504 | **D75**			| *North sky daylight* |
+🗸 | 🗸 | 9305 | **D93**			| *High-efficiency blue phosphor monitors* |
+🗸 | 🗸 | 2856 | **E**			| *Equal energy* |
+🗸 | 🗸 | 6430 | **F1**			| *Daylight fluorescent* |
+🗸 | 🗸 | 4230 | **F2**			| *Cool white fluorescent* |
+🗸 | 🗸 | 3450 | **F3**			| *White fluorescent* |
+🗸 | 🗸 | 2940 | **F4**			| *Warm white fluorescent* |
+🗸 | 🗸 | 6350 | **F5**			| *Daylight fluorescent* |
+🗸 | 🗸 | 4150 | **F6**			| *Light white fluorescent* |
+🗸 | 🗸 | 6500 | **F7**			| *D65 simulator (daylight simulator)* |
+🗸 | 🗸 | 5000 | **F8**			| *D50 simulator (Sylvania F40 Design 50)* |
+🗸 | 🗸 | 4150 | **F9**			| *Cool white deluxe fluorescent* |
+🗸 | 🗸 | 5000 | **F10**			| *Philips TL85, Ultralume 50* |
+🗸 | 🗸 | 4000 | **F11**			| *Philips TL84, Ultralume 40* |
+🗸 | 🗸 | 3000 | **F12**			| *Philips TL83, Ultralume 30* |
+🗸 | 🞩 | 2733 | **LED-B<sub>1</sub>**		| *Phosphor-converted blue* |
+🗸 | 🞩 | 2998 | **LED-B<sub>2</sub>**		| *Phosphor-converted blue* |
+🗸 | 🞩 | 4103 | **LED-B<sub>3</sub>**		| *Phosphor-converted blue* |
+🗸 | 🞩 | 5109 | **LED-B<sub>4</sub>**		| *Phosphor-converted blue* |
+🗸 | 🞩 | 6598 | **LED-B<sub>5</sub>**		| *Phosphor-converted blue* |
+🗸 | 🞩 | 2851 | **LED-BH<sub>1</sub>	**		| *Mixing of phosphor-converted blue LED and red LED (blue-hybrid)* |
+🗸 | 🞩 | 2840 | **LED-RGB**					| *Mixing of red, green, and blue LEDs* |
+🗸 | 🞩 | 2724 | **LED-V<sub>1</sub>**		| *Phosphor-converted violet* |
+🗸 | 🞩 | 4070 | **LED-V<sub>2</sub>**		| *Phosphor-converted violet* |
 
 [Nuget](https://www.nuget.org/packages/Imagin.Core.Color/)
 ---
