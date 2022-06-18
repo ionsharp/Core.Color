@@ -27,8 +27,8 @@ Preview	    | Name        | Author      | Year       | Accuracy (%)  |
 <img src="https://github.com/imagin-tech/Core.Color/blob/main/Images/Labj.png?raw=true" width="128" />	| **Labj**	<p>*Luminance, Chroma, Chroma*</p>		| Safdar & al. | 2017 | 100 |
 <img src="https://github.com/imagin-tech/Core.Color/blob/main/Images/Labk.png?raw=true" width="128" />	| **Labk**	<p>*Luminance, Chroma, Chroma*</p>		| [Björn Ottosson](https://bottosson.github.io/) | -		| 0 |
 <img src="https://github.com/imagin-tech/Core.Color/blob/main/Images/LCHab.png?raw=true" width="128" />	| **LCHab**	<p>*Luminance, Chroma, Hue*</p>			| -		| -		| 100		|
-<img src="https://github.com/imagin-tech/Core.Color/blob/main/Images/LCHabh.png?raw=true" width="128" />| **LCHabh	<p>*Luminance, Chroma, Hue*</p>			| -		| -		| 100		|
-<img src="https://github.com/imagin-tech/Core.Color/blob/main/Images/LCHabj.png?raw=true" width="128" />| **LCHabj	<p>*Luminance, Chroma, Hue*</p>			| -		| -		| 100		|
+<img src="https://github.com/imagin-tech/Core.Color/blob/main/Images/LCHabh.png?raw=true" width="128" />| **LCHabh**<p>*Luminance, Chroma, Hue*</p>			| -		| -		| 100		|
+<img src="https://github.com/imagin-tech/Core.Color/blob/main/Images/LCHabj.png?raw=true" width="128" />| **LCHabj**<p>*Luminance, Chroma, Hue*</p>			| -		| -		| 100		|
 <img src="https://github.com/imagin-tech/Core.Color/blob/main/Images/LCHuv.png?raw=true" width="128" />	| **LCHuv**	<p>*Luminance, Chroma, Hue*</p>			| -		| -		| 67.628	|
 <img src="https://github.com/imagin-tech/Core.Color/blob/main/Images/LCHxy.png?raw=true" width="128" />	| **LCHxy**	<p>*Luminance, Chroma, Hue*</p>			| -		| -		| 100		|
 <img src="https://github.com/imagin-tech/Core.Color/blob/main/Images/LMS.png?raw=true" width="128" />	| **LMS**	<p>*Long, Medium, Short*</p>			| Stockman/Sharpe | 2000 | 100 |
@@ -54,10 +54,10 @@ Preview	    | Name        | Author      | Year       | Accuracy (%)  |
 ## 4D
 Preview	    | Name        | Accuracy (%)  |
 ------------|-------------|---------------|
-<img src="https://github.com/imagin-tech/Core.Color/blob/main/Images/CMYK.png?raw=true" width="128" /> | *CMYK**	<p>*Cyan, Magenta, Yellow, Black*</p>	| 100 |
-<img src="https://github.com/imagin-tech/Core.Color/blob/main/Images/CMYW.png?raw=true" width="128" /> | *CMYW**	<p>*Cyan, Magenta, Yellow, White*</p>	| 100 |
-<img src="https://github.com/imagin-tech/Core.Color/blob/main/Images/RGBK.png?raw=true" width="128" /> | *RGBK**	<p>*Red, Green, Blue, Black*</p>		| 100 |
-<img src="https://github.com/imagin-tech/Core.Color/blob/main/Images/RGBW.png?raw=true" width="128" /> | *RGBW**	<p>*Red, Green, Blue, White*</p>		| 100 |
+<img src="https://github.com/imagin-tech/Core.Color/blob/main/Images/CMYK.png?raw=true" width="128" /> | **CMYK**	<p>*Cyan, Magenta, Yellow, Black*</p>	| 100 |
+<img src="https://github.com/imagin-tech/Core.Color/blob/main/Images/CMYW.png?raw=true" width="128" /> | **CMYW**	<p>*Cyan, Magenta, Yellow, White*</p>	| 100 |
+<img src="https://github.com/imagin-tech/Core.Color/blob/main/Images/RGBK.png?raw=true" width="128" /> | **RGBK**	<p>*Red, Green, Blue, Black*</p>		| 100 |
+<img src="https://github.com/imagin-tech/Core.Color/blob/main/Images/RGBW.png?raw=true" width="128" /> | **RGBW**	<p>*Red, Green, Blue, White*</p>		| 100 |
 
 
 [Nuget](https://www.nuget.org/packages/Imagin.Core.Color/)
