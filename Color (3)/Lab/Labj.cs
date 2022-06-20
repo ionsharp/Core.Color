@@ -11,7 +11,6 @@ namespace Imagin.Core.Colors;
 /// <i>Alias</i>
 /// <list type="bullet">
 /// <item>Jzazbz</item>
-/// <item>JzAzBz</item>
 /// </list>
 /// </summary>
 /// <remarks>https://observablehq.com/@jrus/jzazbz</remarks>

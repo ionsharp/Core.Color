@@ -52,20 +52,25 @@ public static partial class Colour
         i<CMY>();
         i<HCV>(); i<HCY>();
         i<HPLuv>();
-        i<HSB>(); i<HSBk>();
-        i<HSL>(); i<HSLk>(); i<HSLuv>();
+        i<HSB>(); 
+        i<HSL>(); i<HSLuv>();
         i<HSM>();
         i<HSP>();
         i<HWB>();
         i<IPT>();
+        //i<JCh>(); i<JMh>(); i<Jsh>();
         i<JPEG>();
-        i<Lab>(); i<Labh>(); i<Labi>(); i<Labj>(); i<Labk>();
-        i<LCHab>(); i<LCHabh>(); i<LCHabj>(); i<LCHuv>(); i<LCHxy>();
+        i<Lab>(); i<Labh>(); /*i<Labi>();*/ i<Labj>(); i<Labk>(); i<Labksl>(); i<Labksb>(); i<Labkwb>();
+        i<LCHab>(); i<LCHabh>(); i<LCHabj>(); i<LCHrg>(); i<LCHuv>(); i<LCHxy>();
         i<LMS>(); i<Luv>();
+        //i<QCh>(); i<QMh>(); i<Qsh>();
         i<rgG>();
         i<TSL>();
-        i<UCS>(); i<UVW>();
-        i<xvYCC>(); i<xyY>(); i<xyYC>(); i<XYZ>();
+        i<UCS>();
+        i<UVW>();
+        i<xvYCC>(); 
+        i<xyY>(); i<xyYC>(); 
+        i<XYZ>();
         i<YCbCr>(); i<YCoCg>(); i<YDbDr>(); i<YES>(); i<YIQ>(); i<YPbPr>(); i<YUV>();
 
         //(4)
@@ -163,6 +168,22 @@ public static partial class Colour
         return result;
     }
 
+    public static ColorModel New(Type i, Vector input)
+    {
+        var result = New(i);
+        if (result is ColorModel2 a && input.Length >= 2)
+            a.XY = new(input[0], input[1]);
+
+        if (result is ColorModel3 b && input.Length >= 2)
+            b.XYZ = new(input[0], input[1], input[2]);
+
+        if (result is ColorModel4 c && input.Length >= 2)
+            c.XYZW = new(input[0], input[1], input[2], input[3]);
+
+        else throw new NotSupportedException();
+        return result;
+    }
+
     public static ColorModel New(Type i, Vector2 input)
     {
         var result = New(i);
@@ -199,6 +220,8 @@ public static partial class Colour
     public static T New<T>(double x, double y, double z) where T : ColorModel3 => (T)New(typeof(T), x, y, z);
 
     public static T New<T>(double x, double y, double z, double w) where T : ColorModel4 => (T)New(typeof(T), x, y, z, w);
+
+    public static T New<T>(Vector input)  where T : ColorModel => (T)New(typeof(T), input);
 
     public static T New<T>(Vector2 input) where T : ColorModel2 => (T)New(typeof(T), input);
 

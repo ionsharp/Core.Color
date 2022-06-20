@@ -8,11 +8,6 @@ namespace Imagin.Core.Colors;
 /// <summary>
 /// <b>Perceived lightness (L), Red/green (a), Blue/yellow (b)</b>
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="XYZ"/> > <see cref="Labk"/></para>
-/// 
-/// <i>Alias</i>
-/// <list type="bullet">
-/// <item>OKLab</item>
-/// </list>
 /// </summary>
 /// <remarks>https://colour.readthedocs.io/en/develop/_modules/colour/models/oklab.html</remarks>
 [Component(1, '°', "L", "Perceived lightness"), Component(1, '%', "a", "Red/green"), Component(1, '%', "b", "Blue/yellow")]

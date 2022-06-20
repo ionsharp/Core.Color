@@ -3,7 +3,7 @@
 namespace Imagin.Core.Colors;
 
 [Serializable]
-public enum ColorTones
+public enum Tones
 {
     Highlights, Midtones, Shadows
 }

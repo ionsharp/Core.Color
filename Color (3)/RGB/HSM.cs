@@ -1,5 +1,5 @@
 ﻿using System;
-
+using static Imagin.Core.Numerics.Angle;
 using static Imagin.Core.Numerics.M;
 using static System.Math;
 
@@ -22,16 +22,19 @@ public class HSM : ColorModel3
     {
         var max = Colour.Maximum<HSM>();
 
-        double h = X / max[0], s = Y / max[1], m = Z / max[2];
+        double h = Cos(GetRadian(X)), s = Y / max[1] /*(100)*/, m = Z / max[2] /*(255)*/;
         double r, g, b;
 
-        var u = Cos(h);
-        var v = s * u;
-        var w = Sqrt(41);
+        double i = h * s;
+        double j = i * Sqrt(41);
 
-        r = (3 / 41) * v + m - (4 / 861 * Sqrt(861 * Pow2(s) * (1 - Pow2(u))));
-        g = (w * v + (23 * m) - (19 * r)) / 4;
-        b = ((11 * r) - (9 * m) - (w * v)) / 2;
+        double x = 4 / 861;
+        double y = 861 * Pow2(s);
+        double z = 1 - Pow2(h);
+
+        r = (3 / 41 * i) + m - (x * Sqrt(y * z));
+        g = (j + (23 * m) - (19 * r)) / 4;
+        b = ((11 * r) - (9 * m) - j) / 2;
 
         return Colour.New<Lrgb>(r, g, b);
     }

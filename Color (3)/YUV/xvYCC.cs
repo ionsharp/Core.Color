@@ -5,7 +5,7 @@ namespace Imagin.Core.Colors;
 
 /// <summary>
 /// <b>x (Y), v (Cb), Y (Cr)</b>
-/// <para>A color space that can be used in the video electronics of television sets to support a gamut 1.8 times as large as that of the sRGB color space.</para>
+/// <para>A color space that can be used in television sets to support a gamut 1.8 times as large as that of the sRGB color space.</para>
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="YPbPr"/> > <see cref="xvYCC"/></para>
 /// 
 /// <i>Author</i>

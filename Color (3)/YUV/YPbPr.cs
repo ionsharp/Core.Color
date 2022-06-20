@@ -4,7 +4,7 @@ namespace Imagin.Core.Colors;
 
 /// <summary>
 /// <b>Y, Pb, Pr</b>
-/// <para>A gamma-corrected and numerically equivalent YCbCr color space designed for use in analog systems.</para>
+/// <para>A gamma-corrected color space designed for use in analog systems that is numerically equivalent to <see cref="YCbCr"/> .</para>
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="YPbPr"/></para>
 /// 
 /// <i>Alias</i>
