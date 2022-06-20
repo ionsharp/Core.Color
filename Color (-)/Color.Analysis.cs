@@ -350,12 +350,12 @@ public static partial class Colour
                             color.To(out RGB y, profile);
 
                             //Normalize
-                            x.XYZ /= 255; y.XYZ /= 255;
+                            x.Value /= 255; y.Value /= 255;
 
                             //Absolute difference
-                            var rD = M.Clamp(1 - Abs(x[0] - y[0]).NaN(1), MaxValue);
-                            var gD = M.Clamp(1 - Abs(x[1] - y[1]).NaN(1), MaxValue);
-                            var bD = M.Clamp(1 - Abs(x[2] - y[2]).NaN(1), MaxValue);
+                            var rD = M.Clamp(1 - Abs(x.X - y.X).NaN(1), MaxValue);
+                            var gD = M.Clamp(1 - Abs(x.Y - y.Y).NaN(1), MaxValue);
+                            var bD = M.Clamp(1 - Abs(x.Z - y.Z).NaN(1), MaxValue);
 
                             //Average of [absolute difference]
                             var dA = (rD + gD + bD) / 3;
@@ -418,27 +418,28 @@ public static partial class Colour
                                 xyz = Colour.New(model, x, y, z);
                                 xyz.To(out rgb, profile);
 
-                                if (rgb[0] < minA)
-                                    minA = rgb[0];
-                                if (rgb[1] < minB)
-                                    minB = rgb[1];
-                                if (rgb[2] < minC)
-                                    minC = rgb[2];
+                                if (rgb.X < minA)
+                                    minA = rgb.X;
+                                if (rgb.Y < minB)
+                                    minB = rgb.Y;
+                                if (rgb.Z < minC)
+                                    minC = rgb.Z;
 
-                                if (rgb[0] > maxA)
-                                    maxA = rgb[0];
-                                if (rgb[1] > maxB)
-                                    maxB = rgb[1];
-                                if (rgb[2] > maxC)
-                                    maxC = rgb[2];
+                                if (rgb.X > maxA)
+                                    maxA = rgb.X;
+                                if (rgb.Y > maxB)
+                                    maxB = rgb.Y;
+                                if (rgb.Z > maxC)
+                                    maxC = rgb.Z;
                             }
                             else
                             {
                                 rgb = Colour.New<RGB>(x * 255, y * 255, z * 255);
                                 xyz.From(rgb, profile);
 
-                                if (xyz[0] < minA)
-                                    minA = xyz[0];
+                                /*
+                                if (xyz.X < minA)
+                                    minA = xyz.X;
                                 if (xyz[1] < minB)
                                     minB = xyz[1];
                                 if (xyz[2] < minC)
@@ -450,6 +451,7 @@ public static partial class Colour
                                     maxB = xyz[1];
                                 if (xyz[2] > maxC)
                                     maxC = xyz[2];
+                                */
                             }
                         }
                     }

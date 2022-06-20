@@ -23,9 +23,9 @@ public class YUV : ColorModel3
     public override Lrgb To(WorkingProfile profile)
     {
         double
-            y = Value[0],
-            u = Value[1],
-            v = Value[2],
+            y = X,
+            u = Y,
+            v = Z,
             r, g, b;
 
         r = (y * 1)
@@ -49,9 +49,9 @@ public class YUV : ColorModel3
     public override void From(Lrgb input, WorkingProfile profile)
     {
         double
-            r = input[0],
-            g = input[1],
-            b = input[2];
+            r = input.X,
+            g = input.Y,
+            b = input.Z;
 
         var y = (r * 0.299)
             + (g * 0.587)

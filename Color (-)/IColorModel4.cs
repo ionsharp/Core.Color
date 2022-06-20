@@ -1,3 +1,3 @@
 ﻿namespace Imagin.Core.Colors;
 
-public interface IColorModel { }
+public interface IColorModel4 { }

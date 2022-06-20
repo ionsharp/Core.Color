@@ -8,50 +8,11 @@ namespace Imagin.Core.Colors;
 /// <para>https://en.wikipedia.org/wiki/Color_model</para>
 /// </summary>
 [Serializable]
-public abstract class ColorModel : IEquatable<ColorModel>, IColorModel, IConvert<Lrgb>, IConvert<RGB>
+public abstract class ColorModel : IColorModel, IConvert<Lrgb>, IConvert<RGB>
 {
-    #region Properties
-
-    Vector _value;
-    public Vector Value
-    {
-        get => _value;
-        internal set
-        {
-            _value = value;
-            if (this is ColorModel2)
-            {
-                if (value.Length != 2)
-                    throw new NotSupportedException();
-            }
-            else if (this is ColorModel3)
-            {
-                if (value.Length != 3)
-                    throw new NotSupportedException();
-            }
-            else if(this is ColorModel4)
-            {
-                if (value.Length != 4)
-                    throw new NotSupportedException();
-            }
-        }
-    }
-
-    public double this[int i]
-    {
-        get => Value[i];
-        set => Value = new(i == 0 ? value : Value[0], i == 1 ? value : Value[1], i == 2 ? value : Value[2]);
-    }
-
-    #endregion
-
     #region ColorModel
 
     protected ColorModel() : base() { }
-
-    public static implicit operator Vector(ColorModel input) => input.Value;
-
-    public static explicit operator double[](ColorModel input) => input.Value;
 
     #endregion
 
@@ -60,7 +21,7 @@ public abstract class ColorModel : IEquatable<ColorModel>, IColorModel, IConvert
     /// <summary>(🗸) <see cref="LMS"/> (0) > <see cref="LMS"/> (1)</summary>
     protected LMS Adapt(LMS color, LMS sW, LMS dW)
     {
-        var result = Matrix.Diagonal(dW[0] / sW[0], dW[1] / sW[1], dW[2] / sW[2]).Multiply(color.Value);
+        var result = Matrix.Diagonal(dW.X / sW.X, dW.Y / sW.Y, dW.Z / sW.Z).Multiply(color.Value);
         return Colour.New<LMS>(result[0], result[1], result[2]);
     }
 
@@ -113,7 +74,9 @@ public abstract class ColorModel : IEquatable<ColorModel>, IColorModel, IConvert
     public virtual void Adapt(WorkingProfile source, WorkingProfile target)
     {
         To(out RGB result, source);
-        Value = Adapt(result, source, target);
+
+        var final = Adapt(result, source, target);
+        From(final, target);
     }
 
     //...
@@ -158,19 +121,51 @@ public abstract class ColorModel : IEquatable<ColorModel>, IColorModel, IConvert
 
     //...
 
+    #endregion
+}
+
+/// <inheritdoc/>
+[Serializable]
+public abstract class ColorModel<T> : ColorModel, IEquatable<ColorModel<T>> where T : struct, IVector
+{
+    #region Properties
+
+    public abstract int Length { get; }
+
+    protected T value = default;
+    public T Value
+    {
+        get => value;
+        set => this.value = value;
+    }
+
+    #endregion
+
+    #region ColorModel
+
+    protected ColorModel() : base() { }
+
+    public static implicit operator Vector(ColorModel<T> input) => input.Value.Values;
+
+    public static explicit operator double[](ColorModel<T> input) => input.Value.Values;
+
+    #endregion
+
+    #region Methods
+
     public override string ToString() => Value.ToString();
 
     #endregion
 
     #region ==
 
-    public static bool operator ==(ColorModel left, ColorModel right) => Equals(left, right);
+    public static bool operator ==(ColorModel<T> left, ColorModel<T> right) => Equals(left, right);
 
-    public static bool operator !=(ColorModel left, ColorModel right) => !Equals(left, right);
+    public static bool operator !=(ColorModel<T> left, ColorModel<T> right) => !Equals(left, right);
 
-    public bool Equals(ColorModel i) => Value.Equals(i.Value);
+    public bool Equals(ColorModel<T> i) => Value.Equals(i.Value);
 
-    public override bool Equals(object i) => i is ColorModel j && Equals(j);
+    public override bool Equals(object i) => i is ColorModel<T> j && Equals(j);
 
     public override int GetHashCode() => Value.GetHashCode();
 

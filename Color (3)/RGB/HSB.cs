@@ -59,9 +59,9 @@ public class HSB : ColorModel3
     /// <summary>(🗸) <see cref="Lrgb"/> > <see cref="HSB"/></summary>
     public override void From(Lrgb input, WorkingProfile profile)
     {
-        var max = Colour.Maximum<HSB>();
+        var max = Colour.Maximum<HSB>(); 
 
-        var r = input[0]; var g = input[1]; var b = input[2];
+        var r = input.X; var g = input.Y; var b = input.Z;
 
         var m = Max(r, Max(g, b));
         var n = Min(r, Min(g, b));
@@ -97,6 +97,6 @@ public class HSB : ColorModel3
                 h -= 1;
         }
 
-        Value = new Vector(h, s, v) * max;
+        Value = new Vector3(h, s, v) * new Vector3(max[0], max[1], max[2]); ;
     }
 }

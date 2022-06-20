@@ -19,18 +19,18 @@ public sealed class CMYK : ColorModel4
     /// <summary>(🗸) <see cref="Lrgb"/> > <see cref="CMYK"/></summary>
     public override void From(Lrgb input, WorkingProfile profile)
     {
-        var k0 = 1.0 - Max(input[0], Max(input[1], input[2]));
+        var k0 = 1.0 - Max(input.X, Max(input.Y, input.Z));
         var k1 = 1.0 - k0;
 
-        var c = (1.0 - input[0] - k0) / k1;
-        var m = (1.0 - input[1] - k0) / k1;
-        var y = (1.0 - input[2] - k0) / k1;
+        var c = (1.0 - input.X - k0) / k1;
+        var m = (1.0 - input.Y - k0) / k1;
+        var y = (1.0 - input.Z - k0) / k1;
 
         c = double.IsNaN(c) ? 0 : c;
         m = double.IsNaN(m) ? 0 : m;
         y = double.IsNaN(y) ? 0 : y;
 
-        Value = new Vector(c, m, y, k0) * 100;
+        Value = new Vector4(c, m, y, k0) * 100;
     }
 
     /// <summary>(🗸) <see cref="CMYK"/> > <see cref="Lrgb"/></summary>

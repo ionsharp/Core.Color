@@ -101,7 +101,7 @@ public class xyYC : ColorModel3<xyY>
 	/// <summary>(🞩) <see cref="xyY"/> > <see cref="xyYC"/></summary>
 	public override void From(xyY input, WorkingProfile profile)
 	{
-		double x = input[0], y = input[1], Y = input[2];
+		double x = input.X, y = input.Y, Y = input.Z;
 
 		var xyzN = (XYZ)(xyY)(xy)profile.Chromacity;
 		var Xn = xyzN.X * 100;
@@ -152,7 +152,7 @@ public class xyYC : ColorModel3<xyY>
 	/// <summary>(🞩) <see cref="xyYC"/> > <see cref="xyY"/></summary>
 	public override void To(out xyY result, WorkingProfile profile)
 	{
-		double A = Value[0], T = Value[1], V = Value[2];
+		double A = X, T = Value.Y, V = Z;
 
 		var xyzN = (XYZ)(xyY)(xy)profile.Chromacity;
 

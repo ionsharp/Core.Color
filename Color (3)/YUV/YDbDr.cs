@@ -17,7 +17,7 @@ public class YDbDr : ColorModel3
     /// <summary>(🗸) <see cref="YDbDr"/> > <see cref="Lrgb"/></summary>
     public override Lrgb To(WorkingProfile profile)
     {
-        double y = Value[0], db = Value[1], dr = Value[2];
+        double y = X, db = Y, dr = Z;
 
         var r = y + 0.000092303716148 * db - 0.525912630661865 * dr;
         var g = y - 0.129132898890509 * db + 0.267899328207599 * dr;
@@ -28,7 +28,7 @@ public class YDbDr : ColorModel3
     /// <summary>(🗸) <see cref="Lrgb"/> > <see cref="YDbDr"/></summary>
     public override void From(Lrgb input, WorkingProfile profile)
     {
-        double r = input[0], g = input[1], b = input[2];
+        double r = input.X, g = input.Y, b = input.Z;
         Value = new
         (
              0.299 * r + 0.587 * g + 0.114 * b,

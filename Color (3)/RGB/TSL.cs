@@ -31,31 +31,10 @@ public class TSL : ColorModel3
 
     public TSL() : base() { }
 
-    /// <summary>(🞩) <see cref="TSL"/> > <see cref="Lrgb"/></summary>
-    public override Lrgb To(WorkingProfile profile)
-    {
-        double T = this[0] / 4, S = this[1], L = this[2];
-
-        var y = 2 * PI * T;
-        var x = -(Cos(y) / Sin(y));
-
-        var bP = 5 / (9 * (Pow(x, 2) + 1));
-        var gP = T > 0.5 ? -Sqrt(bP) * S : T < 0.5 ? Sqrt(bP) * S : 0;
-        var rP = T == 0 ? Sqrt(5) / 3 * S : x * gP;
-
-        var r = rP + (1 / 3);
-        var g = gP + (1 / 3);
-
-        var k = L / (r * 0.185 + g * 0.473 + 0.114);
-
-        var R = k * r; var G = k * g; var B = k * (1 - r - g);
-        return Colour.New<Lrgb>(R, G, B);
-    }
-
     /// <summary>(🞩) <see cref="Lrgb"/> > <see cref="TSL"/></summary>
     public override void From(Lrgb input, WorkingProfile profile)
     {
-        var R = input[0]; var G = input[1]; var B = input[2];
+        var R = input.X; var G = input.Y; var B = input.Z;
 
         var sum = R + G + B;
         var r = R / sum;
@@ -72,5 +51,26 @@ public class TSL : ColorModel3
         var S = Sqrt(9 / 5 * (Pow2(rP) + Pow2(gP)));
         var L = (R * 0.299) + (G * 0.587) + (B * 0.114);
         Value = new(T, S, L);
+    }
+
+    /// <summary>(🞩) <see cref="TSL"/> > <see cref="Lrgb"/></summary>
+    public override Lrgb To(WorkingProfile profile)
+    {
+        double T = X / 4, S = Y, L = Z;
+
+        var y = 2 * PI * T;
+        var x = -(Cos(y) / Sin(y));
+
+        var bP = 5 / (9 * (Pow(x, 2) + 1));
+        var gP = T > 0.5 ? -Sqrt(bP) * S : T < 0.5 ? Sqrt(bP) * S : 0;
+        var rP = T == 0 ? Sqrt(5) / 3 * S : x * gP;
+
+        var r = rP + (1 / 3);
+        var g = gP + (1 / 3);
+
+        var k = L / (r * 0.185 + g * 0.473 + 0.114);
+
+        var R = k * r; var G = k * g; var B = k * (1 - r - g);
+        return Colour.New<Lrgb>(R, G, B);
     }
 }

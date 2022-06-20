@@ -19,7 +19,7 @@ public class Lrgb : ColorModel3
 {
     public Lrgb() : base() { }
 
-    public override void From(Lrgb input, WorkingProfile profile) => XYZ = input.XYZ;
+    public override void From(Lrgb input, WorkingProfile profile) => Value = input.XYZ;
 
     public override Lrgb To(WorkingProfile profile) => Colour.New<Lrgb>(XYZ);
 }

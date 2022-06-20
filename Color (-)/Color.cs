@@ -58,12 +58,12 @@ public static partial class Colour
         i<HSP>();
         i<HWB>();
         i<IPT>();
-        //i<JCh>(); i<JMh>(); i<Jsh>();
+        i<JCh>(); i<JMh>(); i<Jsh>();
         i<JPEG>();
         i<Lab>(); i<Labh>(); /*i<Labi>();*/ i<Labj>(); i<Labk>(); i<Labksl>(); i<Labksb>(); i<Labkwb>();
         i<LCHab>(); i<LCHabh>(); i<LCHabj>(); i<LCHrg>(); i<LCHuv>(); i<LCHxy>();
         i<LMS>(); i<Luv>();
-        //i<QCh>(); i<QMh>(); i<Qsh>();
+        i<QCh>(); i<QMh>(); i<Qsh>();
         i<rgG>();
         i<TSL>();
         i<UCS>();
@@ -130,10 +130,16 @@ public static partial class Colour
     public static ColorModel New(Type i, double all)
     {
         var result = New(i);
-        result.Value =
-              result is ColorModel2 ? new(all, all)
-            : result is ColorModel3 ? new(all, all, all)
-            : result is ColorModel4 ? new(all, all, all, all) : throw new NotSupportedException();
+        if (result is ColorModel2 a)
+            a.Value = new(all, all);
+
+        else if(result is ColorModel3 b)
+            b.Value = new(all, all, all);
+
+        else if (result is ColorModel4 c)
+            c.Value = new(all, all, all, all);
+
+        else throw new NotSupportedException();
 
         return result;
     }
@@ -141,9 +147,10 @@ public static partial class Colour
     public static ColorModel New(Type i, double x, double y)
     {
         var result = New(i);
-        result.Value =
-              result is ColorModel2 ? new(x, y)
-            : throw new NotSupportedException();
+        if (result is ColorModel2 j)
+            j.Value = new(x, y);
+
+        else throw new NotSupportedException();
 
         return result;
     }
@@ -151,9 +158,10 @@ public static partial class Colour
     public static ColorModel New(Type i, double x, double y, double z)
     {
         var result = New(i);
-        result.Value =
-              result is ColorModel3 ? new(x, y, z)
-            : throw new NotSupportedException();
+        if (result is ColorModel3 j)
+            j.Value = new(x, y, z);
+
+        else throw new NotSupportedException();
 
         return result;
     }
@@ -161,9 +169,10 @@ public static partial class Colour
     public static ColorModel New(Type i, double x, double y, double z, double w)
     {
         var result = New(i);
-        result.Value =
-            result is ColorModel4 ? new(x, y, z, w)
-            : throw new NotSupportedException();
+        if (result is ColorModel4 j)
+            j.Value = new(x, y, z, w);
+        
+        else throw new NotSupportedException();
 
         return result;
     }
@@ -172,13 +181,19 @@ public static partial class Colour
     {
         var result = New(i);
         if (result is ColorModel2 a && input.Length >= 2)
-            a.XY = new(input[0], input[1]);
+        {
+            a.X = input[0]; a.Y = input[1];
+        }
 
         if (result is ColorModel3 b && input.Length >= 2)
-            b.XYZ = new(input[0], input[1], input[2]);
+        {
+            b.X = input[0]; b.Y = input[1]; b.Z = input[2];
+        }
 
         if (result is ColorModel4 c && input.Length >= 2)
-            c.XYZW = new(input[0], input[1], input[2], input[3]);
+        {
+            c.X = input[0]; c.Y = input[1]; c.Z = input[2]; c.W = input[3];
+        }
 
         else throw new NotSupportedException();
         return result;
@@ -188,8 +203,9 @@ public static partial class Colour
     {
         var result = New(i);
         if (result is ColorModel2 model)
-            model.XY = input;
-
+        {
+            model.X = input.X; model.Y = input.Y;
+        }
         return result;
     }
 
@@ -197,8 +213,9 @@ public static partial class Colour
     {
         var result = New(i);
         if (result is ColorModel3 model)
-            model.XYZ = input;
-
+        {
+            model.X = input.X; model.Y = input.Y; model.Z = input.Z;
+        }
         return result;
     }
 
@@ -206,8 +223,9 @@ public static partial class Colour
     {
         var result = New(i);
         if (result is ColorModel4 model)
-            model.XYZW = input;
-
+        {
+            model.X = input.X; model.Y = input.Y; model.Z = input.Z; model.W = input.W;
+        }
         return result;
     }
 

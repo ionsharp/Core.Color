@@ -45,7 +45,7 @@ public class RGB : ColorModel3
     public override void From(Lrgb input, WorkingProfile profile)
     {
         var result = input.XYZ.Transform((i, j) => profile.Compress.Transfer(j));
-        XYZ = M.Denormalize(result, new(0), new(255));
+        Value = M.Denormalize(result, new(0), new(255));
     }
 
     /// <summary>(🗸) <see cref="RGB"/> > <see cref="RGB"/></summary>

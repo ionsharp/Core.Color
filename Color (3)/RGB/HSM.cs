@@ -12,7 +12,7 @@ namespace Imagin.Core.Colors;
 /// </summary>
 /// <remarks>https://seer.ufrgs.br/rita/article/viewFile/rita_v16_n2_p141/7428</remarks>
 [Component(360, '°', "H", "Hue"), Component(100, '%', "S", "Saturation"), Component(255, ' ', "M", "Mixture")]
-[Serializable]
+[Hidden, Serializable]
 public class HSM : ColorModel3
 {
     public HSM() : base() { }

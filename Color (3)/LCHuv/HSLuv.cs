@@ -16,7 +16,7 @@ public class HSLuv : HLuv
     /// <summary>(🗸) <see cref="LCHuv"/> > <see cref="HSLuv"/></summary>
     public override void From(LCHuv input, WorkingProfile profile)
     {
-        double L = input[0], C = input[1], H = input[2];
+        double L = input.X, C = input.Y, H = input.Z;
 
         if (L > 99.9999999)
         {

@@ -24,14 +24,14 @@ public class xvYCC : ColorModel3<YPbPr>
     /// <summary>(🗸) <see cref="YPbPr"/> > <see cref="xvYCC"/></summary>
     public override void From(YPbPr input, WorkingProfile profile)
     {
-        double y = input[0], pb = input[1], pr = input[2];
+        double y = input.X, pb = input.Y, pr = input.Z;
         Value = new(16 + 219 * y, 128 + 224 * pb, 128 + 224 * pr);
     }
 
     /// <summary>(🗸) <see cref="xvYCC"/> > <see cref="YPbPr"/></summary>
     public override void To(out YPbPr result, WorkingProfile profile)
     {
-        double y = this[0], cb = this[1], cr = this[2];
+        double y = X, cb = Y, cr = Z;
         result = Colour.New<YPbPr>((y - 16) / 219, (cb - 128) / 224, (cr - 128) / 224);
     }
 }

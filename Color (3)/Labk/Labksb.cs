@@ -13,7 +13,7 @@ namespace Imagin.Core.Colors;
 /// </summary>
 /// <remarks>https://colour.readthedocs.io/en/develop/_modules/colour/models/oklab.html</remarks>
 [Component(360, '°', "H", "Hue"), Component(100, '%', "S", "Saturation"), Component(100, '%', "B", "Brightness")]
-[Serializable]
+[Hidden, Serializable]
 public class Labksb : ColorModel3<Labk>
 {
     public Labksb() : base() { }

@@ -5,19 +5,25 @@ namespace Imagin.Core.Colors;
 
 /// <summary>A <see cref="ColorModel"/> with two (2) components.</summary>
 [Serializable]
-public abstract class ColorModel2 : ColorModel, IColorModel2
+public abstract class ColorModel2 : ColorModel<Vector2>, IColorModel2
 {
-    public virtual Vector2 XY
-    {
-        get => new(X, Y);
-        set => Value = new(value.X, value.Y);
-    }
+    public override int Length => 2;
 
     /// <summary>The first component.</summary>
-    public virtual double X => this[0];
+    public double X
+    {
+        get => Value.X;
+        set => Value = new(value, Value.Y);
+    }
 
     /// <summary>The second component.</summary>
-    public virtual double Y => this[1];
+    public double Y
+    {
+        get => Value.Y;
+        set => Value = new(Value.X, value);
+    }
+
+    public virtual Vector2 XY => new(X, Y);
 
     public ColorModel2() : base() { }
 

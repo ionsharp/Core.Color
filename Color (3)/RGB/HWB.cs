@@ -29,14 +29,14 @@ public class HWB : ColorModel3
 		var hsb = Colour.New<HSB>(X, 100, 100);
 		hsb.To(out Lrgb rgb, profile);
 
-		rgb[0] *= (1 - white - black);
-		rgb[0] += white;
+		rgb.X *= (1 - white - black);
+		rgb.X += white;
 
-		rgb[1] *= (1 - white - black);
-		rgb[1] += white;
+		rgb.Y *= (1 - white - black);
+		rgb.Y += white;
 
-		rgb[2] *= (1 - white - black);
-		rgb[2] += white;
+		rgb.Z *= (1 - white - black);
+		rgb.Z += white;
 		return rgb;
 	}
 
@@ -46,9 +46,9 @@ public class HWB : ColorModel3
 		var hsb = new HSB();
 		hsb.From(input, profile);
 
-		var white = Min(input[0], Min(input[1], input[2]));
-		var black = 1 - Max(input[0], Max(input[1], input[2]));
+		var white = Min(input.X, Min(input.Y, input.Z));
+		var black = 1 - Max(input.X, Max(input.Y, input.Z));
 
-		Value = new(hsb[0], white * 100, black * 100);
+		Value = new(hsb.X, white * 100, black * 100);
 	}
 }

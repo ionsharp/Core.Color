@@ -18,7 +18,7 @@ public class YIQ : ColorModel3
     /// <summary>(🗸) <see cref="YIQ"/> > <see cref="Lrgb"/></summary>
     public override Lrgb To(WorkingProfile profile)
     {
-        double y = Value[0], i = Value[1], q = Value[2], r, g, b;
+        double y = X, i = Y, q = Z, r, g, b;
         r = (y * 1) + (i * 0.956) + (q * 0.621);
         g = (y * 1) + (i * -0.272) + (q * -0.647);
         b = (y * 1) + (i * -1.108) + (q * 1.705);
@@ -32,7 +32,7 @@ public class YIQ : ColorModel3
     /// <summary>(🗸) <see cref="Lrgb"/> > <see cref="YIQ"/></summary>
     public override void From(Lrgb input, WorkingProfile profile)
     {
-        double r = input[0], g = input[1], b = input[2];
+        double r = input.X, g = input.Y, b = input.Z;
 
         var y = (r * 0.299) + (g * 0.587) + (b * 0.114);
         double i = 0, q = 0;

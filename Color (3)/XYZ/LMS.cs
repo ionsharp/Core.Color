@@ -23,7 +23,7 @@ public class LMS : ColorModel3<XYZ>
 
     /// <summary>(🗸) <see cref="XYZ"/> > <see cref="LMS"/></summary>
     public override void From(XYZ input, WorkingProfile profile)
-        => Value = new(profile.Adapt.Multiply(input.Value));
+        => Value = profile.Adapt * input.Value;
 
     /// <summary>(🗸) <see cref="LMS"/> > <see cref="XYZ"/></summary>
     public override void To(out XYZ result, WorkingProfile profile)

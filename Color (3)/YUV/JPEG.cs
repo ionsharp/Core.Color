@@ -17,14 +17,14 @@ public class JPEG : ColorModel3<YCbCr>
     /// <summary>(🗸) <see cref="YCbCr"/> > <see cref="JPEG"/></summary>
     public override void From(YCbCr input, WorkingProfile profile)
     {
-        double r = input[0], g = input[1], b = input[2];
+        double r = input.X, g = input.Y, b = input.Z;
         Value = new(0.299 * r + 0.587 * g + 0.114 * b, 128 - 0.168736 * r - 0.331264 * g + 0.5 * b, 128 + 0.5 * r - 0.418688 * g - 0.081312 * b);
     }
 
     /// <summary>(🗸) <see cref="JPEG"/> > <see cref="YCbCr"/></summary>
     public override void To(out YCbCr result, WorkingProfile profile)
     {
-        double y = this[0], cb = this[1], cr = this[2];
+        double y = X, cb = Y, cr = Z;
         result = Colour.New<YCbCr>(y + 1.402 * (cr - 128), y - 0.34414 * (cb - 128) - 0.71414 * (cr - 128), y + 1.772 * (cb - 128));
     }
 }

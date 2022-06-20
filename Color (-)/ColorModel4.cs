@@ -3,41 +3,45 @@ using System;
 
 namespace Imagin.Core.Colors;
 
-public interface IColorModel4 { }
-
 /// <remarks>A <see cref="ColorModel"/> with four (4) components.</remarks>
 [Serializable]
-public abstract class ColorModel4 : ColorModel, IColorModel4
+public abstract class ColorModel4 : ColorModel<Vector4>, IColorModel4
 {
-    public Vector2 XY
-    {
-        get => new(X, Y);
-        set => Value = new(value.X, value.Y);
-    }
+    public override int Length => 4;
 
-    public Vector3 XYZ
-    {
-        get => new(X, Y, Z);
-        set => Value = new(value.X, value.Y, value.Z);
-    }
-
-    public Vector4 XYZW
-    {
-        get => new(X, Y, Z, W);
-        set => Value = new(value.X, value.Y, value.Z, value.W);
-    }
-    
     /// <summary>The first component.</summary>
-    public double X => this[0];
+    public double X
+    {
+        get => Value.X;
+        set => Value = new(value, Value.Y, Value.Z, Value.W);
+    }
 
     /// <summary>The second component.</summary>
-    public double Y => this[1];
+    public double Y
+    {
+        get => Value.Y;
+        set => Value = new(Value.X, value, Value.Z, Value.W);
+    }
 
     /// <summary>The third component.</summary>
-    public double Z => this[2];
+    public double Z
+    {
+        get => Value.Z;
+        set => Value = new(Value.X, Value.Y, value, Value.W);
+    }
 
     /// <summary>The fourth component.</summary>
-    public double W => this[3];
+    public double W
+    {
+        get => Value.W;
+        set => Value = new(Value.X, Value.Y, Value.Z, value);
+    }
+
+    public Vector2 XY => new(X, Y);
+
+    public Vector3 XYZ => new(X, Y, Z);
+
+    public Vector4 XYZW => new(X, Y, Z, W);
 
     protected ColorModel4() : base() { }
 

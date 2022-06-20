@@ -34,7 +34,7 @@ public class Labi : ColorModel3<XYZ>
 	/// <summary>(🞩) <see cref="XYZ"/> > <see cref="Labi"/></summary>
 	public override void From(XYZ input, WorkingProfile profile)
 	{
-		double X = input[0], Y = input[1], Z = input[2];
+		double X = input.X, Y = input.Y, Z = input.Z;
 
 		var x = X / (X + Y + Z);
 		var y = Y / (X + Y + Z);

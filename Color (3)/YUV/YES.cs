@@ -16,7 +16,7 @@ public class YES : ColorModel3
     /// <summary>(🗸) <see cref="YES"/> > <see cref="Lrgb"/></summary>
     public override Lrgb To(WorkingProfile profile)
     {
-        double y = Value[0], e = Value[1], s = Value[2];
+        double y = X, e = Y, s = Z;
 
         var m = new[]
         {
@@ -36,7 +36,7 @@ public class YES : ColorModel3
     /// <summary>(🗸) <see cref="Lrgb"/> > <see cref="YES"/></summary>
     public override void From(Lrgb input, WorkingProfile profile)
     {
-        double r = input[0], g = input[1], b = input[2];
+        double r = input.X, g = input.Y, b = input.Z;
 
         var m = new[]
         {

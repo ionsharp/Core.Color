@@ -16,9 +16,9 @@ public class CMY : ColorModel3
 
     /// <summary>(🗸) <see cref="CMY"/> > <see cref="Lrgb"/></summary>
     public override Lrgb To(WorkingProfile profile)
-        => Colour.New<Lrgb>(1 - Value[0], 1 - Value[1], 1 - Value[2]);
+        => Colour.New<Lrgb>(1 - X, 1 - Y, 1 - Z);
 
     /// <summary>(🗸) <see cref="Lrgb"/> > <see cref="CMY"/></summary>
     public override void From(Lrgb input, WorkingProfile profile)
-        => Value = new(1 - input[0], 1 - input[1], 1 - input[2]);
+        => Value = new(1 - input.X, 1 - input.Y, 1 - input.Z);
 }

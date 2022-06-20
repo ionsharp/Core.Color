@@ -17,9 +17,9 @@ public class HCY : ColorModel3
     /// <summary>(🗸) <see cref="HCY"/> > <see cref="Lrgb"/></summary>
     public override Lrgb To(WorkingProfile profile)
     {
-        var h = (Value[0] < 0 ? (Value[0] % 360) + 360 : (Value[0] % 360)) * PI / 180;
-        var c = Value[1] / 100;
-        var y = Value[2] / 255;
+        var h = (X < 0 ? (X % 360) + 360 : (X % 360)) * PI / 180;
+        var c = Y / 100;
+        var y = Z / 255;
 
         var pi3 = PI / 3; //Do not confuse with PI * 3!
 
@@ -50,11 +50,11 @@ public class HCY : ColorModel3
     /// <summary>(🗸) <see cref="Lrgb"/> > <see cref="HCY"/></summary>
     public override void From(Lrgb input, WorkingProfile profile)
     {
-        var sum = input[0] + input[1] + input[2];
+        var sum = input.X + input.Y + input.Z;
 
-        var r = input[0] / sum;
-        var g = input[1] / sum;
-        var b = input[2] / sum;
+        var r = input.X / sum;
+        var g = input.Y / sum;
+        var b = input.Z / sum;
 
         var h = Acos((0.5 * ((r - g) + (r - b))) / Sqrt((r - g) * (r - g) + (r - b) * (g - b)));
 

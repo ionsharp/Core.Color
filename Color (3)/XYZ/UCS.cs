@@ -30,14 +30,14 @@ public class UCS : ColorModel3<XYZ>
     /// <summary>(🗸) <see cref="XYZ"/> > <see cref="UCS"/></summary>
     public override void From(XYZ input, WorkingProfile profile)
     {
-        double x = input[0], y = input[1], z = input[2];
+        double x = input.X, y = input.Y, z = input.Z;
         Value = new(x * 2 / 3, y, 0.5 * (-x + 3 * y + z));
     }
 
     /// <summary>(🗸) <see cref="UCS"/> > <see cref="XYZ"/></summary>
     public override void To(out XYZ result, WorkingProfile profile)
     {
-        double u = this[0], v = this[1], w = this[2];
+        double u = X, v = Y, w = Z;
         result = Colour.New<XYZ>(1.5 * u, v, 1.5 * u - 3 * v + 2 * w);
     }
 }

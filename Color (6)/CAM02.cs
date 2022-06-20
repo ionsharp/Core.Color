@@ -102,7 +102,7 @@ public abstract class CAM02 : ColorModel3<XYZ>
 
     #endregion
 
-    #region Matrices
+    #region Fields
 
     public static Matrix Aab_RGB => new double[][]
     {
@@ -134,17 +134,37 @@ public abstract class CAM02 : ColorModel3<XYZ>
 
     #endregion
 
-    #region Fields
+    #region Properties
 
-    public double x, y, z;
+    public double aC { get; private set; }
+    public double bC { get; private set; }
 
-    public double J, C, h, H;
+    public double aS { get; private set; }
+    public double bS { get; private set; }
 
-    public double Q, M, s;
+    public double aM { get; private set; }
+    public double bM { get; private set; }
 
-    public double ac, bc;
-    public double As, bs;
-    public double am, bm;
+    //...
+
+    public double H { get; private set; }
+
+    //...
+
+    public abstract double J { get; set; }
+
+    public abstract double Q { get; set; }
+
+    public abstract double C { get; set; }
+
+    public abstract double M { get; set; }
+
+    public abstract double s { get; set; }
+
+    public double h
+    {
+        get => Z; set => Z = value;
+    }
 
     #endregion
 
@@ -310,20 +330,22 @@ public abstract class CAM02 : ColorModel3<XYZ>
 
         i.s = 100.0 * Sqrt(i.M / i.Q);
 
-        i.ac = i.C * Cos(i.h * PI / 180.0);
-        i.bc = i.C * Sin(i.h * PI / 180.0);
+        i.aC = i.C * Cos(i.h * PI / 180.0);
+        i.bC = i.C * Sin(i.h * PI / 180.0);
 
-        i.am = i.M * Cos(i.h * PI / 180.0);
-        i.bm = i.M * Sin(i.h * PI / 180.0);
+        i.aM = i.M * Cos(i.h * PI / 180.0);
+        i.bM = i.M * Sin(i.h * PI / 180.0);
 
-        i.As = i.s * Cos(i.h * PI / 180.0);
-        i.bs = i.s * Sin(i.h * PI / 180.0);
+        i.aS = i.s * Cos(i.h * PI / 180.0);
+        i.bS = i.s * Sin(i.h * PI / 180.0);
         return (i);
     }
 
     /// <summary>(🞩) <see cref="CAM02"/> > <see cref="XYZ"/></summary>
     public override void To(out XYZ result, WorkingProfile profile)
     {
+        var input = this;
+
         ViewingConditions conditions = new();
 
         double r, g, b;
@@ -339,16 +361,16 @@ public abstract class CAM02 : ColorModel3<XYZ>
         var rgbw = LMS.Transform.CAT02 * new Vector(conditions.xw, conditions.yw, conditions.zw);
         rw = rgbw[0]; gw = rgbw[1]; bw = rgbw[2];
 
-        t = Pow(this.C / (Sqrt(this.J / 100.0) * Pow(1.64 - Pow(0.29, conditions.n), 0.73)), (1.0 / 0.9));
-        et = (1.0 / 4.0) * (Cos(((this.h * PI) / 180.0) + 2.0) + 3.8);
+        t = Pow(input.C / (Sqrt(input.J / 100.0) * Pow(1.64 - Pow(0.29, conditions.n), 0.73)), (1.0 / 0.9));
+        et = (1.0 / 4.0) * (Cos(((input.h * PI) / 180.0) + 2.0) + 3.8);
 
-        a = Pow(this.J / 100.0, 1.0 / (conditions.c * conditions.z)) * conditions.aw;
+        a = Pow(input.J / 100.0, 1.0 / (conditions.c * conditions.z)) * conditions.aw;
 
         p1 = ((50000.0 / 13.0) * conditions.nc * conditions.ncb) * et / t;
         p2 = (a / conditions.nbb) + 0.305;
         p3 = 21.0 / 20.0;
 
-        hr = (this.h * PI) / 180.0;
+        hr = (input.h * PI) / 180.0;
 
         if (Abs(Sin(hr)) >= Abs(Cos(hr)))
         {

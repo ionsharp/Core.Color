@@ -5,28 +5,34 @@ namespace Imagin.Core.Colors;
 
 /// <summary>A <see cref="ColorModel"/> with three (3) components.</summary>
 [Serializable]
-public abstract class ColorModel3 : ColorModel, IColorModel3
+public abstract class ColorModel3 : ColorModel<Vector3>, IColorModel3
 {
-    public Vector2 XY
-    {
-        get => new(X, Y);
-        set => Value = new(value.X, value.Y);
-    }
-
-    public Vector3 XYZ
-    {
-        get => new(X, Y, Z);
-        set => Value = new(value.X, value.Y, value.Z);
-    }
+    public override int Length => 3;
 
     /// <summary>The first component.</summary>
-    public double X => this[0];
+    public double X
+    {
+        get => Value.X;
+        set => Value = new(value, Value.Y, Value.Z);
+    }
 
     /// <summary>The second component.</summary>
-    public double Y => this[1];
+    public double Y
+    {
+        get => Value.Y;
+        set => Value = new(Value.X, value, Value.Z);
+    }
 
     /// <summary>The third component.</summary>
-    public double Z => this[2];
+    public double Z
+    {
+        get => Value.Z;
+        set => Value = new(Value.X, Value.Y, value);
+    }
+
+    public Vector2 XY => new(X, Y);
+
+    public Vector3 XYZ => new(X, Y, Z);
 
     public ColorModel3() : base() { }
 

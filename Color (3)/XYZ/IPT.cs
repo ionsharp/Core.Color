@@ -37,11 +37,11 @@ public class IPT : ColorModel3
         var lms = new LMS();
         lms.From(input, profile);
 
-        var l = lms[0] >= 0 ? Pow(lms[0], 0.43) : -Pow(-lms[0], 0.43);
-        var m = lms[1] >= 0 ? Pow(lms[1], 0.43) : -Pow(-lms[1], 0.43);
-        var s = lms[2] >= 0 ? Pow(lms[2], 0.43) : -Pow(-lms[2], 0.43);
+        var l = lms.X >= 0 ? Pow(lms.X, 0.43) : -Pow(-lms.X, 0.43);
+        var m = lms.Y >= 0 ? Pow(lms.Y, 0.43) : -Pow(-lms.Y, 0.43);
+        var s = lms.Z >= 0 ? Pow(lms.Z, 0.43) : -Pow(-lms.Z, 0.43);
 
-        Value = M * new Vector(l, m, s);
+        Value = M * new Vector3(l, m, s);
     }
 
     /// <summary>(🞩) <see cref="IPT"/> > <see cref="Lrgb"/></summary>

@@ -4,12 +4,12 @@ namespace Imagin.Core.Colors;
 
 /// <summary>Euclidean distance between two colors.</summary>
 /// <remarks>https://github.com/tompazourek/Colourful</remarks>
-public sealed class EuclideanDistanceColorDifference<T> : IColorDifference<T> where T : ColorModel
+public sealed class EuclideanDistanceColorDifference<T> : IColorDifference<T> where T : ColorModel3
 {
     public double ComputeDifference(in T x, in T y)
     {
         var distanceSquared = 0d;
-        var vectorSize = Min(x.Value.Length, y.Value.Length);
+        var vectorSize = Min(x.Length, y.Length);
 
         for (var i = 0; i < vectorSize; i++)
         {

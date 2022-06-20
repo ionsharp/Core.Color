@@ -11,7 +11,7 @@ namespace Imagin.Core.Colors;
 /// </summary>
 /// <remarks>https://colour.readthedocs.io/en/develop/_modules/colour/models/oklab.html</remarks>
 [Component(1, '°', "L", "Perceived lightness"), Component(1, '%', "a", "Red/green"), Component(1, '%', "b", "Blue/yellow")]
-[Serializable]
+[Hidden, Serializable]
 public class Labk : ColorModel3<XYZ>
 {
     public Labk() : base() { }
@@ -42,7 +42,7 @@ public class Labk : ColorModel3<XYZ>
         var lmsPrime = Colour.New<LMS>(Cbrt(lms[0]), Cbrt(lms[1]), Cbrt(lms[2]));
 
         var lab = LMS_LAB.Multiply(lmsPrime);
-        Value = new(lab);
+        Value = new(lab[0], lab[1], lab[2]);
     }
 
     /// <summary>(🗸) <see cref="Labk"/> > <see cref="XYZ"/></summary>

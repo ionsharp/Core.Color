@@ -22,7 +22,7 @@ public class YPbPr : ColorModel3
     /// <summary>(🗸) <see cref="YPbPr"/> > <see cref="Lrgb"/></summary>
     public override Lrgb To(WorkingProfile profile)
     {
-        double y = Value[0], pb = Value[1], pr = Value[2];
+        double y = X, pb = Y, pr = Z;
 
         //ITU-R BT.709
         double kb = 0.0722;
@@ -38,7 +38,7 @@ public class YPbPr : ColorModel3
     /// <summary>(🗸) <see cref="Lrgb"/> > <see cref="YPbPr"/></summary>
     public override void From(Lrgb input, WorkingProfile profile)
     {
-        double r = input[0], g = input[1], b = input[2];
+        double r = input.X, g = input.Y, b = input.Z;
 
         //ITU-R BT.709
         double kb = 0.0722;

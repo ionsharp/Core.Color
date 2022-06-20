@@ -22,7 +22,7 @@ public class YCoCg : ColorModel3
     /// <summary>(🗸) <see cref="YCoCg"/> > <see cref="Lrgb"/></summary>
     public override Lrgb To(WorkingProfile profile)
     {
-        double y = Value[0], cg = Value[1], co = Value[2];
+        double y = X, cg = Y, co = Z;
 
         var c = y - cg;
         return Colour.New<Lrgb>(c + co, y + cg, c - co);
@@ -31,7 +31,7 @@ public class YCoCg : ColorModel3
     /// <summary>(🗸) <see cref="Lrgb"/> > <see cref="YCoCg"/></summary>
     public override void From(Lrgb input, WorkingProfile profile)
     {
-        double r = input[0], g = input[1], b = input[2];
+        double r = input.X, g = input.Y, b = input.Z;
         Value = new(0.25 * r + 0.5 * g + 0.25 * b, -0.25 * r + 0.5 * g - 0.25 * b, 0.5 * r - 0.5 * b);
     }
 }
