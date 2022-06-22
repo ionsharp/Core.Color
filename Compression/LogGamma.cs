@@ -13,7 +13,7 @@ public struct LogGammaCompression : ICompress
 {
     const string name = "Log-Gamma";
 
-    [Index(-1), Label(false), ReadOnly, Visible]
+    [Index(-1), ReadOnly, Visible]
     public string Name => name;
 
     public LogGammaCompression() { }

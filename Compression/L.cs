@@ -10,7 +10,7 @@ public struct LCompression : ICompress
 {
     const string name = "L*";
 
-    [Index(-1), Label(false), ReadOnly, Visible]
+    [Index(-1), ReadOnly, Visible]
     public string Name => name;
 
     public LCompression() { }

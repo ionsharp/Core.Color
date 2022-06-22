@@ -22,7 +22,7 @@ namespace Imagin.Core.Colors;
 /// <para>http://hej.sze.hu/ARC/ARC-030520-A/arc030520a.pdf</para>
 /// </remarks>
 [Component(MinHue, MaxHue, "A", "Hue"), Component(100, "T"), Component(100, "V")]
-[Serializable]
+[Hidden, Serializable]
 [SuppressMessage("Style", "IDE1006:Naming Styles")]
 public class xyYC : ColorModel3<xyY>
 {

@@ -14,7 +14,7 @@ public struct PQCompression : ICompress
 {
     const string name = "PQ";
 
-    [Index(-1), Label(false), ReadOnly, Visible]
+    [Index(-1), ReadOnly, Visible]
     public string Name => name;
 
     public PQCompression() { }

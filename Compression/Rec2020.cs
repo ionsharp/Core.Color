@@ -8,7 +8,7 @@ public struct Rec2020Compression : ICompress
 {
     const string name = "Rec. 2020";
 
-    [Index(-1), Label(false), ReadOnly, Visible]
+    [Index(-1), ReadOnly, Visible]
     public string Name => name;
 
     public Rec2020Compression() { }

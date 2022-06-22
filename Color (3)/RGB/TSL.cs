@@ -40,12 +40,12 @@ public class TSL : ColorModel3
         var r = R / sum;
         var g = G / sum;
 
-        double rP = r - (1 / 3), gP = g - (1 / 3), bP = 1 / (2 * PI);
+        double rP = r - (1 / 3), gP = g - (1 / 3);
 
         var T = gP > 0
-            ? bP * Atan((rP / gP) + (1 / 4))
+            ? 1 / (2 * PI) * Atan(rP / gP) + (1 / 4)
             : gP < 0
-            ? bP * Atan((rP / gP) + (3 / 4))
+            ? 1 / (2 * PI) * Atan(rP / gP) + (3 / 4)
             : 0;
 
         var S = Sqrt(9 / 5 * (Pow2(rP) + Pow2(gP)));

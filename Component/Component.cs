@@ -13,7 +13,7 @@ public class Component : Base
 
     public double Minimum { get; private set; } = 0;
 
-    public DoubleRange Range => new(Minimum, Maximum);
+    public Range<double> Range => new(Minimum, Maximum);
 
     public string Symbol { get; private set; }
 

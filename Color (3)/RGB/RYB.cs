@@ -64,7 +64,7 @@ public class RYB : ColorModel3
 		y += white;
 		b += white;
 
-		Value = new(Floor(r), Floor(y), Floor(b));
+		Value = new(Floor(r) * 255, Floor(y) * 255, Floor(b) * 255);
 	}
 
     /// <summary>(🗸) <see cref="RYB"/> > <see cref="Lrgb"/></summary>

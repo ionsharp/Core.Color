@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Imagin.Core.Numerics;
+using System;
 
 namespace Imagin.Core.Colors;
 
@@ -8,7 +9,7 @@ namespace Imagin.Core.Colors;
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="CMY"/></para>
 /// </summary>
 /// <remarks>https://github.com/colorjs/color-space/blob/master/cmy.js</remarks>
-[Component(1, "C", "Cyan"), Component(1, "M", "Magenta"), Component(1, "Y", "Yellow")]
+[Component(100, "C", "Cyan"), Component(100, "M", "Magenta"), Component(100, "Y", "Yellow")]
 [Serializable]
 public class CMY : ColorModel3
 {
@@ -16,9 +17,9 @@ public class CMY : ColorModel3
 
     /// <summary>(🗸) <see cref="CMY"/> > <see cref="Lrgb"/></summary>
     public override Lrgb To(WorkingProfile profile)
-        => Colour.New<Lrgb>(1 - X, 1 - Y, 1 - Z);
+        => Colour.New<Lrgb>(1 - X / 100, 1 - Y / 100, 1 - Z / 100);
 
     /// <summary>(🗸) <see cref="Lrgb"/> > <see cref="CMY"/></summary>
     public override void From(Lrgb input, WorkingProfile profile)
-        => Value = new(1 - input.X, 1 - input.Y, 1 - input.Z);
+        => Value = new Vector3(1 - input.X, 1 - input.Y, 1 - input.Z) * 100;
 }

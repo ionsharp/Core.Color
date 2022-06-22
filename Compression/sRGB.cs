@@ -8,7 +8,7 @@ public struct sRGBCompression : ICompress
 {
     const string name = "sRGB";
 
-    [Index(-1), Label(false), ReadOnly, Visible]
+    [Index(-1), ReadOnly, Visible]
     public string Name => name;
 
     public sRGBCompression() { }

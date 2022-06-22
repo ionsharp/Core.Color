@@ -1,4 +1,5 @@
 ﻿using Imagin.Core.Numerics;
+using Imagin.Core.Linq;
 using static Imagin.Core.Numerics.M;
 using static System.Math;
 
@@ -72,6 +73,14 @@ public abstract class LCH<T> : ColorModel3 where T : ColorModel3, new()
     {
         var result = new T();
         result.From(input, profile);
+
+        var components = Colour.Components[typeof(T)];
+
+        Range<double> xRange = components[0].Range, yRange = components[1].Range, zRange = components[2].Range;
+
+        result.X = xRange.Convert(   0, 100, result.X);
+        result.Y = yRange.Convert(-100, 100, result.Y);
+        result.Z = zRange.Convert(-100, 100, result.Z);
 
         Value = ToLCh(result);
     }

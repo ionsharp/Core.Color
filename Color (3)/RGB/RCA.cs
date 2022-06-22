@@ -19,10 +19,12 @@ public class RCA : ColorModel3
     public RCA() : base() { }
 
 	/// <summary>(🞩) <see cref="Lrgb"/> > <see cref="RCA"/></summary>
-	public override void From(Lrgb input, WorkingProfile profile) { }
+	public override void From(Lrgb input, WorkingProfile profile) 
+	{
+	}
 
-    /// <summary>(🗸) <see cref="RCA"/> > <see cref="Lrgb"/></summary>
-    public override Lrgb To(WorkingProfile profile)
+	/// <summary>(🗸) <see cref="RCA"/> > <see cref="Lrgb"/></summary>
+	public override Lrgb To(WorkingProfile profile)
 	{
 		//(100%) Rose
 		//> R = 75%, B = 25%

@@ -26,6 +26,10 @@ public partial struct WorkingProfile : IEquatable<WorkingProfile>
     /// <summary><see cref="WorkingProfiles.sRGB"/></summary>
     public static Primary3 DefaultPrimary => sRGBPrimary;
 
+    /// <summary>What should these values be...?</summary>
+    public static CAM02.ViewingConditions DefaultViewingConditions 
+        => new CAM02.ViewingConditions() { Aw = 1, D = 1, FL = 1, LA = 1, n = 1, Nbb = 1, Ncb = 1, Surround = CAM02.Surrounds.Average, Yb = 1, z = 1 };
+
     /// <summary><see cref="WorkingProfiles.sRGB"/></summary>
     public static Vector2 DefaultWhite => sRGBWhite;
 
@@ -33,13 +37,20 @@ public partial struct WorkingProfile : IEquatable<WorkingProfile>
 
     public Matrix Adapt { get; private set; } = LMS.Transform.Default;
 
+    [Object(ObjectLayout.Horizontal)]
     public Vector2 Chromacity { get; private set; } = DefaultWhite;
 
+    [Object(ObjectLayout.Vertical)]
     public ICompress Compress { get; private set; } = DefaultCompression;
 
+    [Object(ObjectLevel.Low, ObjectLayout.Horizontal)]
     public Primary3 Primary { get; private set; } = DefaultPrimary;
 
+    [Object(ObjectLayout.Vertical)]
+    public CAM02.ViewingConditions ViewingConditions { get; private set; } = DefaultViewingConditions;
+
     /// <summary><see cref="White"/> = (<see cref="Vector3"/>)(<see cref="XYZ"/>)(<see cref="xyY"/>)(<see cref="xy"/>)<see cref="Chromacity"/></summary><remarks>Default = <see cref="Vector3.One"/></remarks>
+    [Hidden]
     public readonly Vector3 White = Vector3.One;
 
     #endregion
@@ -48,15 +59,17 @@ public partial struct WorkingProfile : IEquatable<WorkingProfile>
 
     public WorkingProfile() { }
 
-    public WorkingProfile(Vector2 pR, Vector2 pG, Vector2 pB, Vector2 chromacity, ICompress compress, Matrix? adapt = null)
+    public WorkingProfile(Vector2 pR, Vector2 pG, Vector2 pB, Vector2 chromacity, ICompress compress, Matrix? adapt = null, CAM02.ViewingConditions? viewingConditions = null)
     {
-        Primary = new(pR, pG, pB); Chromacity = chromacity; Compress = compress; Adapt = adapt ?? LMS.Transform.Default;
+        Primary = new(pR, pG, pB); Chromacity = chromacity; Compress = compress; Adapt = adapt ?? LMS.Transform.Default; 
+        ViewingConditions = viewingConditions ?? DefaultViewingConditions;
         White = (XYZ)(xyY)(xy)Chromacity;
     }
 
-    public WorkingProfile(Primary3 primary, Vector2 chromacity, ICompress compress, Matrix? adapt = null)
+    public WorkingProfile(Primary3 primary, Vector2 chromacity, ICompress compress, Matrix? adapt = null, CAM02.ViewingConditions? viewingConditions = null)
     {
-        Primary = primary; Chromacity = chromacity; Compress = compress; Adapt = adapt ?? LMS.Transform.Default;
+        Primary = primary; Chromacity = chromacity; Compress = compress; Adapt = adapt ?? LMS.Transform.Default; 
+        ViewingConditions = viewingConditions ?? DefaultViewingConditions;
         White = (XYZ)(xyY)(xy)Chromacity;
     }
 

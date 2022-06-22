@@ -76,12 +76,26 @@ public abstract class CAM02 : ColorModel3<XYZ>
     /// <summary><see cref="CAM02"/> surround(ing)s as defined by <see cref="CIE"/>.</summary>
     public enum Surrounds
     {
-        /// <summary>Viewing surface colors.</summary>
+        /// <summary>
+        /// <b>Viewing surface colors.</b>
+        /// <para>Relative luminance > 20% of scene white.</para>
+        /// </summary>
+        /// <remarks><see cref="ViewingConditions.F"/> = 1, <see cref="ViewingConditions.c"/> = 0.690, <see cref="ViewingConditions.Nc"/> = 1</remarks>
         Average,
-        /// <summary>Using a projector in a dark room.</summary>
+        /// <summary>
+        /// <b>Viewing television.</b>
+        /// <para>Relative luminance 0% of scene white.</para>
+        /// </summary>
+        /// <remarks><see cref="ViewingConditions.F"/> = 0.9, <see cref="ViewingConditions.c"/> = 0.590, <see cref="ViewingConditions.Nc"/> = 0.95</remarks>
+        /// <summary></summary>
+        Dim,
+        /// <summary>
+        /// <b>Using a projector in a dark room.</b>
+        /// <para>Relative luminance between 0% and 20% of scene white.</para>
+        /// </summary>
+        /// <remarks><see cref="ViewingConditions.F"/> = 0.8, <see cref="ViewingConditions.c"/> = 0.525, <see cref="ViewingConditions.Nc"/> = 0.8</remarks>
+        /// <summary></summary>
         Dark,
-        /// <summary>Viewing television.</summary>
-        Dim
     }
 
     #endregion
@@ -91,13 +105,47 @@ public abstract class CAM02 : ColorModel3<XYZ>
     /// <summary><see cref="CAM02"/> viewing conditions.</summary>
     public struct ViewingConditions
     {
-        public double xw, yw, zw, aw;
+        public Surrounds Surround = Surrounds.Average;
 
-        public double la, yb;
+        [Hidden]
+        public double F  { get; private set; } = 1;        //Average
 
-        public int surround;
+        [Hidden]
+        public double c  { get; private set; } = 0.690;    //Average
 
-        public double n, z, f, c, nbb, nc, ncb, fl, d;
+        [Hidden]
+        public double Nc { get; private set; } = 1;        //Average
+
+        //...
+
+        [Hidden]
+        public double Aw;
+
+        [DisplayName("Degree of adaptation (discounting)")]
+        [Range(0.65, 1.0, 0.01)]
+        public double D;
+
+        [DisplayName("Luminance level adaptation factor")]
+        public double FL;
+
+        [DisplayName("Absolute luminance of adapting field")]
+        public double LA = 4; //4 cd/m^2 (ambient illumination of 64 lux)
+
+        [Hidden]
+        public double n;
+
+        [Hidden]
+        public double Nbb;
+
+        [Hidden]
+        public double Ncb;
+
+        [DisplayName("Relative luminance of background")]
+        [Range(.0, 100.0, 1.0)]
+        public double Yb = 20; //20% gray
+
+        [Hidden]
+        public double z;
     };
 
     #endregion
@@ -187,13 +235,13 @@ public abstract class CAM02 : ColorModel3<XYZ>
     /// <para>L[A] is the luminance of the adapting field in cd/m^2.</para>
     /// </summary>
     static double Compute_d(ViewingConditions conditions)
-        => (conditions.f * (1.0 - ((1.0 / 3.6) * Exp((-conditions.la - 42.0) / 92.0))));
+        => (conditions.F * (1.0 - ((1.0 / 3.6) * Exp((-conditions.LA - 42.0) / 92.0))));
 
     static double Compute_fl(ViewingConditions conditions)
     {
         double k, fl;
-        k = 1.0 / ((5.0 * conditions.la) + 1.0);
-        fl = 0.2 * Pow(k, 4.0) * (5.0 * conditions.la) + 0.1 * (Pow((1.0 - Pow(k, 4.0)), 2.0)) * (Pow((5.0 * conditions.la), (1.0 / 3.0)));
+        k = 1.0 / ((5.0 * conditions.LA) + 1.0);
+        fl = 0.2 * Pow(k, 4.0) * (5.0 * conditions.LA) + 0.1 * (Pow((1.0 - Pow(k, 4.0)), 2.0)) * (Pow((5.0 * conditions.LA), (1.0 / 3.0)));
         return (fl);
     }
 
@@ -206,8 +254,8 @@ public abstract class CAM02 : ColorModel3<XYZ>
         return (0.2 * k * la5) + (0.1 * (1.0 - k) * (1.0 - k) * Pow(la5, 1.0 / 3.0));
     }
 
-    static double Compute_n(ViewingConditions conditions) 
-        => conditions.yb / conditions.yw;
+    static double Compute_n(ViewingConditions conditions, WorkingProfile profile) 
+        => conditions.Yb / profile.White.Y * 100;
 
     static double Compute_z(ViewingConditions conditions)
         => 1.48 + Pow(conditions.n, 0.5);
@@ -228,34 +276,34 @@ public abstract class CAM02 : ColorModel3<XYZ>
 
     //...
 
-    static double achromatic_response_to_white(ViewingConditions conditions)
+    static double achromatic_response_to_white(ViewingConditions conditions, WorkingProfile profile)
     {
         double r = 0, g = 0, b = 0;
         double rc, gc, bc;
         double rp = 0, gp = 0, bp = 0;
         double rpa, gpa, bpa;
 
-        var rgb = LMS.Transform.CAT02 * new Vector(conditions.xw, conditions.yw, conditions.zw);
+        var rgb = LMS.Transform.CAT02 * new Vector(profile.White.X * 100, profile.White.Y * 100, profile.White.Z * 100);
         r = rgb[0]; g = rgb[1]; b = rgb[2];
         
-        rc = r * (((conditions.yw * conditions.d) / r) + (1.0 - conditions.d));
-        gc = g * (((conditions.yw * conditions.d) / g) + (1.0 - conditions.d));
-        bc = b * (((conditions.yw * conditions.d) / b) + (1.0 - conditions.d));
+        rc = r * (((profile.White.Y * 100 * conditions.D) / r) + (1.0 - conditions.D));
+        gc = g * (((profile.White.Y * 100 * conditions.D) / g) + (1.0 - conditions.D));
+        bc = b * (((profile.White.Y * 100 * conditions.D) / b) + (1.0 - conditions.D));
 
         var rgbp = CAT02_HPE * new Vector(rc, gc, bc);
         rp = rgbp[0]; gp = rgbp[1]; bp = rgbp[2];
 
-        rpa = nonlinear_adaptation(rp, conditions.fl);
-        gpa = nonlinear_adaptation(gp, conditions.fl);
-        bpa = nonlinear_adaptation(bp, conditions.fl);
+        rpa = nonlinear_adaptation(rp, conditions.FL);
+        gpa = nonlinear_adaptation(gp, conditions.FL);
+        bpa = nonlinear_adaptation(bp, conditions.FL);
 
-        return ((2.0 * rpa) + gpa + ((1.0 / 20.0) * bpa) - 0.305) * conditions.nbb;
+        return ((2.0 * rpa) + gpa + ((1.0 / 20.0) * bpa) - 0.305) * conditions.Nbb;
     }
 
     //...
 
     /// <summary>(🞩) <see cref="XYZ"/> > <see cref="CAM02"/></summary>
-    protected T From<T>(XYZ input, ViewingConditions conditions) where T : CAM02, new()
+    protected T From<T>(XYZ input, ViewingConditions conditions, WorkingProfile profile) where T : CAM02, new()
     {
         double r = 0, g = 0, b = 0;
         double rw = 0, gw = 0, bw = 0;
@@ -268,19 +316,19 @@ public abstract class CAM02 : ColorModel3<XYZ>
         var rgb = LMS.Transform.CAT02 * new Vector(input.X, input.Y, input.Z);
         r = rgb[0]; g = rgb[1]; b = rgb[2];
 
-        var rgbw = LMS.Transform.CAT02 * new Vector(conditions.xw, conditions.yw, conditions.zw);
+        var rgbw = LMS.Transform.CAT02 * new Vector(profile.White.X * 100, profile.White.Y * 100, profile.White.Z * 100);
         rw = rgbw[0]; gw = rgbw[1]; bw = rgbw[2];
 
-        rc = r * (((conditions.yw * conditions.d) / rw) + (1.0 - conditions.d));
-        gc = g * (((conditions.yw * conditions.d) / gw) + (1.0 - conditions.d));
-        bc = b * (((conditions.yw * conditions.d) / bw) + (1.0 - conditions.d));
+        rc = r * (((profile.White.Y * 100 * conditions.D) / rw) + (1.0 - conditions.D));
+        gc = g * (((profile.White.Y * 100 * conditions.D) / gw) + (1.0 - conditions.D));
+        bc = b * (((profile.White.Y * 100 * conditions.D) / bw) + (1.0 - conditions.D));
 
         var rgbp = CAT02_HPE * new Vector(rc, gc, bc);
         rp = rgbp[0]; gp = rgbp[1]; bp = rgbp[2];
 
-        rpa = nonlinear_adaptation(rp, conditions.fl);
-        gpa = nonlinear_adaptation(gp, conditions.fl);
-        bpa = nonlinear_adaptation(bp, conditions.fl);
+        rpa = nonlinear_adaptation(rp, conditions.FL);
+        gpa = nonlinear_adaptation(gp, conditions.FL);
+        bpa = nonlinear_adaptation(bp, conditions.FL);
 
         ca = rpa - ((12.0 * gpa) / 11.0) + (bpa / 11.0);
         cb = (1.0 / 9.0) * (rpa + gpa - (2.0 * bpa));
@@ -315,18 +363,18 @@ public abstract class CAM02 : ColorModel3<XYZ>
             i.H = 300 + ((100 * ((i.h - 237.53) / 1.2)) / temp);
         }
 
-        a = ((2.0 * rpa) + gpa + ((1.0 / 20.0) * bpa) - 0.305) * conditions.nbb;
+        a = ((2.0 * rpa) + gpa + ((1.0 / 20.0) * bpa) - 0.305) * conditions.Nbb;
 
-        i.J = 100.0 * Pow(a / conditions.aw, conditions.c * conditions.z);
+        i.J = 100.0 * Pow(a / conditions.Aw, conditions.c * conditions.z);
 
         et = (1.0 / 4.0) * (Cos(((i.h * PI) / 180.0) + 2.0) + 3.8);
-        t = ((50000.0 / 13.0) * conditions.nc * conditions.ncb * et * Sqrt((ca * ca) + (cb * cb))) / (rpa + gpa + (21.0 / 20.0) * bpa);
+        t = ((50000.0 / 13.0) * conditions.Nc * conditions.Ncb * et * Sqrt((ca * ca) + (cb * cb))) / (rpa + gpa + (21.0 / 20.0) * bpa);
 
         i.C = Pow(t, 0.9) * Sqrt(i.J / 100.0) * Pow(1.64 - Pow(0.29, conditions.n), 0.73);
 
-        i.Q = (4.0 / conditions.c) * Sqrt(i.J / 100.0) * (conditions.aw + 4.0) * Pow(conditions.fl, 0.25);
+        i.Q = (4.0 / conditions.c) * Sqrt(i.J / 100.0) * (conditions.Aw + 4.0) * Pow(conditions.FL, 0.25);
 
-        i.M = i.C * Pow(conditions.fl, 0.25);
+        i.M = i.C * Pow(conditions.FL, 0.25);
 
         i.s = 100.0 * Sqrt(i.M / i.Q);
 
@@ -358,16 +406,16 @@ public abstract class CAM02 : ColorModel3<XYZ>
         double p1, p2, p3, p4, p5, hr;
         double tx = 0, ty = 0, tz = 0;
 
-        var rgbw = LMS.Transform.CAT02 * new Vector(conditions.xw, conditions.yw, conditions.zw);
+        var rgbw = LMS.Transform.CAT02 * new Vector(profile.White.X * 100, profile.White.Y * 100, profile.White.Z * 100);
         rw = rgbw[0]; gw = rgbw[1]; bw = rgbw[2];
 
         t = Pow(input.C / (Sqrt(input.J / 100.0) * Pow(1.64 - Pow(0.29, conditions.n), 0.73)), (1.0 / 0.9));
         et = (1.0 / 4.0) * (Cos(((input.h * PI) / 180.0) + 2.0) + 3.8);
 
-        a = Pow(input.J / 100.0, 1.0 / (conditions.c * conditions.z)) * conditions.aw;
+        a = Pow(input.J / 100.0, 1.0 / (conditions.c * conditions.z)) * conditions.Aw;
 
-        p1 = ((50000.0 / 13.0) * conditions.nc * conditions.ncb) * et / t;
-        p2 = (a / conditions.nbb) + 0.305;
+        p1 = ((50000.0 / 13.0) * conditions.Nc * conditions.Ncb) * et / t;
+        p2 = (a / conditions.Nbb) + 0.305;
         p3 = 21.0 / 20.0;
 
         hr = (input.h * PI) / 180.0;
@@ -391,12 +439,12 @@ public abstract class CAM02 : ColorModel3<XYZ>
             cb = ca * (Sin(hr) / Cos(hr));
         }
 
-        var rgbpa = Aab_RGB * new Vector((a / conditions.nbb) + 0.305, ca, cb);
+        var rgbpa = Aab_RGB * new Vector((a / conditions.Nbb) + 0.305, ca, cb);
         rpa = rgbpa[0]; gpa = rgbpa[1]; bpa = rgbpa[2];
 
-        rp = inverse_nonlinear_adaptation(rpa, conditions.fl);
-        gp = inverse_nonlinear_adaptation(gpa, conditions.fl);
-        bp = inverse_nonlinear_adaptation(bpa, conditions.fl);
+        rp = inverse_nonlinear_adaptation(rpa, conditions.FL);
+        gp = inverse_nonlinear_adaptation(gpa, conditions.FL);
+        bp = inverse_nonlinear_adaptation(bpa, conditions.FL);
 
         var xyzt = HPE_XYZ * new Vector(rp, gp, bp);
         tx = xyzt[0]; ty = xyzt[1]; tz = xyzt[2];
@@ -404,9 +452,9 @@ public abstract class CAM02 : ColorModel3<XYZ>
         var rgbc = LMS.Transform.CAT02 * new Vector(tx, ty, tz);
         rc = rgbc[0]; gc = rgbc[1]; bc = rgbc[2];
 
-        r = rc / (((conditions.yw * conditions.d) / rw) + (1.0 - conditions.d));
-        g = gc / (((conditions.yw * conditions.d) / gw) + (1.0 - conditions.d));
-        b = bc / (((conditions.yw * conditions.d) / bw) + (1.0 - conditions.d));
+        r = rc / (((profile.White.Y * 100 * conditions.D) / rw) + (1.0 - conditions.D));
+        g = gc / (((profile.White.Y * 100 * conditions.D) / gw) + (1.0 - conditions.D));
+        b = bc / (((profile.White.Y * 100 * conditions.D) / bw) + (1.0 - conditions.D));
 
         var xyz = CAT02_XYZ * new Vector(r, g, b);
         result = Colour.New<XYZ>(xyz);

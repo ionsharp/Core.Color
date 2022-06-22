@@ -32,7 +32,7 @@ public class QCh : CAM02
     /// <summary>(🗸) <see cref="XYZ"/> > <see cref="QCh"/></summary>
     public override void From(XYZ input, WorkingProfile profile)
     {
-        var result = From<QCh>(input, new());
+        var result = From<QCh>(input, new(), profile);
         Value = new(result.Q, result.C, result.h);
     }
 }

@@ -12,12 +12,12 @@ namespace Imagin.Core.Colors;
 /// </summary>
 /// <remarks>https://seer.ufrgs.br/rita/article/viewFile/rita_v16_n2_p141/7428</remarks>
 [Component(360, '°', "H", "Hue"), Component(100, '%', "S", "Saturation"), Component(255, ' ', "M", "Mixture")]
-[Hidden, Serializable]
+[Serializable]
 public class HSM : ColorModel3
 {
     public HSM() : base() { }
 
-    /// <summary>(🞩) <see cref="HSM"/> > <see cref="Lrgb"/></summary>
+    /// <summary>(🗸) <see cref="HSM"/> > <see cref="Lrgb"/></summary>
     public override Lrgb To(WorkingProfile profile)
     {
         var max = Colour.Maximum<HSM>();
@@ -39,7 +39,7 @@ public class HSM : ColorModel3
         return Colour.New<Lrgb>(r, g, b);
     }
 
-    /// <summary>(🞩) <see cref="Lrgb"/> > <see cref="HSM"/></summary>
+    /// <summary>(🗸) <see cref="Lrgb"/> > <see cref="HSM"/></summary>
     public override void From(Lrgb input, WorkingProfile profile)
     {
         var m = ((4 * input.X) + (2 * input.Y) + input.Z) / 7;

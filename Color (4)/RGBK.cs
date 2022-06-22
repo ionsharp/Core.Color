@@ -1,4 +1,7 @@
 ﻿using System;
+using Imagin.Core.Numerics;
+using Imagin.Core.Linq;
+using static System.Math;
 
 namespace Imagin.Core.Colors;
 
@@ -13,8 +16,18 @@ public sealed class RGBK : ColorModel4
 {
     public RGBK() : base() { }
 
-    /// <summary>(🞩) <see cref="Lrgb"/> > <see cref="RGBK"/></summary>
-    public override void From(Lrgb input, WorkingProfile profile) { }
+    /// <summary>(🗸) <see cref="Lrgb"/> > <see cref="RGBK"/></summary>
+    public override void From(Lrgb input, WorkingProfile profile)
+    {
+        var k0 = 1.0 - Max(input.X, Max(input.Y, input.Z));
+        var k1 = 1.0 - k0;
+
+        var r = (input.X - k0) / k1;
+        var g = (input.Y - k0) / k1;
+        var b = (input.Z - k0) / k1;
+
+        Value = new Vector4(r.NaN(0), g.NaN(0), b.NaN(0), k0) * 100;
+    }
 
     /// <summary>(🗸) <see cref="RGBK"/> > <see cref="Lrgb"/></summary>
     public override Lrgb To(WorkingProfile profile)

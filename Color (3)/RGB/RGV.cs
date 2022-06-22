@@ -19,10 +19,12 @@ public class RGV : ColorModel3
     public RGV() : base() { }
 
 	/// <summary>(🞩) <see cref="Lrgb"/> > <see cref="RGV"/></summary>
-	public override void From(Lrgb input, WorkingProfile profile) { }
+	public override void From(Lrgb input, WorkingProfile profile) 
+	{
+	}
 
-    /// <summary>(🗸) <see cref="RGV"/> > <see cref="Lrgb"/></summary>
-    public override Lrgb To(WorkingProfile profile)
+	/// <summary>(🗸) <see cref="RGV"/> > <see cref="Lrgb"/></summary>
+	public override Lrgb To(WorkingProfile profile)
     {
 		//(100%) Orange
 		//> R = 75%, G = 25%

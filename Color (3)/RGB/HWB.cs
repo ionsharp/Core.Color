@@ -14,9 +14,21 @@ public class HWB : ColorModel3
 {
     public HWB() : base() { }
 
-    /// <summary>(🗸) <see cref="HWB"/> > <see cref="Lrgb"/></summary>
-    public override Lrgb To(WorkingProfile profile)
+	/// <summary>(🗸) <see cref="Lrgb"/> > <see cref="HWB"/></summary>
+	public override void From(Lrgb input, WorkingProfile profile)
     {
+		var hsb = new HSB();
+		hsb.From(input, profile);
+
+		var white = Min(input.X, Min(input.Y, input.Z));
+		var black = 1 - Max(input.X, Max(input.Y, input.Z));
+
+		Value = new(hsb.X, white * 100, black * 100);
+	}
+
+	/// <summary>(🗸) <see cref="HWB"/> > <see cref="Lrgb"/></summary>
+	public override Lrgb To(WorkingProfile profile)
+	{
 		var white = Y / 100;
 		var black = Z / 100;
 
@@ -38,17 +50,5 @@ public class HWB : ColorModel3
 		rgb.Z *= (1 - white - black);
 		rgb.Z += white;
 		return rgb;
-	}
-
-	/// <summary>(🗸) <see cref="Lrgb"/> > <see cref="HWB"/></summary>
-	public override void From(Lrgb input, WorkingProfile profile)
-    {
-		var hsb = new HSB();
-		hsb.From(input, profile);
-
-		var white = Min(input.X, Min(input.Y, input.Z));
-		var black = 1 - Max(input.X, Max(input.Y, input.Z));
-
-		Value = new(hsb.X, white * 100, black * 100);
 	}
 }

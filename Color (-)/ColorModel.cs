@@ -10,6 +10,14 @@ namespace Imagin.Core.Colors;
 [Serializable]
 public abstract class ColorModel : IColorModel, IConvert<Lrgb>, IConvert<RGB>
 {
+    #region Properties
+
+    public abstract int Length { get; }
+
+    internal abstract double this[int index] { get; }
+
+    #endregion
+
     #region ColorModel
 
     protected ColorModel() : base() { }
@@ -130,14 +138,14 @@ public abstract class ColorModel<T> : ColorModel, IEquatable<ColorModel<T>> wher
 {
     #region Properties
 
-    public abstract int Length { get; }
-
     protected T value = default;
     public T Value
     {
         get => value;
         set => this.value = value;
     }
+
+    internal override double this[int i] => Value.Values[i];
 
     #endregion
 

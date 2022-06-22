@@ -9,10 +9,13 @@ public struct Primary3 : IEquatable<Primary3>
 {
     #region Fields
 
+    [Object(ObjectLayout.Horizontal)]
     public Vector2 R { get; private set; } = Vector2.Zero;
 
+    [Object(ObjectLayout.Horizontal)]
     public Vector2 G { get; private set; } = Vector2.Zero;
 
+    [Object(ObjectLayout.Horizontal)]
     public Vector2 B { get; private set; } = Vector2.Zero;
 
     #endregion

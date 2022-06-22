@@ -32,7 +32,7 @@ public class JMh : CAM02
     /// <summary>(🗸) <see cref="XYZ"/> > <see cref="JMh"/></summary>
     public override void From(XYZ input, WorkingProfile profile)
     {
-        var result = From<JMh>(input, new());
+        var result = From<JMh>(input, new(), profile);
         Value = new(result.J, result.M, result.h);
     }
 }

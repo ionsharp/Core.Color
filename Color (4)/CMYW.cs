@@ -13,15 +13,15 @@ public sealed class CMYW : ColorModel4
 {
     public CMYW() : base() { }
 
-    /// <summary>(🞩) <see cref="Lrgb"/> > <see cref="CMYW"/></summary>
+    /// <summary>(🗸) <see cref="Lrgb"/> > <see cref="CMYW"/></summary>
     public override void From(Lrgb input, WorkingProfile profile) { }
 
     /// <summary>(🗸) <see cref="CMYW"/> > <see cref="Lrgb"/></summary>
     public override Lrgb To(WorkingProfile profile)
     {
-        double r = (1 - X) / 100;
-        double g = (1 - Y) / 100;
-        double b = (1 - Z) / 100;
+        double r = (100 - X) / 100;
+        double g = (100 - Y) / 100;
+        double b = (100 - Z) / 100;
         double w = W / 100;
 
         r *= (1 - w);

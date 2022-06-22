@@ -15,7 +15,7 @@ namespace Imagin.Core.Colors;
 /// </list>
 /// </summary>
 /// <remarks>https://github.com/tommyettinger/colorful-gdx</remarks>
-[Component(1, '%', "I", "Intensity"), Component(1, '%', "P", "Cyan/red"), Component(1, '%', "T", "Blue/yellow")]
+[Component(1, '%', "I", "Intensity"), Component(-1, 1, '%', "P", "Cyan/red"), Component(-1, 1, '%', "T", "Blue/yellow")]
 [Serializable]
 public class IPT : ColorModel3
 {

@@ -8,7 +8,7 @@ public struct GammaCompression : ICompress
 {
     const string name = "Gamma";
 
-    [Index(-1), Label(false), ReadOnly, Visible]
+    [Index(-1), ReadOnly, Visible]
     public string Name => name;
 
     public double Gamma { get; private set; } = 2.4;

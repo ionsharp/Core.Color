@@ -8,7 +8,7 @@ public struct Rec709Compression : ICompress
 {
     const string name = "Rec. 709";
 
-    [Index(-1), Label(false), ReadOnly, Visible]
+    [Index(-1), ReadOnly, Visible]
     public string Name => name;
 
     public Rec709Compression() { }
