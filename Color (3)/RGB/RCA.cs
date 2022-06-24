@@ -1,4 +1,5 @@
 ﻿using System;
+using Imagin.Core.Numerics;
 
 namespace Imagin.Core.Colors;
 
@@ -19,8 +20,19 @@ public class RCA : ColorModel3
     public RCA() : base() { }
 
 	/// <summary>(🞩) <see cref="Lrgb"/> > <see cref="RCA"/></summary>
-	public override void From(Lrgb input, WorkingProfile profile) 
+	public override void From(Lrgb input, WorkingProfile profile)
 	{
+		//(100%) Red
+		//> R = 75%, C = 25%
+
+		//(100%) Green
+		//> C = 75%, A = 25%
+
+		//(100%) Blue
+		//> A = 75%, R = 25%
+
+		double r = input.X, g = input.Y, b = input.Z;
+		Value = new Vector3(0.75 * r + 0.25 * b, 0.75 * g + 0.25 * r, 0.75 * b + 0.25 * g) * 255;
 	}
 
 	/// <summary>(🗸) <see cref="RCA"/> > <see cref="Lrgb"/></summary>

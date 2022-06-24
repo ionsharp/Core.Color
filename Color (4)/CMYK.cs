@@ -1,4 +1,5 @@
-﻿using Imagin.Core.Numerics;
+﻿using Imagin.Core.Linq;
+using Imagin.Core.Numerics;
 using System;
 using static System.Math;
 
@@ -25,12 +26,7 @@ public sealed class CMYK : ColorModel4
         var c = (1.0 - input.X - k0) / k1;
         var m = (1.0 - input.Y - k0) / k1;
         var y = (1.0 - input.Z - k0) / k1;
-
-        c = double.IsNaN(c) ? 0 : c;
-        m = double.IsNaN(m) ? 0 : m;
-        y = double.IsNaN(y) ? 0 : y;
-
-        Value = new Vector4(c, m, y, k0) * 100;
+        Value = new Vector4(c.NaN(0), m.NaN(0), y.NaN(0), k0) * 100;
     }
 
     /// <summary>(🗸) <see cref="CMYK"/> > <see cref="Lrgb"/></summary>

@@ -1,5 +1,4 @@
 ﻿using Imagin.Core.Numerics;
-using Imagin.Core.Linq;
 using static Imagin.Core.Numerics.M;
 using static System.Math;
 
@@ -45,19 +44,19 @@ public abstract class LCH<T> : ColorModel3 where T : ColorModel3, new()
 
     //...
 
-    /// <summary>(🗸) <see cref="LCH{T}"/> > <see cref="LCC"/></summary>
-    public Vector3 FromLCh()
+    /// <summary>(🗸) <see cref="LCH{T}"/> > <see cref="LCH{T}">T</see></summary>
+    public virtual Vector3 FromLCh(Vector3 input)
     {
-        double c = Y, h = Z;
+        double c = input.Y, h = input.Z;
         h = Angle.GetRadian(h);
 
         var a = c * Cos(h);
         var b = c * Sin(h);
-        return new(X, a, b);
+        return new(input.X, a, b);
     }
 
-    /// <summary>(🗸) <see cref="LCC"/> > <see cref="LCH{T}"/></summary>
-    public Vector3 ToLCh(Vector3 input)
+    /// <summary>(🗸) <see cref="LCH{T}">T</see> > <see cref="LCH{T}"/></summary>
+    public virtual Vector3 ToLCh(Vector3 input)
     {
         double a = input.Y, b = input.Z;
 
@@ -68,28 +67,20 @@ public abstract class LCH<T> : ColorModel3 where T : ColorModel3, new()
         return new(input.X, c, h);
     }
 
-    /// <summary>(🗸) <see cref="Lrgb"/> > <see cref="LCC">T</see> > <see cref="LCH{T}"/></summary>
+    /// <summary>(🗸) <see cref="Lrgb"/> > <see cref="LCH{T}">T</see> > <see cref="LCH{T}"/></summary>
     public override void From(Lrgb input, WorkingProfile profile)
     {
         var result = new T();
         result.From(input, profile);
 
-        var components = Colour.Components[typeof(T)];
-
-        Range<double> xRange = components[0].Range, yRange = components[1].Range, zRange = components[2].Range;
-
-        result.X = xRange.Convert(   0, 100, result.X);
-        result.Y = yRange.Convert(-100, 100, result.Y);
-        result.Z = zRange.Convert(-100, 100, result.Z);
-
         Value = ToLCh(result);
     }
 
-    /// <summary>(🗸) <see cref="LCH{T}"/> > <see cref="LCC">T</see> > <see cref="Lrgb"/></summary>
+    /// <summary>(🗸) <see cref="LCH{T}"/> > <see cref="LCH{T}">T</see> > <see cref="Lrgb"/></summary>
     public override Lrgb To(WorkingProfile profile)
     {
         T result = new();
-        result.From(FromLCh());
+        result.From(FromLCh(Value));
 
         return result.To(profile);
     }

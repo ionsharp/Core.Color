@@ -27,8 +27,7 @@ public partial struct WorkingProfile : IEquatable<WorkingProfile>
     public static Primary3 DefaultPrimary => sRGBPrimary;
 
     /// <summary>What should these values be...?</summary>
-    public static CAM02.ViewingConditions DefaultViewingConditions 
-        => new CAM02.ViewingConditions() { Aw = 1, D = 1, FL = 1, LA = 1, n = 1, Nbb = 1, Ncb = 1, Surround = CAM02.Surrounds.Average, Yb = 1, z = 1 };
+    public static CAM02.ViewingConditions DefaultViewingConditions => new();
 
     /// <summary><see cref="WorkingProfiles.sRGB"/></summary>
     public static Vector2 DefaultWhite => sRGBWhite;

@@ -1,4 +1,5 @@
 ﻿using System;
+using Imagin.Core.Numerics;
 
 namespace Imagin.Core.Colors;
 
@@ -19,8 +20,19 @@ public class RGV : ColorModel3
     public RGV() : base() { }
 
 	/// <summary>(🞩) <see cref="Lrgb"/> > <see cref="RGV"/></summary>
-	public override void From(Lrgb input, WorkingProfile profile) 
+	public override void From(Lrgb input, WorkingProfile profile)
 	{
+		//(100%) Red
+		//> O = 75%, V = 25%
+
+		//(100%) Green
+		//> G = 75%, O = 25%
+
+		//(100%) Blue
+		//> V = 75%, G = 25%
+
+		double r = input.X, g = input.Y, b = input.Z;
+		Value = new Vector3(0.75 * r + 0.25 * g, 0.75 * g + 0.25 * b, 0.75 * b + 0.25 * r) * 255;
 	}
 
 	/// <summary>(🗸) <see cref="RGV"/> > <see cref="Lrgb"/></summary>

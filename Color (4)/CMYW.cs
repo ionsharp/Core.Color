@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Imagin.Core.Numerics;
+using System;
+using static System.Math;
 
 namespace Imagin.Core.Colors;
 
@@ -14,7 +16,16 @@ public sealed class CMYW : ColorModel4
     public CMYW() : base() { }
 
     /// <summary>(🗸) <see cref="Lrgb"/> > <see cref="CMYW"/></summary>
-    public override void From(Lrgb input, WorkingProfile profile) { }
+    public override void From(Lrgb input, WorkingProfile profile)
+    {
+        var r = input.X; var g = input.Y; var b = input.Z;
+        var w = Min(r, Min(g, b));
+
+        r -= w; r /= 1 - w;
+        g -= w; g /= 1 - w;
+        b -= w; b /= 1 - w;
+        Value = new Vector4(1 - r, 1 - g, 1 - b, w) * 100;
+    }
 
     /// <summary>(🗸) <see cref="CMYW"/> > <see cref="Lrgb"/></summary>
     public override Lrgb To(WorkingProfile profile)
@@ -24,15 +35,9 @@ public sealed class CMYW : ColorModel4
         double b = (100 - Z) / 100;
         double w = W / 100;
 
-        r *= (1 - w);
-        r += w;
-
-        g *= (1 - w);
-        g += w;
-
-        b *= (1 - w);
-        b += w;
-
+        r *= (1 - w); r += w;
+        g *= (1 - w); g += w;
+        b *= (1 - w); b += w;
         return Colour.New<Lrgb>(r, g, b);
     }
 }

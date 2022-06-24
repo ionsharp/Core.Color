@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Imagin.Core.Numerics;
+using System;
 using static System.Math;
 
 namespace Imagin.Core.Colors;
@@ -20,7 +21,16 @@ public sealed class RGBW : ColorModel4
     public RGBW() : base() { }
 
     /// <summary>(🗸) <see cref="Lrgb"/> > <see cref="RGBW"/></summary>
-    public override void From(Lrgb input, WorkingProfile profile) { }
+    public override void From(Lrgb input, WorkingProfile profile)
+    {
+        var r = input.X; var g = input.Y; var b = input.Z;
+        var w = Min(r, Min(g, b));
+
+        r -= w; r /= 1 - w;
+        g -= w; g /= 1 - w;
+        b -= w; b /= 1 - w;
+        Value = new Vector4(r, g, b, w) * 255;
+    }
 
     /// <summary>(🗸) <see cref="RGBW"/> > <see cref="Lrgb"/></summary>
     public override Lrgb To(WorkingProfile profile)
@@ -30,15 +40,9 @@ public sealed class RGBW : ColorModel4
         double b = Z / 255;
         double w = W / 255;
 
-        r *= (1 - w);
-        r += w;
-
-        g *= (1 - w);
-        g += w;
-
-        b *= (1 - w);
-        b += w;
-
+        r *= (1 - w); r += w;
+        g *= (1 - w); g += w;
+        b *= (1 - w); b += w;
         return Colour.New<Lrgb>(r, g, b);
     }
 }

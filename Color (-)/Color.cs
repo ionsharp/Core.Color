@@ -180,19 +180,20 @@ public static partial class Colour
     public static ColorModel New(Type i, Vector input)
     {
         var result = New(i);
-        if (result is ColorModel2 a && input.Length >= 2)
+
+        if (result is ColorModel4 c && input.Length >= 4)
         {
-            a.X = input[0]; a.Y = input[1];
+            c.X = input[0]; c.Y = input[1]; c.Z = input[2]; c.W = input[3];
         }
 
-        if (result is ColorModel3 b && input.Length >= 2)
+        else if(result is ColorModel3 b && input.Length >= 3)
         {
             b.X = input[0]; b.Y = input[1]; b.Z = input[2];
         }
 
-        if (result is ColorModel4 c && input.Length >= 2)
+        else if(result is ColorModel2 a && input.Length >= 2)
         {
-            c.X = input[0]; c.Y = input[1]; c.Z = input[2]; c.W = input[3];
+            a.X = input[0]; a.Y = input[1];
         }
 
         else throw new NotSupportedException();

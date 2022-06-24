@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Imagin.Core.Numerics;
+using System;
 
 namespace Imagin.Core.Colors;
 
@@ -17,4 +18,12 @@ namespace Imagin.Core.Colors;
 public class LCHabj : LCH<Labj>
 {
     public LCHabj() : base() { }
+
+    /// <inheritdoc/>
+    public override Vector3 ToLCh(Vector3 input)
+        => base.ToLCh(input * 100);
+
+    /// <inheritdoc/>
+    public override Vector3 FromLCh(Vector3 input)
+        => base.FromLCh(input) / 100;
 }

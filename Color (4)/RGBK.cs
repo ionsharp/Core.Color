@@ -22,11 +22,10 @@ public sealed class RGBK : ColorModel4
         var k0 = 1.0 - Max(input.X, Max(input.Y, input.Z));
         var k1 = 1.0 - k0;
 
-        var r = (input.X - k0) / k1;
-        var g = (input.Y - k0) / k1;
-        var b = (input.Z - k0) / k1;
-
-        Value = new Vector4(r.NaN(0), g.NaN(0), b.NaN(0), k0) * 100;
+        var r = (1 - input.X - k0) / k1;
+        var g = (1 - input.Y - k0) / k1;
+        var b = (1 - input.Z - k0) / k1;
+        Value = new Vector4(1 - r.NaN(0), 1 - g.NaN(0), 1 - b.NaN(0), k0) * 255;
     }
 
     /// <summary>(🗸) <see cref="RGBK"/> > <see cref="Lrgb"/></summary>

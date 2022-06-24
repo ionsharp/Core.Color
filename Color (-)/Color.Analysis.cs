@@ -1,6 +1,7 @@
 ﻿using Imagin.Core.Linq;
 using Imagin.Core.Numerics;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using static System.Double;
 using static System.Math;
@@ -65,11 +66,56 @@ public static partial class Colour
 
         //...
 
+        static void Compare(ColorModel m, int length, double[] minimum, double[] maximum)
+        {
+            for (var i = 0; i < length; i++)
+            {
+                if (m[i] < minimum[i])
+                    minimum[i] = m[i];
+
+                if (m[i] > maximum[i])
+                    maximum[i] = m[i];
+            }
+        }
+
+        static void Clean(int length, List<ColorModel> values, double[] minimum, double[] maximum)
+        {
+            var marked = new List<int>();
+            for (var i = 0; i < length; i++)
+            {
+                var hell = values.Select(j => j[i]);
+
+                double avg = hell.Average();
+                double std = Sqrt(hell.Average(j => Pow(j - avg, 2)));
+
+                for (var j = values.Count - 1; j >= 0; j--)
+                {
+                    if ((Abs(values[j][i] - avg)) > (2 * std))
+                        marked.Add(j);
+                }
+            }
+
+            for (var i = marked.Count - 1; i >= 0; i--)
+                values.RemoveAt(marked[i]);
+
+            foreach (var i in values)
+                Compare(i, length, minimum, maximum);
+        }
+
+        static double[] GetArray(int length, double input)
+        {
+            var result = new double[length];
+            for (var i = 0; i < length; i++)
+                result[i] = input;
+
+            return result;
+        }
+
         /// <summary>
         /// Converts all <see cref="RGB"/> colors to the given <see cref="ColorModel">color space</see> and gets the estimated range of that <see cref="ColorModel">color space</see>.
         /// </summary>
         /// <param name="depth">A number in the range [1, ∞].</param>
-        public static Range<Vector> GetRange(Type model, WorkingProfile profile, out Vector accuracy, bool reverse = false, uint depth = 10, int precision = 3, bool log = false)
+        public static Range<Vector> GetRange(Type model, WorkingProfile profile, out double accuracy, bool reverse = false, uint depth = 10, int precision = 3, bool log = false)
         {
             var rgb = new RGB();
             var xyz = New(model);
@@ -87,16 +133,12 @@ public static partial class Colour
             var normalRange = new DoubleRange(0, 1);
             Vector min = Minimum(model), max = Maximum(model);
 
+            List<ColorModel> values = new();
+
             void f(ColorModel m)
             {
-                for (var i = 0; i < length; i++)
-                {
-                    if (m[i] < minimum[i])
-                        minimum[i] = m[i];
-
-                    if (m[i] > maximum[i])
-                        maximum[i] = m[i];
-                }
+                Compare(m, length, minimum, maximum);
+                //values.Add(m);
             }
 
             try
@@ -171,6 +213,8 @@ public static partial class Colour
                     }
                 }
 
+                //Clean(length, values, minimum, maximum);
+
                 var aV = new double[length];
                 for (var i = 0; i < length; i++)
                 {
@@ -182,18 +226,14 @@ public static partial class Colour
                     maximum[i] = M.Clamp(maximum[i], 999, -999).Round(precision);
                 }
 
-                accuracy = new(aV);
+                accuracy = new Vector(aV).Sum() / length.Double();
                 return new(minimum, maximum);
             }
             catch (Exception e)
             {
                 log.If(true, () => Analytics.Log.Write<ColorModel>(e));
 
-                var aV = new double[length];
-                for (var i = 0; i < length; i++)
-                    aV[i] = 0;
-
-                accuracy = new(aV);
+                accuracy = 0;
                 return new(Vector3.Zero, Vector3.Zero);
             }
         }
@@ -203,6 +243,6 @@ public static partial class Colour
         /// </summary>
         /// <param name="depth">A number in the range [1, ∞].</param>
         public static Range<Vector> GetRange<T>(WorkingProfile profile, bool reverse, uint depth = 10, int precision = 3, bool log = false) where T : ColorModel 
-            => GetRange(typeof(T), profile, out Vector _, reverse, depth, precision, log);
+            => GetRange(typeof(T), profile, out double _, reverse, depth, precision, log);
     }
 }

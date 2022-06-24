@@ -32,7 +32,7 @@ public class Qsh : CAM02
     /// <summary>(🗸) <see cref="XYZ"/> > <see cref="Qsh"/></summary>
     public override void From(XYZ input, WorkingProfile profile)
     {
-        var result = From<Qsh>(input, new(), profile);
+        var result = From<Qsh>(input, profile);
         Value = new(result.Q, result.s, result.h);
     }
 }

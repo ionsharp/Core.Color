@@ -1,7 +1,6 @@
-﻿using System;
+﻿using Imagin.Core.Linq;
 using Imagin.Core.Numerics;
-
-using static System.Double;
+using System;
 using static System.Math;
 
 namespace Imagin.Core.Colors;
@@ -59,14 +58,7 @@ public class Labh : ColorModel3<XYZ>
         var L = 100 * Sqrt(Y / Yn);
         var a = Ka * ((X / Xn - Y / Yn) / Sqrt(Y / Yn));
         var b = Kb * ((Y / Yn - Z / Zn) / Sqrt(Y / Yn));
-
-        if (IsNaN(a))
-            a = 0;
-
-        if (IsNaN(b))
-            b = 0;
-
-        Value = new(L, a, b);
+        Value = new(L, a.NaN(0), b.NaN(0));
     }
 
     /// <summary>(🗸) <see cref="Labh"/> > <see cref="XYZ"/></summary>
