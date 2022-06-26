@@ -1,6 +1,6 @@
 ﻿namespace Imagin.Core.Colors;
 
-/// <summary>https://en.wikipedia.org/wiki/Web_colors#Basic_colors</summary>
+/// <remarks>https://en.wikipedia.org/wiki/Web_colors#Basic_colors</remarks>
 public static class BasicColors
 {
     public const string White = "FFFFFF";

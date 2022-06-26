@@ -26,4 +26,6 @@ public struct Rec709Compression : ICompress
         var V = L < 0.018 ? 4.5 * L : 1.099 * Pow(L, 0.45) - 0.099;
         return V;
     }
+
+    public override string ToString() => name;
 }

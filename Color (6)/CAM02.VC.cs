@@ -17,6 +17,7 @@ public abstract partial class CAM02
 
         //...
 
+        [Horizontal]
         public Surrounds Surround { get; private set; } = Surrounds.Average;
 
         [Hidden]

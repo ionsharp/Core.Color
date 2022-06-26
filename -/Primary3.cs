@@ -9,13 +9,13 @@ public struct Primary3 : IEquatable<Primary3>
 {
     #region Fields
 
-    [Object(ObjectLayout.Horizontal)]
+    [Horizontal]
     public Vector2 R { get; private set; } = Vector2.Zero;
 
-    [Object(ObjectLayout.Horizontal)]
+    [Horizontal]
     public Vector2 G { get; private set; } = Vector2.Zero;
 
-    [Object(ObjectLayout.Horizontal)]
+    [Horizontal]
     public Vector2 B { get; private set; } = Vector2.Zero;
 
     #endregion
@@ -39,7 +39,7 @@ public struct Primary3 : IEquatable<Primary3>
     #region Methods
 
     public override string ToString()
-        => $"R = {R}, G = {G}, B = {B}";
+        => $"R = ({R}), G = ({G}), B = ({B})";
 
     #endregion
 

@@ -1,6 +1,8 @@
 ﻿using Imagin.Core.Linq;
 using Imagin.Core.Numerics;
 using System;
+using System.Collections.ObjectModel;
+using System.Reflection;
 
 namespace Imagin.Core.Colors;
 
@@ -8,6 +10,8 @@ namespace Imagin.Core.Colors;
 [Serializable]
 public partial struct WorkingProfile : IEquatable<WorkingProfile>
 {
+    enum Category { Chromacity }
+
     #region Properties
 
     public static WorkingProfile Default => WorkingProfiles.sRGB;
@@ -34,29 +38,30 @@ public partial struct WorkingProfile : IEquatable<WorkingProfile>
 
     //...
 
+    [Horizontal, Index(3)]
     public Matrix Adapt { get; private set; } = LMS.Transform.Default;
 
-    [Object(ObjectLayout.Horizontal)]
+    [Horizontal, Index(0)]
     public Vector2 Chromacity { get; private set; } = DefaultWhite;
-
-    [Object(ObjectLayout.Vertical)]
+    
+    [Index(2)]
     public ICompress Compress { get; private set; } = DefaultCompression;
 
-    [Object(ObjectLevel.Low, ObjectLayout.Horizontal)]
+    [Horizontal, Index(1)]
     public Primary3 Primary { get; private set; } = DefaultPrimary;
 
-    [Object(ObjectLayout.Vertical)]
+    [DisplayName("Conditions"), Index(4)]
     public CAM02.ViewingConditions ViewingConditions { get; private set; } = DefaultViewingConditions;
 
     /// <summary><see cref="White"/> = (<see cref="Vector3"/>)(<see cref="XYZ"/>)(<see cref="xyY"/>)(<see cref="xy"/>)<see cref="Chromacity"/></summary><remarks>Default = <see cref="Vector3.One"/></remarks>
     [Hidden]
-    public readonly Vector3 White = Vector3.One;
+    public Vector3 White { get; private set; } = Vector3.One;
 
     #endregion
 
     #region WorkingProfile
 
-    public WorkingProfile() { }
+    public WorkingProfile() : this(DefaultPrimary, DefaultWhite, DefaultCompression, LMS.Transform.Default, DefaultViewingConditions) { }
 
     public WorkingProfile(Vector2 pR, Vector2 pG, Vector2 pB, Vector2 chromacity, ICompress compress, Matrix? adapt = null, CAM02.ViewingConditions? viewingConditions = null)
     {

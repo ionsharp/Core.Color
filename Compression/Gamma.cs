@@ -30,4 +30,6 @@ public struct GammaCompression : ICompress
         var v = Pow(V, Gamma);
         return v;
     }
+
+    public override string ToString() => $"{name} ({Gamma})";
 }

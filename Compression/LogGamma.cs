@@ -43,4 +43,6 @@ public struct LogGammaCompression : ICompress
 
         return a * Log(12 * E - b) + c; //1 / 12 < E <= 1
     }
+
+    public override string ToString() => name;
 }

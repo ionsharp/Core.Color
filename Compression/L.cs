@@ -28,4 +28,6 @@ public struct LCompression : ICompress
         var V = v <= CIE.IEpsilon ? v * CIE.IKappa / 100d : 1.16 * Math.Pow(v, 1.0 / 3.0) - 0.16;
         return V;
     }
+
+    public override string ToString() => name;
 }

@@ -40,4 +40,6 @@ public struct PQCompression : ICompress
 
         return Pow(c1 + c2 * Pow(Y, m1) / (1 + c3 * Pow(Y, m1)), m2);
     }
+
+    public override string ToString() => name;
 }

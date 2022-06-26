@@ -26,4 +26,6 @@ public struct sRGBCompression : ICompress
         var V = v <= 0.0031308 ? 12.92 * v : 1.055 * Math.Pow(v, 1 / 2.4d) - 0.055;
         return V;
     }
+
+    public override string ToString() => name;
 }

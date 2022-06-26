@@ -26,4 +26,6 @@ public struct Rec2020Compression : ICompress
         var L = V < CIE.BetaInverse ? V / 4.5 : Pow((V + CIE.Alpha - 1.0) / CIE.Alpha, 1 / 0.45);
         return L;
     }
+
+    public override string ToString() => name;
 }
