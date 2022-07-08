@@ -1,8 +1,6 @@
 ﻿using Imagin.Core.Linq;
 using Imagin.Core.Numerics;
 using System;
-using System.Collections.ObjectModel;
-using System.Reflection;
 
 namespace Imagin.Core.Colors;
 
@@ -39,7 +37,7 @@ public partial struct WorkingProfile : IEquatable<WorkingProfile>
     //...
 
     [Horizontal, Index(3)]
-    public Matrix Adapt { get; private set; } = LMS.Transform.Default;
+    public Matrix Adapt { get; private set; } = ChromaticAdaptationTransform.Default;
 
     [Horizontal, Index(0)]
     public Vector2 Chromacity { get; private set; } = DefaultWhite;
@@ -61,18 +59,18 @@ public partial struct WorkingProfile : IEquatable<WorkingProfile>
 
     #region WorkingProfile
 
-    public WorkingProfile() : this(DefaultPrimary, DefaultWhite, DefaultCompression, LMS.Transform.Default, DefaultViewingConditions) { }
+    public WorkingProfile() : this(DefaultPrimary, DefaultWhite, DefaultCompression, ChromaticAdaptationTransform.Default, DefaultViewingConditions) { }
 
     public WorkingProfile(Vector2 pR, Vector2 pG, Vector2 pB, Vector2 chromacity, ICompress compress, Matrix? adapt = null, CAM02.ViewingConditions? viewingConditions = null)
     {
-        Primary = new(pR, pG, pB); Chromacity = chromacity; Compress = compress; Adapt = adapt ?? LMS.Transform.Default; 
+        Primary = new(pR, pG, pB); Chromacity = chromacity; Compress = compress; Adapt = adapt ?? ChromaticAdaptationTransform.Default; 
         ViewingConditions = viewingConditions ?? DefaultViewingConditions;
         White = (XYZ)(xyY)(xy)Chromacity;
     }
 
     public WorkingProfile(Primary3 primary, Vector2 chromacity, ICompress compress, Matrix? adapt = null, CAM02.ViewingConditions? viewingConditions = null)
     {
-        Primary = primary; Chromacity = chromacity; Compress = compress; Adapt = adapt ?? LMS.Transform.Default; 
+        Primary = primary; Chromacity = chromacity; Compress = compress; Adapt = adapt ?? ChromaticAdaptationTransform.Default; 
         ViewingConditions = viewingConditions ?? DefaultViewingConditions;
         White = (XYZ)(xyY)(xy)Chromacity;
     }

@@ -1,4 +1,5 @@
 ﻿using Imagin.Core.Numerics;
+using System;
 using static System.Math;
 
 namespace Imagin.Core.Colors;
@@ -8,8 +9,11 @@ namespace Imagin.Core.Colors;
 /// <para>https://github.com/tompazourek/Colourful</para>
 /// <para>https://observablehq.com/@jrus/jzazbz</para>
 /// </remarks>
-public sealed class JzCzhzDEzColorDifference : IColorDifference<LCHabj>
+[DisplayName("Delta Ez"), Serializable]
+public sealed class JzCzhzDEzColorDifference : IColorDifference<LCHabj>, IColorDifference
 {
+    public JzCzhzDEzColorDifference() { }
+
     /// <inheritdoc />
     public double ComputeDifference(in LCHabj x, in LCHabj y)
     {
@@ -21,4 +25,6 @@ public sealed class JzCzhzDEzColorDifference : IColorDifference<LCHabj>
         var dHz2 = 2 * x.Y * y.Y * (1 - Cos(dhz));
         return Sqrt(dJz * dJz + dCz * dCz + dHz2);
     }
+
+    double IColorDifference.ComputeDifference(in ColorModel x, in ColorModel y) => ComputeDifference((LCHabj)x, (LCHabj)y);
 }

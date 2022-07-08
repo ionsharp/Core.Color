@@ -257,4 +257,28 @@ public static partial class Colour
     public static Range<Vector> Range<T>() where T : ColorModel => Range(typeof(T));
 
     #endregion
+
+    public static string FindName(ByteVector4 input)
+    {
+        List<Type> types = new()
+        {
+            typeof(BasicColors), typeof(CSSColors),
+            typeof(Colors1), typeof(Colors2), typeof(Colors3), typeof(Colors4), typeof(Colors5)
+        };
+
+        foreach (var i in types)
+        {
+            var fields = i.GetFields();
+            if (fields?.Length > 0)
+            {
+                foreach (var j in fields)
+                {
+                    if (j.GetValue(null).To<string>().ToLower() == input.ToString(false).ToLower())
+                        return j.Name.SplitCamel();
+                }
+            }
+        }
+
+        return null;
+    }
 }

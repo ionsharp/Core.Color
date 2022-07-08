@@ -1,4 +1,5 @@
 ﻿using Imagin.Core.Numerics;
+using Imagin.Core.Linq;
 using System;
 
 namespace Imagin.Core.Colors;
@@ -15,6 +16,8 @@ public abstract class ColorModel : IColorModel, IConvert<Lrgb>, IConvert<RGB>
     public abstract int Length { get; }
 
     internal abstract double this[int index] { get; }
+
+    public abstract Vector Values { get; }
 
     #endregion
 
@@ -116,13 +119,15 @@ public abstract class ColorModel : IColorModel, IConvert<Lrgb>, IConvert<RGB>
     }
 
     /// <summary>(🗸) this > <see cref="Lrgb"/> > <see cref="To{T}(WorkingProfile)">T</see></summary>
-    public T To<T>(WorkingProfile profile = default) where T : ColorModel, new()
+    public T To<T>(WorkingProfile profile = default) where T : ColorModel, new() => (T)To(typeof(T), profile);
+
+    public ColorModel To(Type model, WorkingProfile profile = default)
     {
         //this > RGB
         To(out RGB rgb, profile);
 
         //RGB > T
-        var result = new T();
+        var result = model.Create<ColorModel>();
         result.From(rgb, profile);
         return result;
     }
@@ -160,6 +165,8 @@ public abstract class ColorModel<T> : ColorModel, IEquatable<ColorModel<T>> wher
     #endregion
 
     #region Methods
+
+    public override Vector Values => Value.Values;
 
     public override string ToString() => Value.ToString();
 

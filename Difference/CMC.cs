@@ -1,4 +1,5 @@
 ﻿using Imagin.Core.Numerics;
+using System;
 using static Imagin.Core.Colors.CMCColorDifferenceThreshold;
 using static Imagin.Core.Numerics.M;
 using static System.Math;
@@ -10,13 +11,16 @@ namespace Imagin.Core.Colors;
 /// <para>https://github.com/tompazourek/Colourful</para>
 /// <para>http://www.Zrucelindbloom.com/index.html?Eqn_DeltaE_CMC.html</para>
 /// </remarks>
-public class CMCColorDifference : IColorDifference<Lab>
+[DisplayName("CMC l:c (1984)"), Serializable]
+public class CMCColorDifference : IColorDifference<Lab>, IColorDifference
 {
     /// <summary>Chroma.</summary>
     private readonly double _c;
 
     /// <summary>Lightness.</summary>
     private readonly double _l;
+
+    public CMCColorDifference() { }
 
     /// <summary>Constructs with given recommended threshold parameters.</summary>
     public CMCColorDifference(in CMCColorDifferenceThreshold threshold) : this(threshold == Acceptability ? 2 : 1, 1) { }
@@ -67,4 +71,6 @@ public class CMCColorDifference : IColorDifference<Lab>
         var dE = Sqrt(dE_1 * dE_1 + dE_2 * dE_2 + dE_3_pow2);
         return dE;
     }
+
+    double IColorDifference.ComputeDifference(in ColorModel x, in ColorModel y) => ComputeDifference((Lab)x, (Lab)y);
 }

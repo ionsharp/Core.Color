@@ -199,10 +199,10 @@ public abstract partial class CAM02 : ColorModel3<XYZ>
         double a, ca, cb;
         double et, t, temp;
 
-        var rgb = LMS.Transform.CAT02 * new Vector(input.X, input.Y, input.Z);
+        var rgb = ChromaticAdaptationTransform.CAT02 * new Vector(input.X, input.Y, input.Z);
         r = rgb[0]; g = rgb[1]; b = rgb[2];
 
-        var rgbw = LMS.Transform.CAT02 * new Vector(profile.White.X * 100, profile.White.Y * 100, profile.White.Z * 100);
+        var rgbw = ChromaticAdaptationTransform.CAT02 * new Vector(profile.White.X * 100, profile.White.Y * 100, profile.White.Z * 100);
         rw = rgbw[0]; gw = rgbw[1]; bw = rgbw[2];
 
         rc = r * (((profile.White.Y * 100 * vc.D) / rw) + (1.0 - vc.D));
@@ -292,7 +292,7 @@ public abstract partial class CAM02 : ColorModel3<XYZ>
         double p1, p2, p3, p4, p5, hr;
         double tx = 0, ty = 0, tz = 0;
 
-        var rgbw = LMS.Transform.CAT02 * new Vector(profile.White.X * 100, profile.White.Y * 100, profile.White.Z * 100);
+        var rgbw = ChromaticAdaptationTransform.CAT02 * new Vector(profile.White.X * 100, profile.White.Y * 100, profile.White.Z * 100);
         rw = rgbw[0]; gw = rgbw[1]; bw = rgbw[2];
 
         t = Pow(input.C / (Sqrt(input.J / 100.0) * Pow(1.64 - Pow(0.29, vc.n), 0.73)), (1.0 / 0.9));
@@ -335,7 +335,7 @@ public abstract partial class CAM02 : ColorModel3<XYZ>
         var xyzt = HPE_XYZ * new Vector(rp, gp, bp);
         tx = xyzt[0]; ty = xyzt[1]; tz = xyzt[2];
 
-        var rgbc = LMS.Transform.CAT02 * new Vector(tx, ty, tz);
+        var rgbc = ChromaticAdaptationTransform.CAT02 * new Vector(tx, ty, tz);
         rc = rgbc[0]; gc = rgbc[1]; bc = rgbc[2];
 
         r = rc / (((profile.White.Y * 100 * vc.D) / rw) + (1.0 - vc.D));

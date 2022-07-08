@@ -15,5 +15,6 @@ public static class Illuminant
     public static XYZ Default => Colour.New<xy>(Illuminant2.D65).To<XYZ>(default);
 
     /// <summary> Equal energy (<see cref="Illuminant">5454</see> K).</summary>
+    [Description("Equal energy")]
     public static Vector2 E => new(0.33333, 0.33333);
 }

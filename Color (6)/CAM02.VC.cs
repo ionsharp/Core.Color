@@ -99,7 +99,7 @@ public abstract partial class CAM02
             double rp = 0, gp = 0, bp = 0;
             double rpa, gpa, bpa;
 
-            var rgb = LMS.Transform.CAT02 * new Vector(white.X * 100, white.Y * 100, white.Z * 100);
+            var rgb = ChromaticAdaptationTransform.CAT02 * new Vector(white.X * 100, white.Y * 100, white.Z * 100);
             r = rgb[0]; g = rgb[1]; b = rgb[2];
 
             rc = r * (((white.Y * 100 * D) / r) + (1.0 - D));

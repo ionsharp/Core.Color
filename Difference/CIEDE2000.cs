@@ -1,4 +1,5 @@
 ﻿using Imagin.Core.Numerics;
+using System;
 using System.Diagnostics.CodeAnalysis;
 using static Imagin.Core.Numerics.M;
 using static System.Math;
@@ -7,8 +8,11 @@ namespace Imagin.Core.Colors;
 
 /// <summary>CIE Delta-E 2000 color difference formula.</summary>
 /// <remarks>https://github.com/tompazourek/Colourful</remarks>
-public class CIEDE2000ColorDifference : IColorDifference<Lab>
+[DisplayName("CIE Delta-E 2000"), Serializable]
+public class CIEDE2000ColorDifference : IColorDifference<Lab>, IColorDifference
 {
+    public CIEDE2000ColorDifference() { }
+
     // parametric weighting factors:
     private const double k_H = 1;
     private const double k_L = 1;
@@ -137,4 +141,6 @@ public class CIEDE2000ColorDifference : IColorDifference<Lab>
         // note: no need to check for (Abs(delta) > 180 && sum >= 360), it's always true
         return (sum - 360) / 2;
     }
+
+    double IColorDifference.ComputeDifference(in ColorModel x, in ColorModel y) => ComputeDifference((Lab)x, (Lab)y);
 }

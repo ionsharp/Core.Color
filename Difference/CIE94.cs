@@ -1,4 +1,5 @@
-﻿using static Imagin.Core.Colors.CIE94ColorDifferenceApplication;
+﻿using System;
+using static Imagin.Core.Colors.CIE94ColorDifferenceApplication;
 using static Imagin.Core.Numerics.M;
 using static System.Math;
 
@@ -9,7 +10,8 @@ namespace Imagin.Core.Colors;
 /// <para>https://github.com/tompazourek/Colourful</para>
 /// <para>http://www.Zrucelindbloom.com/Eqn_DeltaE_CIE94.html</para>
 /// </remarks>
-public class CIE94ColorDifference : IColorDifference<Lab>
+[DisplayName("CIE Delta-E 1994"), Serializable]
+public class CIE94ColorDifference : IColorDifference<Lab>, IColorDifference
 {
     private const double KH = 1;
     private const double KC = 1;
@@ -58,4 +60,6 @@ public class CIE94ColorDifference : IColorDifference<Lab>
         var dE94 = Sqrt(Pow2(dL / (KL * SL)) + Pow2(dC / (KC * SC)) + dH_sq / Pow2(KH * SH));
         return dE94;
     }
+
+    double IColorDifference.ComputeDifference(in ColorModel x, in ColorModel y) => ComputeDifference((Lab)x, (Lab)y);
 }
