@@ -7,11 +7,13 @@ namespace Imagin.Core.Colors;
 
 /// <summary>
 /// <b>Perceived lightness (L), Red/green (a), Blue/yellow (b)</b>
+/// <para>A model that defines color as having perceived lightness (L), red/green (a), and blue/yellow (b).</para>
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="XYZ"/> > <see cref="Labk"/></para>
 /// </summary>
 /// <remarks>https://colour.readthedocs.io/en/develop/_modules/colour/models/oklab.html</remarks>
 [Component(1, '°', "L", "Perceived lightness"), Component(1, '%', "a", "Red/green"), Component(1, '%', "b", "Blue/yellow")]
-[Hidden, Serializable]
+[Category(Class.Labk), Hidden, Serializable]
+[Description("A model that defines color as having perceived lightness (L), red/green (a), and blue/yellow (b).")]
 public class Labk : ColorModel3<XYZ>
 {
     public Labk() : base() { }

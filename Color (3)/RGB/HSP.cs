@@ -8,11 +8,13 @@ namespace Imagin.Core.Colors;
 
 /// <summary>
 /// <b>Hue (H), Saturation (S), Percieved brightness (P)</b>
+/// <para>A model that defines color as having hue (H), saturation (S), and percieved brightness (P).</para>
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="HSP"/></para>
 /// </summary>
 /// <remarks>https://github.com/colorjs/color-space/blob/master/hsp.js</remarks>
 [Component(360, '°', "H", "Hue"), Component(100, '%', "S", "Saturation"), Component(255, ' ', "P", "Percieved brightness")]
-[Serializable]
+[Category(Class.HS), Serializable]
+[Description("A model that defines color as having hue (H), saturation (S), and percieved brightness (P).")]
 public class HSP : ColorModel3
 {
     public HSP() : base() { }

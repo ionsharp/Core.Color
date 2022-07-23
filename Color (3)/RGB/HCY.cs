@@ -5,11 +5,13 @@ namespace Imagin.Core.Colors;
 
 /// <summary>
 /// <b>Hue (H), Chroma (C), Luminance (Y)</b>
+/// <para>A model that defines color as having hue (H), chroma (C), and luminance (Y).</para>
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="HCY"/></para>
 /// </summary>
 /// <remarks>https://github.com/colorjs/color-space/blob/master/hcy.js</remarks>
 [Component(360, '°', "H", "Hue"), Component(100, '%', "C", "Chroma"), Component(255, ' ', "Y", "Luminance")]
-[Serializable]
+[Category(Class.HC), Serializable]
+[Description("A model that defines color as having hue (H), chroma (C), and luminance (Y).")]
 public class HCY : ColorModel3
 {
     public HCY() : base() { }

@@ -5,11 +5,13 @@ namespace Imagin.Core.Colors;
 
 /// <summary>
 /// <b>Hue (H), Chroma (C), Gray (V)</b>
+/// <para>A model that defines color as having hue (H), chroma (C), and gray (V).</para>
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="HCV"/></para>
 /// </summary>
 /// <remarks>https://github.com/helixd2s/hcv-color</remarks>
 [Component(360, '°', "H", "Hue"), Component(100, '%', "C", "Chroma"), Component(100, '%', "V", "Gray")]
-[Serializable]
+[Category(Class.HC), Serializable]
+[Description("A model that defines color as having hue (H), chroma (C), and gray (V).")]
 public class HCV : ColorModel3
 {
     public HCV() : base() { }

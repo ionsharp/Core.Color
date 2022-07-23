@@ -23,7 +23,8 @@ namespace Imagin.Core.Colors;
 /// </summary>
 /// <remarks>https://github.com/tompazourek/Colourful</remarks>
 [Component(255, "R", "Red"), Component(255, "G", "Green"), Component(255, "B", "Blue")]
-[Serializable]
+[Description("An additive color model in which the <b>Red</b>, <b>Green</b>, and <b>Blue</b> <i>primary</i> colors are added together.")]
+[Category(Class.RGB), Serializable]
 public class RGB : ColorModel3
 {
     public RGB() : base() { }
@@ -44,7 +45,7 @@ public class RGB : ColorModel3
     /// <summary>(🗸) <see cref="Lrgb"/> > <see cref="RGB"/></summary>
     public override void From(Lrgb input, WorkingProfile profile)
     {
-        var result = input.XYZ.Transform((i, j) => profile.Compress.Transfer(j));
+        var result = input.XYZ.Transform((i, j) => profile.Compression.Transfer(j));
         Value = M.Denormalize(result, new(0), new(255));
     }
 
@@ -65,7 +66,7 @@ public class RGB : ColorModel3
     public override Lrgb To(WorkingProfile profile)
     {
         var oldValue = M.Normalize(XYZ, new(0), new(255));
-        return Colour.New<Lrgb>(oldValue.Transform((i, j) => profile.Compress.TransferInverse(j)));
+        return Colour.New<Lrgb>(oldValue.Transform((i, j) => profile.Compression.TransferInverse(j)));
     }
 
     /// <summary>(🗸) <see cref="RGB"/> > <see cref="RGB"/></summary>

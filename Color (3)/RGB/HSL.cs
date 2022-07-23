@@ -8,7 +8,7 @@ namespace Imagin.Core.Colors;
 
 /// <summary>
 /// <b>Hue (H), Saturation (S), Lightness (L)</b>
-/// <para>A color space similar to <see cref="HSB"/> where "lightness" (a perfectly light color is pure white) replaces "brightness" (a perfectly bright color is analogous to shining a white light on a colored object).</para>
+/// <para>A model similar to 'HSB' where 'Lightness' (a perfectly light color is pure white) replaces 'Brightness' (a perfectly bright color is analogous to shining a white light on a colored object).</para>
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="HSL"/></para>
 /// 
 /// <i>Alias</i>
@@ -19,7 +19,8 @@ namespace Imagin.Core.Colors;
 /// </summary>
 /// <remarks>https://github.com/colorjs/color-space/blob/master/hsl.js</remarks>
 [Component(360, '°', "H", "Hue"), Component(100, '%', "S", "Saturation"), Component(100, '%', "L", "Lightness")]
-[Serializable]
+[Category(Class.HS), Serializable]
+[Description("A model similar to 'HSB' where 'Lightness' (a perfectly light color is pure white) replaces 'Brightness' (a perfectly bright color is analogous to shining a white light on a colored object).")]
 public class HSL : ColorModel3
 {
     public HSL() : base() { }

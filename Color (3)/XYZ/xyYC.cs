@@ -9,6 +9,7 @@ namespace Imagin.Core.Colors;
 
 /// <summary>
 /// <b>xyYC</b> (Coloroid)
+/// <para>A color model based on 'xyY'. Also known as 'Coloroid'.</para>
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="XYZ"/> > <see cref="xyY"/> > <see cref="xyYC"/></para>
 /// 
 /// <i>Alias</i>
@@ -22,7 +23,8 @@ namespace Imagin.Core.Colors;
 /// <para>http://hej.sze.hu/ARC/ARC-030520-A/arc030520a.pdf</para>
 /// </remarks>
 [Component(MinHue, MaxHue, "A", "Hue"), Component(100, "T"), Component(100, "V")]
-[Hidden, Serializable]
+[Category(Class.XYZ), Hidden, Serializable]
+[Description("A color model based on 'xyY'. Also known as 'Coloroid'.")]
 [SuppressMessage("Style", "IDE1006:Naming Styles")]
 public class xyYC : ColorModel3<xyY>
 {

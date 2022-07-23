@@ -6,7 +6,7 @@ namespace Imagin.Core.Colors;
 
 /// <summary>
 /// <para><b>Lightness (L*), u*, v*</b></para>
-/// <para>An Adams chromatic valence color space that attempts perceptual uniformity (the successor to UVW).</para>
+/// <para>An Adams chromatic valence color model that attempts perceptual uniformity (successor to 'UVW').</para>
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="XYZ"/> > <see cref="Luv"/></para>
 /// 
 /// <i>Alias</i>
@@ -22,7 +22,8 @@ namespace Imagin.Core.Colors;
 /// </summary>
 /// <remarks>https://github.com/tompazourek/Colourful</remarks>
 [Component(100, '%', "L*", "Lightness"), Component(-134, 224, ' ', "u*"), Component(-140, 122, ' ', "v*")]
-[Serializable]
+[Category(Class.XYZ), Serializable]
+[Description("An Adams chromatic valence color model that attempts perceptual uniformity (successor to 'UVW').")]
 public class Luv : ColorModel3<XYZ>
 {
     public Luv() : base() { }

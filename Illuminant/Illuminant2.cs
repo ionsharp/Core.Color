@@ -28,13 +28,13 @@ public static class Illuminant2
     /// <remarks><see cref="Observers.D2"/></remarks>
     [Description("Mid-morning / Mid-afternoon daylight")]
     public static Vector2 D55 => new(0.33242, 0.34743);
-    /// <summary> ? (<see cref="Illuminant">?</see> K).</summary>
+    /// <summary> ~<see cref="Illuminant">6000</see> K.</summary>
     /// <remarks><see cref="Observers.D2"/></remarks>
-    [Description("")]
+    [Description("~6000 K")]
     public static Vector2 D60 => new(0.32168, 0.33767);
     /// <summary> ~<see cref="Illuminant">6300</see> K.</summary>
     /// <remarks><see cref="Observers.D2"/></remarks>
-    [Description("")]
+    [Description("~6300 K")]
     public static Vector2 D63 => new(0.31400, 0.35100);
     /// <summary> Noon daylight (television/sRGB color space) (<see cref="Illuminant">6504</see> K).</summary>
     /// <remarks><see cref="Observers.D2"/></remarks>

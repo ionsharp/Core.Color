@@ -7,11 +7,13 @@ namespace Imagin.Core.Colors;
 
 /// <summary>
 /// <b>r, g, G</b>
+/// <para>A chromacity model similar to 'xyY' where a color is directly converted from 'RGB' instead of 'XYZ'.</para>
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="rgG"/></para>
 /// </summary>
 /// <remarks>https://en.wikipedia.org/wiki/Rg_chromaticity</remarks>
 [Component(1, "r"), Component(1, "g"), Component(1, '%', "G")]
-[Serializable]
+[Category(Class.RGB), Serializable]
+[Description("A chromacity model similar to 'xyY' where a color is directly converted from 'RGB' instead of 'XYZ'.")]
 [SuppressMessage("Style", "IDE1006:Naming Styles")]
 public class rgG : ColorModel3
 {

@@ -5,6 +5,7 @@ namespace Imagin.Core.Colors;
 
 /// <summary>
 /// <para><b>Luminance (Y), U, V</b></para>
+/// <para>A model that defines color as having luminance (Y), chroma (U), and chroma (V).</para>
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="YUV"/></para>
 /// 
 /// <i>Alias</i>
@@ -14,7 +15,8 @@ namespace Imagin.Core.Colors;
 /// </summary>
 /// <remarks>https://github.com/colorjs/color-space/blob/master/yuv.js</remarks>
 [Component(1, '%', "Y", "Luminance"), Component(-0.5, 0.5, ' ', "U"), Component(-0.5, 0.5, ' ', "V")]
-[Serializable]
+[Category(Class.YUV), Serializable]
+[Description("A model that defines color as having luminance (Y), chroma (U), and chroma (V).")]
 public class YUV : ColorModel3
 {
     public YUV() : base() { }

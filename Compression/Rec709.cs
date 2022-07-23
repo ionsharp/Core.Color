@@ -1,9 +1,11 @@
-﻿using static System.Math;
+﻿using System;
+using static System.Math;
 
 namespace Imagin.Core.Colors;
 
 /// <summary><b>Rec. 709</b></summary>
-[DisplayName(name), Index(5)]
+[DisplayName(name), Index(5), Serializable]
+[Description("")]
 public struct Rec709Compression : ICompress
 {
     const string name = "Rec. 709";

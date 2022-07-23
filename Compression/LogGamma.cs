@@ -1,4 +1,5 @@
-﻿using static System.Math;
+﻿using System;
+using static System.Math;
 
 namespace Imagin.Core.Colors;
 
@@ -8,7 +9,8 @@ namespace Imagin.Core.Colors;
 /// <para><b>Rec. 2100</b></para>
 /// </summary>
 /// <remarks>https://en.wikipedia.org/wiki/Hybrid_log%E2%80%93gamma</remarks>
-[DisplayName(name), Index(2)]
+[DisplayName(name), Index(2), Serializable]
+[Description("")]
 public struct LogGammaCompression : ICompress
 {
     const string name = "Log-Gamma";

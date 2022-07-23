@@ -4,6 +4,7 @@ namespace Imagin.Core.Colors;
 
 /// <summary>
 /// <para><b>U, C (V), S (W)</b></para>
+/// <para>A model that defines color as having chroma (U), chroma (C), and luminance (S).</para>
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="XYZ"/> > <see cref="UCS"/></para>
 /// 
 /// <i>Alias</i>
@@ -22,7 +23,8 @@ namespace Imagin.Core.Colors;
 /// </summary>
 /// <remarks>https://github.com/colorjs/color-space/blob/master/ucs.js</remarks>
 [Component(1, "U"), Component(1, '%', "C", "V"), Component(1, '%', "S", "W")]
-[Serializable]
+[Category(Class.XYZ), Serializable]
+[Description("A model that defines color as having chroma (U), chroma (C), and luminance (S).")]
 public class UCS : ColorModel3<XYZ>
 {
     public UCS() : base() { }

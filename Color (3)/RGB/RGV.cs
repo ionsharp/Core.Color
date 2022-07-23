@@ -5,7 +5,7 @@ namespace Imagin.Core.Colors;
 
 /// <summary>
 /// <para><b>Orange (R), Spring green (G), Violet (V)</b></para>
-/// <para>A variation of <see cref="RGB"/> in which the <b>Orange</b> (red/yellow), <b>Spring green</b> (green/cyan), and <b>Violet</b> (blue/magenta) <i>tertiary</i> colors are added together.</para>
+/// <para>An additive model where the tertiary colors 'Orange' (red/yellow), 'Spring Green' (green/cyan), and 'Violet' (blue/magenta) are added together.</para>
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="RGV"/></para>
 ///
 /// <i>Author</i>
@@ -14,7 +14,8 @@ namespace Imagin.Core.Colors;
 /// </list>
 /// </summary>
 [Component(255, "R", "Orange"), Component(255, "G", "Spring green"), Component(255, "V", "Violet")]
-[Serializable]
+[Category(Class.RGB), Serializable]
+[Description("An additive model where the tertiary colors 'Orange' (red/yellow), 'Spring Green' (green/cyan), and 'Violet' (blue/magenta) are added together.")]
 public class RGV : ColorModel3
 {
     public RGV() : base() { }

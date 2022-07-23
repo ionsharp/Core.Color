@@ -7,11 +7,12 @@ namespace Imagin.Core.Colors;
 
 /// <summary>
 /// <b>Red (R), Green (G), Blue (B), Black (K)</b>
-/// <para>An additive color model based on <see cref="CMYK"/> where the primary colors are added with black.</para>
+/// <para>An additive model where the primary colors are added with black.</para>
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="RGBK"/></para>
 /// </summary>
 [Component(255, '%', "R", "Red"), Component(255, '%', "G", "Green"), Component(255, '%', "B", "Blue"), Component(255, '%', "K", "Black")]
-[Serializable]
+[Category(Class.RGB), Serializable]
+[Description("An additive model where the primary colors are added with black.")]
 public sealed class RGBK : ColorModel4
 {
     public RGBK() : base() { }

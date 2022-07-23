@@ -7,7 +7,7 @@ namespace Imagin.Core.Colors;
 
 /// <summary>
 /// <para><b>Hue (H), Saturation (S), Brightness (B)</b></para>
-/// <para>A color space that defines color as having a hue (color), saturation (colorfulness), and brightness (color intensity).</para>
+/// <para>A model that defines color as having hue (H), saturation (S), and brightness (B).</para>
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="HSB"/></para>
 /// 
 /// <i>Alias</i>
@@ -17,7 +17,8 @@ namespace Imagin.Core.Colors;
 /// </summary>
 /// <remarks>https://github.com/colorjs/color-space/blob/master/hsb.js</remarks>
 [Component(360, '°', "H", "Hue"), Component(100, '%', "S", "Saturation"), Component(100, '%', "B", "Brightness")]
-[Serializable]
+[Category(Class.HS), Serializable]
+[Description("A model that defines color as having hue (H), saturation (S), and brightness (B).")]
 public class HSB : ColorModel3
 {
     public HSB() : base() { }

@@ -8,7 +8,7 @@ namespace Imagin.Core.Colors;
 
 /// <summary>
 /// <para><b>U*, V*, W*</b></para>
-/// <para>A color space based on UCS that was invented to calculate color differences without having to hold the luminance constant.</para>
+/// <para>A color model based on 'UCS' that was invented to calculate color differences without having to hold the luminance constant.</para>
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="XYZ"/> > <see cref="UVW"/></para>
 /// 
 /// <i>Alias</i>
@@ -24,7 +24,8 @@ namespace Imagin.Core.Colors;
 /// </summary>
 /// <remarks>https://github.com/colorjs/color-space/blob/master/uvw.js</remarks>
 [Component(-134, 224, ' ', "U*"), Component(-140, 122, ' ', "V*"), Component(100, '%', "W*")]
-[Serializable]
+[Category(Class.XYZ), Serializable]
+[Description("A color model based on 'UCS' that was invented to calculate color differences without having to hold the luminance constant.")]
 public class UVW : ColorModel3<XYZ>
 {
     public UVW() : base() { }

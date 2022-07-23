@@ -1,11 +1,11 @@
 ﻿using System;
-
 using static Imagin.Core.Numerics.M;
 
 namespace Imagin.Core.Colors;
 
 /// <summary><b>L*</b></summary>
-[DisplayName(name), Index(1)]
+[DisplayName(name), Index(1), Serializable]
+[Description("")]
 public struct LCompression : ICompress
 {
     const string name = "L*";

@@ -7,12 +7,13 @@ namespace Imagin.Core.Colors;
 
 /// <summary>
 /// <b>Cyan (C), Magenta (M), Yellow (Y), Black (K)</b>
-/// <para>A subtractive color model based on <see cref="CMY"/> that is used in color printing.</para>
+/// <para>A subtractive model where the secondary colors are added with black.</para>
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="CMYK"/></para>
 /// </summary>
 /// <remarks>https://github.com/colorjs/color-space/blob/master/cmyk.js</remarks>
 [Component(100, '%', "C", "Cyan"), Component(100, '%', "M", "Magenta"), Component(100, '%', "Y", "Yellow"), Component(100, '%', "K", "Black")]
-[Serializable]
+[Category(Class.CMY), Serializable]
+[Description("A subtractive model where the secondary colors are added with black.")]
 public sealed class CMYK : ColorModel4
 {
     public CMYK() : base() { }

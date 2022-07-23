@@ -1,9 +1,11 @@
-﻿using static System.Math;
+﻿using System;
+using static System.Math;
 
 namespace Imagin.Core.Colors;
 
 /// <summary><b>Gamma</b></summary>
-[DisplayName(name), Index(0)]
+[DisplayName(name), Index(0), Serializable]
+[Description("")]
 public struct GammaCompression : ICompress
 {
     const string name = "Gamma";

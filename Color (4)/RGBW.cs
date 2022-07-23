@@ -6,7 +6,7 @@ namespace Imagin.Core.Colors;
 
 /// <summary>
 /// <b>Red (R), Green (G), Blue (B), White (W)</b>
-/// <para>An additive color model based on <see cref="RGB"/> where the primary colors are added with white.</para>
+/// <para>An additive model where the primary colors are added with white.</para>
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="RGBW"/></para>
 /// </summary>
 /// <remarks>
@@ -15,7 +15,8 @@ namespace Imagin.Core.Colors;
 /// <para>https://stackoverflow.com/questions/40312216/converting-rgb-to-rgbw</para>
 /// </remarks>
 [Component(255, "R", "Red"), Component(255, "G", "Green"), Component(255, "B", "Blue"), Component(255, "W", "White")]
-[Serializable]
+[Category(Class.RGB), Serializable]
+[Description("An additive model where the primary colors are added with white.")]
 public sealed class RGBW : ColorModel4
 {
     public RGBW() : base() { }

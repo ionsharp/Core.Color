@@ -8,12 +8,13 @@ namespace Imagin.Core.Colors;
 
 /// <summary>
 /// <b>Chroma (x), Chroma (y), Luminance (Y)</b>
-/// <para>A color with two <b>Chroma</b> components and one <b>Luminance</b> component.</para>
+/// <para>A model that defines color as having chroma (x), chroma (y), and luminance (Y).</para>
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="XYZ"/> > <see cref="xyY"/></para>
 /// </summary>
 /// <remarks>https://github.com/colorjs/color-space/blob/master/xyy.js</remarks>
 [Component(1, "x", "Chroma"), Component(1, "y", "Chroma"), Component(1, '%', "Y", "Luminance")]
-[Serializable]
+[Category(Class.XYZ), Serializable]
+[Description("A model that defines color as having chroma (x), chroma (y), and luminance (Y).")]
 [SuppressMessage("Style", "IDE1006:Naming Styles")]
 public class xyY : ColorModel3<XYZ>
 {

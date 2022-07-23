@@ -5,7 +5,7 @@ using static System.Math;
 
 namespace Imagin.Core.Colors;
 
-[Serializable]
+[Category(Class.LCHuv), Serializable]
 public abstract class HLuv : ColorModel3<LCHuv>
 {
     protected static double[][] M = new double[][]

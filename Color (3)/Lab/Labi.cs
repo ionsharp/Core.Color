@@ -6,7 +6,7 @@ namespace Imagin.Core.Colors;
 
 /// <summary>
 /// <para><b>Lightness (L), Yellow/blue (j), Green/red (g)</b></para>
-/// A color space that attempts to accurately represent uniform color differences in each direction.
+/// <para>A model that attempts to accurately represent uniform color differences in each direction.</para>
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="XYZ"/> > <see cref="Labi"/></para>
 /// 
 /// <i>Alias</i>
@@ -26,7 +26,8 @@ namespace Imagin.Core.Colors;
 /// <para>https://github.com/colorjs/color-space/blob/master/osaucs.js</para>
 /// </remarks>
 [Component(-10, 8, "L", "Lightness"), Component(-6, 12, "j", "Red/green"), Component(-10, 6, "g", "Yellow/blue")]
-[Hidden, Serializable]
+[Category(Class.Lab), Hidden, Serializable]
+[Description("A model that attempts to accurately represent uniform color differences in each direction.")]
 public class Labi : ColorModel3<XYZ>
 {
 	public Labi() : base() { }

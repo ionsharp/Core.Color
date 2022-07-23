@@ -1,4 +1,5 @@
-﻿using static System.Math;
+﻿using System;
+using static System.Math;
 
 namespace Imagin.Core.Colors;
 
@@ -9,7 +10,8 @@ namespace Imagin.Core.Colors;
 /// <para><b>SMPTE ST 2084</b></para>
 /// </summary>
 /// <remarks>https://en.wikipedia.org/wiki/Perceptual_quantizer</remarks>
-[DisplayName(name), Index(3)]
+[DisplayName(name), Index(3), Serializable]
+[Description("")]
 public struct PQCompression : ICompress
 {
     const string name = "PQ";

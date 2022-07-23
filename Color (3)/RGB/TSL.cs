@@ -20,7 +20,8 @@ namespace Imagin.Core.Colors;
 /// </summary>
 /// <remarks>https://en.wikipedia.org/wiki/TSL_color_space#Conversion_between_RGB_and_TSL</remarks>
 [Component(1, '%', "T", "Tint"), Component(1, '%', "S", "Saturation"), Component(1, '%', "L", "Lightness")]
-[Serializable]
+[Category(Class.HS), Serializable]
+[Description("A perceptual color space developed primarily for the purpose of face detection that defines color as tint (like hue with white added), the colorfulness of a stimulus relative to its own brightness (S), and the brightness of a stimulus relative to a stimulus that appears white in similar viewing conditions (L).")]
 public class TSL : ColorModel3
 {
     public double T => X;

@@ -5,12 +5,13 @@ namespace Imagin.Core.Colors;
 
 /// <summary>
 /// <b>Y, I, Q</b>
-/// <para>The color space used by the analog NTSC color TV system.</para>
+/// <para>The color model used by the analog NTSC color TV system.</para>
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="YIQ"/></para>
 /// </summary>
 /// <remarks>https://github.com/colorjs/color-space/blob/master/yiq.js</remarks>
 [Component(1, '%', "Y", "Luminance"), Component(-0.5957, 0.5957, ' ', "I"), Component(-0.5226, 0.5226, ' ', "Q")]
-[Serializable]
+[Category(Class.YUV), Serializable]
+[Description("The color model used by the analog NTSC color TV system.")]
 public class YIQ : ColorModel3
 {
     public YIQ() : base() { }

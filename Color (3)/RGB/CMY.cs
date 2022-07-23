@@ -5,12 +5,13 @@ namespace Imagin.Core.Colors;
 
 /// <summary>
 /// <b>Cyan (C), Magenta (M), Yellow (Y)</b>
-/// <para>A subtractive color model in which the cyan, magenta, and yellow secondary colors are added together.</para>
+/// <para>A subtractive model where the secondary colors are added together.</para>
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="CMY"/></para>
 /// </summary>
 /// <remarks>https://github.com/colorjs/color-space/blob/master/cmy.js</remarks>
 [Component(100, "C", "Cyan"), Component(100, "M", "Magenta"), Component(100, "Y", "Yellow")]
-[Serializable]
+[Category(Class.CMY), Serializable]
+[Description("A subtractive model where the secondary colors are added together.")]
 public class CMY : ColorModel3
 {
     public CMY() : base() { }

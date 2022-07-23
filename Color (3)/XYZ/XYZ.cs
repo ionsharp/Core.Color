@@ -5,7 +5,7 @@ namespace Imagin.Core.Colors;
 
 /// <summary>
 /// <para><b>X, Y, Z</b></para>
-/// A color space based on <see cref="LMS"/> where the Z value corresponds to the short (S) cone response of the human eye, the Y value is a mix of long (L) and medium (M) cone responses, and the X value is a mix of all three.
+/// A color model based on 'LMS' where 'Z' corresponds to the short (S) cone response of the human eye, 'Y' is a mix of long (L) and medium (M) cone responses, and 'X' is a mix of all three.
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="XYZ"/></para>
 /// 
 /// <i>Alias</i>
@@ -20,7 +20,8 @@ namespace Imagin.Core.Colors;
 /// </summary>
 /// <remarks>https://github.com/tompazourek/Colourful</remarks>
 [Component(1, "X"), Component(1, "Y"), Component(1, "Z")]
-[Serializable]
+[Category(Class.XYZ), Serializable]
+[Description("A color model based on 'LMS' where 'Z' corresponds to the short (S) cone response of the human eye, 'Y' is a mix of long (L) and medium (M) cone responses, and 'X' is a mix of all three.")]
 public class XYZ : ColorModel3
 {
     public XYZ() : base() { }

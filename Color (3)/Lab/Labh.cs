@@ -7,6 +7,7 @@ namespace Imagin.Core.Colors;
 
 /// <summary>
 /// <para><b>Lightness (L), a, b</b></para>
+/// <para>A model that defines color as having lightness (L), chroma (a), and chroma (b).</para>
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="XYZ"/> > <see cref="Labh"/></para>
 /// 
 /// <i>Alias</i>
@@ -21,7 +22,8 @@ namespace Imagin.Core.Colors;
 /// </summary>
 /// <remarks>https://github.com/tompazourek/Colourful</remarks>
 [Component(100, '%', "L", "Lightness"), Component(-100, 100, ' ', "a"), Component(-100, 100, ' ', "b")]
-[Serializable]
+[Category(Class.Lab), Serializable]
+[Description("A model that defines color as having lightness (L), chroma (a), and chroma (b).")]
 public class Labh : ColorModel3<XYZ>
 {
     public Labh() : base() { }

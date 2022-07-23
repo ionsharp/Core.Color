@@ -5,7 +5,7 @@ namespace Imagin.Core.Colors;
 
 /// <summary>
 /// <para><b>Rose (R), Chartreuse (C), Azure (A)</b></para>
-/// <para>A variation of <see cref="RGB"/> in which the <b>Rose</b> (red/magenta), <b>Chartreuse</b> (green/yellow), and <b>Azure</b> (blue/cyan) <i>tertiary</i> colors are added together.</para>
+/// <para>An additive model where the tertiary colors 'Rose' (red/magenta), 'Chartreuse' (green/yellow), and 'Azure' (blue/cyan) are added together.</para>
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="RCA"/></para>
 ///
 /// <i>Author</i>
@@ -14,7 +14,8 @@ namespace Imagin.Core.Colors;
 /// </list>
 /// </summary>
 [Component(255, "R", "Rose"), Component(255, "C", "Chartreuse"), Component(255, "A", "Azure")]
-[Serializable]
+[Description("An additive model where the tertiary colors 'Rose' (red/magenta), 'Chartreuse' (green/yellow), and 'Azure' (blue/cyan) are added together.")]
+[Category(Class.RGB), Serializable]
 public class RCA : ColorModel3
 {
     public RCA() : base() { }

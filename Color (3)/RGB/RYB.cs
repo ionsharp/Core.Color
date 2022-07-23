@@ -5,12 +5,13 @@ namespace Imagin.Core.Colors;
 
 /// <summary>
 /// <para><b>Red (R), Yellow (Y), Blue (B)</b></para>
-/// <para>A variation of <see cref="RGB"/> in which the <b>Red</b> and <b>Blue</b> <i>primary</i> colors are added with the <b>Yellow</b> <i>secondary</i> color.</para>
+/// <para>An additive model where the primary colors 'Red' and 'Blue' are added with the secondary color 'Yellow'.</para>
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="RYB"/></para>
 /// </summary>
 /// <remarks>http://www.deathbysoftware.com/colors/index.html</remarks>
 [Component(255, "R", "Red"), Component(255, "Y", "Yellow"), Component(255, "B", "Blue")]
-[Serializable]
+[Category(Class.RGB), Serializable]
+[Description("An additive model where the primary colors 'Red' and 'Blue' are added with the secondary color 'Yellow'.")]
 public class RYB : ColorModel3
 {
     public RYB() : base() { }

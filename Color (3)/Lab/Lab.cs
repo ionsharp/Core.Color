@@ -22,7 +22,8 @@ namespace Imagin.Core.Colors;
 /// </summary>
 /// <remarks>https://github.com/tompazourek/Colourful</remarks>
 [Component(100, '%', "L*", "Lightness"), Component(-100, 100, ' ', "a*"), Component(-100, 100, ' ', "b*")]
-[Serializable]
+[Category(Class.Lab), Serializable]
+[Description("A perceptually uniform color space that measures perceptual lightness and the four unique colors of human vision (red, green, blue, and yellow) where a given numerical change corresponds to a similar perceived change in color.")]
 public class Lab : ColorModel3<XYZ>
 {
     public Lab() : base() { }

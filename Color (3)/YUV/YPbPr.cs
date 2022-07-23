@@ -4,7 +4,7 @@ namespace Imagin.Core.Colors;
 
 /// <summary>
 /// <b>Y, Pb, Pr</b>
-/// <para>A gamma-corrected color space designed for use in analog systems that is numerically equivalent to <see cref="YCbCr"/> .</para>
+/// <para>A gamma-corrected color model designed for use in analog systems that is numerically equivalent to 'YCbCr'.</para>
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="YPbPr"/></para>
 /// 
 /// <i>Alias</i>
@@ -14,7 +14,8 @@ namespace Imagin.Core.Colors;
 /// </summary>
 /// <remarks>https://github.com/colorjs/color-space/blob/master/ypbpr.js</remarks>
 [Component(1, '%', "Y", "Luminance"), Component(-0.5, 0.5, ' ', "Pb", ""), Component(-0.5, 0.5, ' ', "Pr", "")]
-[Serializable]
+[Category(Class.YUV), Serializable]
+[Description("A gamma-corrected color model designed for use in analog systems that is numerically equivalent to 'YCbCr'.")]
 public class YPbPr : ColorModel3
 {
     public YPbPr() : base() { }

@@ -4,12 +4,13 @@ namespace Imagin.Core.Colors;
 
 /// <summary>
 /// <b>Luminance (Y), Db, Dr</b>
-/// <para>The color space used in the SECAM analog terrestrial colour television broadcasting standard and PAL-N.</para>
+/// <para>The color model used in the SECAM analog terrestrial colour television broadcasting standard and PAL-N.</para>
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="YDbDr"/></para>
 /// </summary>
 /// <remarks>https://github.com/colorjs/color-space/blob/master/ydbdr.js</remarks>
 [Component(1, '%', "Y", "Luminance"), Component(-1.333, 1.333, ' ', "Db"), Component(-1.333, 1.333, ' ', "Dr")]
-[Serializable]
+[Category(Class.YUV), Serializable]
+[Description("The color model used in the SECAM analog terrestrial colour television broadcasting standard and PAL-N.")]
 public class YDbDr : ColorModel3
 {
     public YDbDr() : base() { }

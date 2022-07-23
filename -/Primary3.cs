@@ -4,18 +4,15 @@ using System;
 
 namespace Imagin.Core.Colors;
 
-[Serializable]
+[Horizontal, Serializable]
 public struct Primary3 : IEquatable<Primary3>
 {
     #region Fields
 
-    [Horizontal]
     public Vector2 R { get; private set; } = Vector2.Zero;
 
-    [Horizontal]
     public Vector2 G { get; private set; } = Vector2.Zero;
 
-    [Horizontal]
     public Vector2 B { get; private set; } = Vector2.Zero;
 
     #endregion

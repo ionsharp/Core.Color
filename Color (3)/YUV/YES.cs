@@ -4,11 +4,13 @@ namespace Imagin.Core.Colors;
 
 /// <summary>
 /// <b>Luminance (Y), E-factor (E), S-factor (S)</b>
+/// <para>A model that defines color as having luminance (Y), 'E-factor' (E), and 'S-factor' (S).</para>
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="YES"/></para>
 /// </summary>
 /// <remarks>https://github.com/colorjs/color-space/blob/master/yes.js</remarks>
 [Component(1, '%', "Y", "Luminance"), Component(1, '%', "E", "E-factor"), Component(1, '%', "S", "S-factor")]
-[Serializable]
+[Category(Class.YUV), Serializable]
+[Description("A model that defines color as having luminance (Y), 'E-factor' (E), and 'S-factor' (S).")]
 public class YES : ColorModel3
 {
     public YES() : base() { }

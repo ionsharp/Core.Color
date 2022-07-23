@@ -1,4 +1,5 @@
 ﻿using Imagin.Core.Numerics;
+using System;
 using static Imagin.Core.Numerics.M;
 using static System.Math;
 
@@ -7,6 +8,7 @@ namespace Imagin.Core.Colors;
 public abstract partial class CAM02
 {
     /// <summary><see cref="CAM02"/> viewing conditions.</summary>
+    [Serializable]
     public struct ViewingConditions
     {
         #region Properties

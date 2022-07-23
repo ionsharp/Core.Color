@@ -6,6 +6,7 @@ namespace Imagin.Core.Colors;
 
 /// <summary>
 /// <para><b>Lightness (L), Red/green (a), Yellow/blue (b)</b></para>
+/// <para>A model that defines color as having lightness (L), red/green (a), and yellow/blue (b).</para>
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="XYZ"/> > <see cref="Labj"/></para>
 /// 
 /// <i>Alias</i>
@@ -15,7 +16,8 @@ namespace Imagin.Core.Colors;
 /// </summary>
 /// <remarks>https://observablehq.com/@jrus/jzazbz</remarks>
 [Component(.0, 1, '%', "L", "Lightness"), Component(-1, 1, '%', "a", "Red/green"), Component(-1, 1, '%', "b", "Yellow/blue")]
-[Serializable]
+[Category(Class.Lab), Serializable]
+[Description("A model that defines color as having lightness (L), red/green (a), and yellow/blue (b).")]
 public class Labj : ColorModel3<XYZ>
 {
     public Labj() : base() { }

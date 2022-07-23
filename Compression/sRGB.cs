@@ -3,7 +3,8 @@
 namespace Imagin.Core.Colors;
 
 /// <summary><b>sRGB</b></summary>
-[DisplayName(name), Index(6)]
+[DisplayName(name), Index(6), Serializable]
+[Description("")]
 public struct sRGBCompression : ICompress
 {
     const string name = "sRGB";

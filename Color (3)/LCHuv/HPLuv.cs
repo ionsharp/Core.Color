@@ -4,11 +4,13 @@ namespace Imagin.Core.Colors;
 
 /// <summary>
 /// <b>Hue (H), Saturation (P), Lightness (L)</b>
+/// <para>A model derived from 'LCHuv' that defines color as having hue (H), saturation (P), and lightness (L).</para>
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="XYZ"/> > <see cref="Luv"/> > <see cref="LCHuv"/> > <see cref="HPLuv"/></para>
 /// </summary>
 /// <remarks>https://github.com/hsluv/hsluv-csharp</remarks>
 [Component(360, '°', "H", "Hue"), Component(100, '%', "P", "Saturation"), Component(100, '%', "L", "Lightness")]
-[Serializable]
+[Category(Class.LCHuv), Serializable]
+[Description("A model derived from 'LCHuv' that defines color as having hue (H), saturation (P), and lightness (L).")]
 public class HPLuv : HLuv
 {
     public HPLuv() : base() { }

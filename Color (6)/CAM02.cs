@@ -29,12 +29,13 @@ namespace Imagin.Core.Colors;
 /// </list>
 /// </summary>
 /// <remarks>http://scanline.ca/ciecam02/ciecam02.c</remarks>
-[Serializable]
+[Category(Class.CAM), Serializable]
 public abstract partial class CAM02 : ColorModel3<XYZ>
 {
     #region (enum) Correlates
 
     /// <summary>Dimensions of color appearance as defined by <see cref="CIE"/>.</summary>
+    [Serializable]
     public enum Correlates
     {
         /// <summary><b>Brightness</b> (Q)
@@ -73,6 +74,7 @@ public abstract partial class CAM02 : ColorModel3<XYZ>
     #region (enum) Surrounds
 
     /// <summary><see cref="CAM02"/> surround(ing)s as defined by <see cref="CIE"/>.</summary>
+    [Serializable]
     public enum Surrounds
     {
         /// <summary>

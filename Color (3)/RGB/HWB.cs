@@ -5,11 +5,13 @@ namespace Imagin.Core.Colors;
 
 /// <summary>
 /// <b>Hue (H), Whiteness (W), Blackness (B)</b>
+/// <para>A model that defines color as having hue (H), whiteness (W), and blackness (B).</para>
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="HSB"/> > <see cref="HWB"/></para>
 /// </summary>
 /// <remarks>https://drafts.csswg.org/css-color/#the-hwb-notation</remarks>
 [Component(360, '°', "H", "Hue"), Component(100, '%', "W", "Whiteness"), Component(100, '%', "B", "Blackness")]
-[Serializable]
+[Category(Class.H), Serializable]
+[Description("A model that defines color as having hue (H), whiteness (W), and blackness (B).")]
 public class HWB : ColorModel3
 {
     public HWB() : base() { }

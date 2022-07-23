@@ -6,7 +6,7 @@ namespace Imagin.Core.Colors;
 
 /// <summary>
 /// <para><b>Intensity (I), Cyan/red (P), Blue/yellow (T)</b></para>
-/// <para>The preceder to <see cref="ICtCp"/>, similar to <see cref="YCwCm"/>, but with smoother transitions between hues. <see cref="P"/> stands for protanopia (or red-green colorblindness) and <see cref="T"/> stands for tritanopia (another form of colorblindness).</para>
+/// <para>A preceder to 'ICtCp' that is similar to 'YCwCm', but has smoother transitions between hues. 'P' stands for protanopia (or red-green colorblindness) and 'T' stands for tritanopia (another form of colorblindness).</para>
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="XYZ"/> > <see cref="LMS"/> > <see cref="IPT"/></para>
 /// 
 /// <i>Author</i>
@@ -16,7 +16,8 @@ namespace Imagin.Core.Colors;
 /// </summary>
 /// <remarks>https://github.com/tommyettinger/colorful-gdx</remarks>
 [Component(1, '%', "I", "Intensity"), Component(-1, 1, '%', "P", "Cyan/red"), Component(-1, 1, '%', "T", "Blue/yellow")]
-[Serializable]
+[Category(Class.XYZ), Serializable]
+[Description("A preceder to 'ICtCp' that is similar to 'YCwCm', but has smoother transitions between hues. 'P' stands for protanopia (or red-green colorblindness) and 'T' stands for tritanopia (another form of colorblindness).")]
 public class IPT : ColorModel3
 {
     public static Matrix M = new Matrix

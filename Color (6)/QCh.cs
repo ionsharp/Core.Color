@@ -5,10 +5,12 @@ namespace Imagin.Core.Colors;
 /// <summary>
 /// <b>QCh</b> (<see cref="CAM02"/>)
 /// <para><i>Brightness (Q), Chroma (C), Hue (h)</i></para>
+/// <para>A model specified by 'CAM02' that defines color as having brightness (Q), chroma (C), and hue (h).</para>
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="XYZ"/> > <see cref="QCh"/></para>
 /// </summary>
 [Component(100, '%', "Q", "Brightness"), Component(100, '%', "C", "Chroma"), Component(360, '°', "h", "Hue")]
-[Serializable]
+[Category(Class.CAM), Serializable]
+[Description("A model specified by 'CAM02' that defines color as having brightness (Q), chroma (C), and hue (h).")]
 public class QCh : CAM02
 {
     public override double Q

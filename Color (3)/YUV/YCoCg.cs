@@ -4,7 +4,7 @@ namespace Imagin.Core.Colors;
 
 /// <summary>
 /// <para><b>Luminance (Y), Co, Cg</b></para>
-/// <para>The color space formed from a simple transformation of an associated RGB color space into a luma value (denoted as Y) and two chroma values called "chrominance green" (Cg) and "chrominance orange" (Co).</para>
+/// <para>A model that defines color as having luminance (Y), 'Chrominance green' (Cg), and 'Chrominance orange' (Co).</para>
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="YCoCg"/></para>
 /// 
 /// <i>Alias</i>
@@ -14,7 +14,8 @@ namespace Imagin.Core.Colors;
 /// </summary>
 /// <remarks>https://github.com/colorjs/color-space/blob/master/ycgco.js</remarks>
 [Component(   1,   '%', "Y", "Luminance"), Component(-0.5, 0.5, ' ', "Co"), Component(-0.5, 0.5, ' ', "Cg")]
-[Serializable]
+[Category(Class.YUV), Serializable]
+[Description("A model that defines color as having luminance (Y), 'Chrominance green' (Cg), and 'Chrominance orange' (Co).")]
 public class YCoCg : ColorModel3
 {
     public YCoCg() : base() { }

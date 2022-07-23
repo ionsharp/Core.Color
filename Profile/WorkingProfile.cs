@@ -36,19 +36,23 @@ public partial struct WorkingProfile : IEquatable<WorkingProfile>
 
     //...
 
-    [Horizontal, Index(3)]
-    public Matrix Adapt { get; private set; } = ChromaticAdaptationTransform.Default;
+    [Caption("The matrix used to adapt a color when the input and output working profile differ.")]
+    [Copy, Index(3)]
+    public Matrix Adaptation { get; private set; } = ChromaticAdaptationTransform.Default;
 
-    [Horizontal, Index(0)]
+    [Caption("The chromacity coordinates in 2D space.")]
+    [Copy, Horizontal, Index(0)]
     public Vector2 Chromacity { get; private set; } = DefaultWhite;
-    
-    [Index(2)]
-    public ICompress Compress { get; private set; } = DefaultCompression;
 
-    [Horizontal, Index(1)]
+    [Caption("The transfer function used for compression.")]
+    [Copy, Index(2)]
+    public ICompress Compression { get; private set; } = DefaultCompression;
+
+    [Caption("The red, green, and blue primary coordinates.")]
+    [Copy, Horizontal, Index(1)]
     public Primary3 Primary { get; private set; } = DefaultPrimary;
 
-    [DisplayName("Conditions"), Index(4)]
+    [Copy, DisplayName("Conditions"), Index(4)]
     public CAM02.ViewingConditions ViewingConditions { get; private set; } = DefaultViewingConditions;
 
     /// <summary><see cref="White"/> = (<see cref="Vector3"/>)(<see cref="XYZ"/>)(<see cref="xyY"/>)(<see cref="xy"/>)<see cref="Chromacity"/></summary><remarks>Default = <see cref="Vector3.One"/></remarks>
@@ -61,16 +65,16 @@ public partial struct WorkingProfile : IEquatable<WorkingProfile>
 
     public WorkingProfile() : this(DefaultPrimary, DefaultWhite, DefaultCompression, ChromaticAdaptationTransform.Default, DefaultViewingConditions) { }
 
-    public WorkingProfile(Vector2 pR, Vector2 pG, Vector2 pB, Vector2 chromacity, ICompress compress, Matrix? adapt = null, CAM02.ViewingConditions? viewingConditions = null)
+    public WorkingProfile(Vector2 pR, Vector2 pG, Vector2 pB, Vector2 chromacity, ICompress compression, Matrix? adaptation = null, CAM02.ViewingConditions? viewingConditions = null)
     {
-        Primary = new(pR, pG, pB); Chromacity = chromacity; Compress = compress; Adapt = adapt ?? ChromaticAdaptationTransform.Default; 
+        Primary = new(pR, pG, pB); Chromacity = chromacity; Compression = compression; Adaptation = adaptation ?? ChromaticAdaptationTransform.Default; 
         ViewingConditions = viewingConditions ?? DefaultViewingConditions;
         White = (XYZ)(xyY)(xy)Chromacity;
     }
 
-    public WorkingProfile(Primary3 primary, Vector2 chromacity, ICompress compress, Matrix? adapt = null, CAM02.ViewingConditions? viewingConditions = null)
+    public WorkingProfile(Primary3 primary, Vector2 chromacity, ICompress compression, Matrix? adaptation = null, CAM02.ViewingConditions? viewingConditions = null)
     {
-        Primary = primary; Chromacity = chromacity; Compress = compress; Adapt = adapt ?? ChromaticAdaptationTransform.Default; 
+        Primary = primary; Chromacity = chromacity; Compression = compression; Adaptation = adaptation ?? ChromaticAdaptationTransform.Default; 
         ViewingConditions = viewingConditions ?? DefaultViewingConditions;
         White = (XYZ)(xyY)(xy)Chromacity;
     }
@@ -83,11 +87,11 @@ public partial struct WorkingProfile : IEquatable<WorkingProfile>
 
     public static bool operator !=(WorkingProfile left, WorkingProfile right) => !(left == right);
 
-    public bool Equals(WorkingProfile i) => this.Equals<WorkingProfile>(i) && Adapt == i.Adapt && Compress == i.Compress && Primary == i.Primary && Chromacity == i.Chromacity;
+    public bool Equals(WorkingProfile i) => this.Equals<WorkingProfile>(i) && Adaptation == i.Adaptation && Compression == i.Compression && Primary == i.Primary && Chromacity == i.Chromacity;
 
     public override bool Equals(object i) => i is WorkingProfile j && Equals(j);
 
-    public override int GetHashCode() => XArray.New<object>(Adapt, Compress, Primary, Chromacity).GetHashCode();
+    public override int GetHashCode() => XArray.New<object>(Adaptation, Compression, Primary, Chromacity).GetHashCode();
 
     #endregion
 }
