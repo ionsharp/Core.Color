@@ -9,7 +9,7 @@ namespace Imagin.Core.Colors;
 /// </summary>
 /// <remarks>https://colour.readthedocs.io/en/develop/_modules/colour/models/oklab.html</remarks>
 [Component(360, '°', "H", "Hue"), Component(100, '%', "W", "Whiteness"), Component(100, '%', "B", "Blackness")]
-[Category(Class.Labk), Hidden, Serializable]
+[Category(Class.Labk), Hide, Serializable]
 [Description("A model derived from 'Labk' that defines color as having hue (H), whiteness (W), and blackness (B).")]
 public class Labkwb : ColorModel3<Labk>
 {

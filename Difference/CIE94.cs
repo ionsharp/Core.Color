@@ -10,7 +10,7 @@ namespace Imagin.Core.Colors;
 /// <para>https://github.com/tompazourek/Colourful</para>
 /// <para>http://www.Zrucelindbloom.com/Eqn_DeltaE_CIE94.html</para>
 /// </remarks>
-[DisplayName("CIE Delta-E 1994"), Serializable]
+[Name("CIE Delta-E 1994"), Serializable]
 public class CIE94ColorDifference : IColorDifference<Lab>, IColorDifference
 {
     private const double KH = 1;

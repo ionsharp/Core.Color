@@ -10,7 +10,7 @@ public static class ChromaticAdaptationTransform
 
     /// <summary>Von Kries (Hunt-Pointer-Estevez for equal energy).</summary>
     [Description("Hunt-Pointer-Estevez (adjusted for equal energy)")]
-    [DisplayName("Von Kries (E)")]
+    [Name("Von Kries (E)")]
     public static Matrix VonKries => new double[][]
     {
             new double[] {  0.38971, 0.68898, -0.07868 },
@@ -20,7 +20,7 @@ public static class ChromaticAdaptationTransform
 
     /// <summary>Von Kries (Hunt-Pointer-Estevez adjusted for D65).</summary>
     [Description("Hunt-Pointer-Estevez (adjusted for D65)")]
-    [DisplayName("Von Kries (D65)")]
+    [Name("Von Kries (D65)")]
     public static Matrix VonKriesAdjusted => new double[][]
     {
             new double[] {  0.4002, 0.7076, -0.0808 },
@@ -39,7 +39,7 @@ public static class ChromaticAdaptationTransform
 
     /// <summary>Spectral-sharpened Bradford.</summary>
     [Description("Spectral-sharpened Bradford")]
-    [DisplayName("Bradford #")]
+    [Name("Bradford #")]
     public static Matrix BradfordSharp => new double[][]
     {
             new double[] {  1.2694, -0.0988, -0.1706 },
@@ -48,7 +48,7 @@ public static class ChromaticAdaptationTransform
     };
 
     [Description("Chromatic adaptation transform (1997)")]
-    [DisplayName("CAT-97")]
+    [Name("CAT-97")]
     public static Matrix CAT97 => new double[][]
     {
             new double[] {  0.8562,  0.3372, -0.1934 },
@@ -58,7 +58,7 @@ public static class ChromaticAdaptationTransform
 
     /// <summary>CMCCAT2000 (fitted from all available color data sets).</summary>
     [Description("Chromatic adaptation transform fitted from all available color data sets (2000)")]
-    [DisplayName("CAT-00")]
+    [Name("CAT-00")]
     public static Matrix CAT00 => new double[][]
     {
             new double[] {  0.7982, 0.3389,-0.1371 },
@@ -68,7 +68,7 @@ public static class ChromaticAdaptationTransform
 
     /// <summary>CAT02 (optimized for minimizing L*a*b* differences).</summary>
     [Description("Chromatic adaptation transform optimized for minimizing L*a*b* differences (2002)")]
-    [DisplayName("CAT-02")]
+    [Name("CAT-02")]
     public static Matrix CAT02 => new double[][]
     {
             new double[] {  0.7328, 0.4296,-0.1624 },

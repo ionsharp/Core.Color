@@ -11,7 +11,7 @@ namespace Imagin.Core.Colors;
 /// <para>https://github.com/tompazourek/Colourful</para>
 /// <para>http://www.Zrucelindbloom.com/index.html?Eqn_DeltaE_CMC.html</para>
 /// </remarks>
-[DisplayName("CMC l:c (1984)"), Serializable]
+[Name("CMC l:c (1984)"), Serializable]
 public class CMCColorDifference : IColorDifference<Lab>, IColorDifference
 {
     /// <summary>Chroma.</summary>

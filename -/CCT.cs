@@ -56,7 +56,7 @@ public static class CCT
         return cct;
     }
 
-    //...
+    ///
 
     static readonly Dictionary<int, Vector3> Colors = new()
     {

@@ -144,11 +144,11 @@ public abstract partial class CAM02 : ColorModel3<XYZ>
     public double aM { get; private set; }
     public double bM { get; private set; }
 
-    //...
+    ///
 
     public double H { get; private set; }
 
-    //...
+    ///
 
     public abstract double J { get; set; }
 
@@ -184,7 +184,7 @@ public abstract partial class CAM02 : ColorModel3<XYZ>
     static double NonlinearAdaptationInverse(double c, double FL)
         => (100.0 / FL) * Pow((27.13 * Abs(c - 0.1)) / (400.0 - Abs(c - 0.1)), 1.0 / 0.42);
 
-    //...
+    ///
 
     /// <summary>(🞩) <see cref="XYZ"/> > <see cref="CAM02"/></summary>
     protected T From<T>(XYZ input, WorkingProfile profile) where T : CAM02, new()

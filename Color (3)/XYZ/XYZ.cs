@@ -26,7 +26,7 @@ public class XYZ : ColorModel3
 {
     public XYZ() : base() { }
 
-    //...
+    ///
 
     public static explicit operator XYZ(Vector3 input) => Colour.New<XYZ>(input);
 
@@ -38,12 +38,12 @@ public class XYZ : ColorModel3
         return result;
     }
 
-    //...
+    ///
 
     /// <summary>(🗸) <see cref="XYZ"/> (0) > <see cref="LMS"/> (0) > <see cref="LMS"/> (1) > <see cref="XYZ"/> (1)</summary>
     public override void Adapt(WorkingProfile source, WorkingProfile target) => Value = Adapt(this, source, target);
 
-    //...
+    ///
 
     /// <summary>(🗸) <see cref="Lrgb"/> > <see cref="XYZ"/></summary>
     public override void From(Lrgb input, WorkingProfile profile)
@@ -59,7 +59,7 @@ public class XYZ : ColorModel3
         return Colour.New<Lrgb>(result[0], result[1], result[2]);
     }
 
-    //...
+    ///
 
     /// <summary>Gets the matrix used to convert between <see cref="RGB"/> and <see cref="XYZ"/>.</summary>
     /// <remarks>http://www.brucelindbloom.com/index.html?Eqn_RGB_XYZ_Matrix.html</remarks>

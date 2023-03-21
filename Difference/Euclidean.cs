@@ -5,7 +5,7 @@ namespace Imagin.Core.Colors;
 
 /// <summary>Euclidean distance between two colors.</summary>
 /// <remarks>https://github.com/tompazourek/Colourful</remarks>
-[DisplayName("Euclidean"), Serializable]
+[Name("Euclidean"), Serializable]
 public sealed class EuclideanColorDifference : IColorDifference<ColorModel3>, IColorDifference
 {
     public EuclideanColorDifference() { }

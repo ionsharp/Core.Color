@@ -9,7 +9,7 @@ public enum Harmony
     /// <summary>Colors with three hues, all positioned next to each other on the color wheel. </summary>
     Analogous,
     /// <summary>Warm colors range from magenta to yellow and cool colors range from violet to green.</summary>
-    [DisplayName("Cool/warm")]
+    [Name("Cool/warm")]
     CoolWarm,
     /// <summary>Colors positioned on opposite ends of the color wheel.</summary>
     Diad,
@@ -18,7 +18,7 @@ public enum Harmony
     /// <summary>A single base hue with different shades, tones, and tints of that color family.</summary>
     Monochromatic,
     /// <summary>Complementary colors, but with three hues (usually, one key color and two colors adjacent to that key color’s complement).</summary>
-    [DisplayName("Split-Complementary")]
+    [Name("Split-Complementary")]
     SplitComplementary,
     /// <summary>Four colors spaced evenly around the color wheel.</summary>
     Square,

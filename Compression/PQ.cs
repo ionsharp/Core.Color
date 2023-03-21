@@ -10,13 +10,13 @@ namespace Imagin.Core.Colors;
 /// <para><b>SMPTE ST 2084</b></para>
 /// </summary>
 /// <remarks>https://en.wikipedia.org/wiki/Perceptual_quantizer</remarks>
-[DisplayName(name), Index(3), Serializable]
+[Name(name), Index(3), Serializable]
 [Description("")]
 public struct PQCompression : ICompress
 {
     const string name = "PQ";
 
-    [Index(-1), ReadOnly, Visible]
+    [Index(-1), ReadOnly, Show]
     public string Name => name;
 
     public PQCompression() { }

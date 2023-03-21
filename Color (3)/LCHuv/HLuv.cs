@@ -15,11 +15,11 @@ public abstract class HLuv : ColorModel3<LCHuv>
         new double[] {  0.055630079696993, -0.20397695888897,   1.056971514242878 },
    };
 
-    //...
+    ///
 
     public HLuv() : base() { }
 
-    //...
+    ///
 
     protected static IList<double[]> GetBounds(double L)
     {
@@ -75,8 +75,7 @@ public abstract class HLuv : ColorModel3<LCHuv>
         double min = MaxValue;
         foreach (var bound in bounds)
         {
-            double length;
-            if (GetRayLength(hrad, bound, out length))
+            if (GetRayLength(hrad, bound, out double length))
                 min = Min(min, length);
         }
 

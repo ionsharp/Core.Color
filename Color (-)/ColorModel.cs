@@ -90,7 +90,7 @@ public abstract class ColorModel : IColorModel, IConvert<Lrgb>, IConvert<RGB>
         From(final, target);
     }
 
-    //...
+    ///
 
     /// <summary>(🗸) <see cref="RGB"/> > <see cref="Lrgb"/> > this</summary>
     public virtual void From(RGB input, WorkingProfile profile)
@@ -132,7 +132,7 @@ public abstract class ColorModel : IColorModel, IConvert<Lrgb>, IConvert<RGB>
         return result;
     }
 
-    //...
+    ///
 
     #endregion
 }

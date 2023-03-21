@@ -17,41 +17,41 @@ public abstract partial class CAM02
 
         public const double DefaultRelativeLuminance = 20;  //20% gray
 
-        //...
+        ///
 
         [Horizontal]
         public Surrounds Surround { get; private set; } = Surrounds.Average;
 
-        [Hidden]
+        [Hide]
         public readonly double F = 1;          //Average
 
-        [Hidden]
+        [Hide]
         public readonly double c = 0.690;      //Average
 
-        [Hidden]
+        [Hide]
         public readonly double Nc = 1;         //Average
 
-        //...
+        ///
 
         /// <summary>Achromatic response to white.</summary>
-        [Hidden]
+        [Hide]
         public readonly double Aw = 0;
 
         /// <summary>Degree of adaptation (discounting)</summary>
-        [Hidden]
+        [Hide]
         public readonly double D = 0;
 
         /// <summary>Luminance level adaptation factor</summary>
-        [Hidden]
+        [Hide]
         public readonly double FL = 0;
 
-        [Hidden]
+        [Hide]
         public readonly double n = 0, Nbb = 0, Ncb = 0, z = 0;
 
-        [DisplayName("Absolute luminance of adapting field")]
+        [Name("Absolute luminance of adapting field")]
         public double LA { get; private set; } = DefaultAbsoluteLuminance;
 
-        [DisplayName("Relative luminance of background")]
+        [Name("Relative luminance of background")]
         [Range(.0, 100.0, 1.0)]
         public double Yb { get; private set; } = DefaultRelativeLuminance;
 

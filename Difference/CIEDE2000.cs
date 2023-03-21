@@ -8,7 +8,7 @@ namespace Imagin.Core.Colors;
 
 /// <summary>CIE Delta-E 2000 color difference formula.</summary>
 /// <remarks>https://github.com/tompazourek/Colourful</remarks>
-[DisplayName("CIE Delta-E 2000"), Serializable]
+[Name("CIE Delta-E 2000"), Serializable]
 public class CIEDE2000ColorDifference : IColorDifference<Lab>, IColorDifference
 {
     public CIEDE2000ColorDifference() { }

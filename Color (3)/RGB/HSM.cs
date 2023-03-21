@@ -13,7 +13,7 @@ namespace Imagin.Core.Colors;
 /// </summary>
 /// <remarks>https://seer.ufrgs.br/rita/article/viewFile/rita_v16_n2_p141/7428</remarks>
 [Component(360, '°', "H", "Hue"), Component(100, '%', "S", "Saturation"), Component(255, ' ', "M", "Mixture")]
-[Category(Class.HS), Serializable]
+[Category(Class.HS), Class(Class.H | Class.HS), Serializable]
 [Description("A model that defines color as having hue (H), saturation (S), and mixture (M).")]
 public class HSM : ColorModel3
 {

@@ -19,11 +19,11 @@ public class rgG : ColorModel3
 {
     public rgG() : base() { }
 
-    //...
+    ///
 
     public static explicit operator rgG(rg input) => Colour.New<rgG>(input.X, input.Y, 1);
 
-    //...
+    ///
 
     /// <summary>(🗸) <see cref="Lrgb"/> > <see cref="rgG"/></summary>
     public override void From(Lrgb input, WorkingProfile profile)

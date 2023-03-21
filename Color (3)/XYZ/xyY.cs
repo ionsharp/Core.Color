@@ -20,7 +20,7 @@ public class xyY : ColorModel3<XYZ>
 {
     public xyY() : base() { }
 
-    //...
+    ///
 
     public static explicit operator xyY(xy input) => Colour.New<xyY>(input.X, input.Y, 1);
 
@@ -31,7 +31,7 @@ public class xyY : ColorModel3<XYZ>
         return result;
     }
 
-    //...
+    ///
 
     /// <summary>(🗸) <see cref="XYZ"/> > <see cref="xyY"/></summary>
     public override void From(XYZ input, WorkingProfile profile)

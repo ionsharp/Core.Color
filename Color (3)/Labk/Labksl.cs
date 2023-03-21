@@ -15,7 +15,7 @@ namespace Imagin.Core.Colors;
 /// </summary>
 /// <remarks>https://colour.readthedocs.io/en/develop/_modules/colour/models/oklab.html</remarks>
 [Component(360, '°', "H", "Hue"), Component(100, '%', "S", "Saturation"), Component(100, '%', "L", "Lightness")]
-[Category(Class.Labk), Hidden, Serializable]
+[Category(Class.Labk), Hide, Serializable]
 [Description("A model derived from 'Labk' that defines color as having hue (H), saturation (S), and lightness (L).")]
 public class Labksl : ColorModel3<Labk>
 {

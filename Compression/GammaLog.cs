@@ -9,16 +9,16 @@ namespace Imagin.Core.Colors;
 /// <para><b>Rec. 2100</b></para>
 /// </summary>
 /// <remarks>https://en.wikipedia.org/wiki/Hybrid_log%E2%80%93gamma</remarks>
-[DisplayName(name), Index(2), Serializable]
+[Name(name), Index(2), Serializable]
 [Description("")]
-public struct LogGammaCompression : ICompress
+public struct GammaLogCompression : ICompress
 {
-    const string name = "Log-Gamma";
+    const string name = "Gamma (HLG)";
 
-    [Index(-1), ReadOnly, Visible]
+    [Index(-1), ReadOnly, Show]
     public string Name => name;
 
-    public LogGammaCompression() { }
+    public GammaLogCompression() { }
 
     public double Transfer(double E)
     {

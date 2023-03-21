@@ -15,12 +15,12 @@ public class LMS : ColorModel3<XYZ>
 {    
     public LMS() : base() { }
 
-    //...
+    ///
 
     /// <summary>(🗸) <see cref="LMS"/> (0) > <see cref="LMS"/> (1)</summary>
     public override void Adapt(WorkingProfile source, WorkingProfile target) => Value = Adapt(this, source, target);
 
-    //...
+    ///
 
     /// <summary>(🗸) <see cref="XYZ"/> > <see cref="LMS"/></summary>
     public override void From(XYZ input, WorkingProfile profile)
@@ -33,7 +33,7 @@ public class LMS : ColorModel3<XYZ>
         result = Colour.New<XYZ>(v[0], v[1], v[2]);
     }
 
-    //...
+    ///
 
     /// <summary>Gets the matrix used to convert between <see cref="LMS"/> and <see cref="XYZ"/>.</summary>
     /// <remarks>

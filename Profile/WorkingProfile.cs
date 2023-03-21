@@ -1,11 +1,12 @@
 ﻿using Imagin.Core.Linq;
 using Imagin.Core.Numerics;
+using Imagin.Core.Reflection;
 using System;
 
 namespace Imagin.Core.Colors;
 
 /// <summary>In colorimetry, this is referred to as an "<see cref="WorkingProfile">RGB Working Space</see>".</summary>
-[Serializable]
+[Image(AssemblyType.Core, "Channels.png"), Serializable]
 public partial struct WorkingProfile : IEquatable<WorkingProfile>
 {
     enum Category { Chromacity }
@@ -14,16 +15,18 @@ public partial struct WorkingProfile : IEquatable<WorkingProfile>
 
     public static WorkingProfile Default => WorkingProfiles.sRGB;
 
-    //...
+    ///
+
+    public static ICompress sRGBCompression => new Compression(12 / 5, 1.055, 0.0031308, 12.92, 0.04045);
 
     public static Primary3 sRGBPrimary => new(new(0.6400, 0.3300), new(0.3000, 0.6000), new(0.1500, 0.0600));
 
     public static Vector2 sRGBWhite => Illuminant2.D65;
 
-    //...
+    ///
 
     /// <summary><see cref="WorkingProfiles.sRGB"/></summary>
-    public static ICompress DefaultCompression => new sRGBCompression();
+    public static ICompress DefaultCompression => sRGBCompression;
 
     /// <summary><see cref="WorkingProfiles.sRGB"/></summary>
     public static Primary3 DefaultPrimary => sRGBPrimary;
@@ -34,29 +37,30 @@ public partial struct WorkingProfile : IEquatable<WorkingProfile>
     /// <summary><see cref="WorkingProfiles.sRGB"/></summary>
     public static Vector2 DefaultWhite => sRGBWhite;
 
-    //...
+    ///
 
     [Caption("The matrix used to adapt a color when the input and output working profile differ.")]
-    [Copy, Index(3)]
+    [Index(3)]
     public Matrix Adaptation { get; private set; } = ChromaticAdaptationTransform.Default;
 
     [Caption("The chromacity coordinates in 2D space.")]
-    [Copy, Horizontal, Index(0)]
+    [Horizontal, Index(0)]
     public Vector2 Chromacity { get; private set; } = DefaultWhite;
 
+    [Assign(typeof(Compression), typeof(GammaCompression), typeof(GammaLogCompression), typeof(PQCompression))]
     [Caption("The transfer function used for compression.")]
-    [Copy, Index(2)]
+    [Index(2)]
     public ICompress Compression { get; private set; } = DefaultCompression;
 
     [Caption("The red, green, and blue primary coordinates.")]
-    [Copy, Horizontal, Index(1)]
+    [Horizontal, Index(1)]
     public Primary3 Primary { get; private set; } = DefaultPrimary;
 
-    [Copy, DisplayName("Conditions"), Index(4)]
+    [Name("Conditions"), Index(4)]
     public CAM02.ViewingConditions ViewingConditions { get; private set; } = DefaultViewingConditions;
 
     /// <summary><see cref="White"/> = (<see cref="Vector3"/>)(<see cref="XYZ"/>)(<see cref="xyY"/>)(<see cref="xy"/>)<see cref="Chromacity"/></summary><remarks>Default = <see cref="Vector3.One"/></remarks>
-    [Hidden]
+    [Hide]
     public Vector3 White { get; private set; } = Vector3.One;
 
     #endregion

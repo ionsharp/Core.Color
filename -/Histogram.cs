@@ -9,39 +9,34 @@ namespace Imagin.Core.Colors;
 
 public class Histogram : Base
 {
-    ObservableCollection<Vector2> red = null;
     public ObservableCollection<Vector2> Red
     {
-        get => red;
-        set => this.Change(ref red, value, () => Red);
+        get => Get<ObservableCollection<Vector2>>();
+        set => Set(value);
     }
 
-    ObservableCollection<Vector2> green = null;
     public ObservableCollection<Vector2> Green
     {
-        get => green;
-        set => this.Change(ref green, value, () => Green);
+        get => Get<ObservableCollection<Vector2>>();
+        set => Set(value);
     }
 
-    ObservableCollection<Vector2> blue = null;
     public ObservableCollection<Vector2> Blue
     {
-        get => blue;
-        set => this.Change(ref blue, value, () => Blue);
+        get => Get<ObservableCollection<Vector2>>();
+        set => Set(value);
     }
 
-    ObservableCollection<Vector2> saturation = null;
     public ObservableCollection<Vector2> Saturation
     {
-        get => saturation;
-        set => this.Change(ref saturation, value, () => Saturation);
+        get => Get<ObservableCollection<Vector2>>();
+        set => Set(value);
     }
 
-    ObservableCollection<Vector2> luminance = null;
     public ObservableCollection<Vector2> Luminance
     {
-        get => luminance;
-        set => this.Change(ref luminance, value, () => Luminance);
+        get => Get<ObservableCollection<Vector2>>();
+        set => Set(value);
     }
 
     public Histogram() : base() { }

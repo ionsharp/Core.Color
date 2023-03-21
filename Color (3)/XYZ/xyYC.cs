@@ -23,7 +23,7 @@ namespace Imagin.Core.Colors;
 /// <para>http://hej.sze.hu/ARC/ARC-030520-A/arc030520a.pdf</para>
 /// </remarks>
 [Component(MinHue, MaxHue, "A", "Hue"), Component(100, "T"), Component(100, "V")]
-[Category(Class.XYZ), Hidden, Serializable]
+[Category(Class.XYZ), Hide, Serializable]
 [Description("A color model based on 'xyY'. Also known as 'Coloroid'.")]
 [SuppressMessage("Style", "IDE1006:Naming Styles")]
 public class xyYC : ColorModel3<xyY>
@@ -32,7 +32,7 @@ public class xyYC : ColorModel3<xyY>
 
 	public const int MinHue = 10;
 
-	public static readonly Dictionary<int, Vector> Colors = new Dictionary<int, Vector>()
+	public static readonly Dictionary<int, Vector> Colors = new()
 	{
 		//A         °     eλ        xλ       yλ
 		{ 10,  new( 59.0, 1.724349, 0.44987, 0.53641) },

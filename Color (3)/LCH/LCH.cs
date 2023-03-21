@@ -13,7 +13,7 @@ public abstract class LCH<T> : ColorModel3 where T : ColorModel3, new()
 {
     public LCH() : base() { }
 
-    //...
+    ///
 
     static Vector3 FromLChx(Vector3 i)
     {
@@ -42,7 +42,7 @@ public abstract class LCH<T> : ColorModel3 where T : ColorModel3, new()
         return new Vector3(i.X, Clamp(i.Y * x / y, 100), Clamp(i.Z * u / v, 359));
     }
 
-    //...
+    ///
 
     /// <summary>(🗸) <see cref="LCH{T}"/> > <see cref="LCH{T}">T</see></summary>
     public virtual Vector3 FromLCh(Vector3 input)

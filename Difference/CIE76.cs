@@ -5,7 +5,7 @@ namespace Imagin.Core.Colors;
 
 /// <summary>CIE Delta-E 1976 color difference formula.</summary>
 /// <remarks>https://github.com/tompazourek/Colourful</remarks>
-[DisplayName("CIE Delta-E 1976"), Serializable]
+[Name("CIE Delta-E 1976"), Serializable]
 public class CIE76ColorDifference : IColorDifference<Lab>, IColorDifference
 {
     public CIE76ColorDifference() { }

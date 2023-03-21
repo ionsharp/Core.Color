@@ -20,8 +20,7 @@ namespace Imagin.Core.Colors;
 [Description("A preceder to 'ICtCp' that is similar to 'YCwCm', but has smoother transitions between hues. 'P' stands for protanopia (or red-green colorblindness) and 'T' stands for tritanopia (another form of colorblindness).")]
 public class IPT : ColorModel3
 {
-    public static Matrix M = new Matrix
-    (
+    public static Matrix M = new    (
         new double[][]
         {
             new[] { 0.4000,  0.4000,  0.2000 },

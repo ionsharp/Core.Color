@@ -12,7 +12,7 @@ namespace Imagin.Core.Colors;
 /// </summary>
 /// <remarks>https://colour.readthedocs.io/en/develop/_modules/colour/models/oklab.html</remarks>
 [Component(1, '°', "L", "Perceived lightness"), Component(1, '%', "a", "Red/green"), Component(1, '%', "b", "Blue/yellow")]
-[Category(Class.Labk), Hidden, Serializable]
+[Category(Class.Labk), Hide, Serializable]
 [Description("A model that defines color as having perceived lightness (L), red/green (a), and blue/yellow (b).")]
 public class Labk : ColorModel3<XYZ>
 {

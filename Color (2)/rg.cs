@@ -10,19 +10,19 @@ namespace Imagin.Core.Colors;
 /// </summary>
 /// <remarks>https://en.wikipedia.org/wiki/Rg_chromaticity</remarks>
 [Component(1, "r"), Component(1, "g")]
-[Hidden, Serializable]
+[Hide, Serializable]
 [SuppressMessage("Style", "IDE1006:Naming Styles")]
 public class rg : ColorModel2<rgG>
 {
     public rg() : base() { }
 
-    //...
+    ///
 
     public static explicit operator rg(Vector2 input) => Colour.New<rg>(input);
 
     public static explicit operator rg(rgG input) => Colour.New<rg>(input.XY);
 
-    //...
+    ///
 
     /// <summary>(🗸) <see cref="rgG"/> > <see cref="rg"/></summary>
     public override void From(rgG input, WorkingProfile profile)

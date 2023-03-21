@@ -10,7 +10,7 @@ namespace Imagin.Core.Colors;
 /// </summary>
 /// <remarks>https://github.com/helixd2s/hcv-color</remarks>
 [Component(360, '°', "H", "Hue"), Component(100, '%', "C", "Chroma"), Component(100, '%', "V", "Gray")]
-[Category(Class.HC), Serializable]
+[Category(Class.HC), Class(Class.H | Class.HC), Serializable]
 [Description("A model that defines color as having hue (H), chroma (C), and gray (V).")]
 public class HCV : ColorModel3
 {

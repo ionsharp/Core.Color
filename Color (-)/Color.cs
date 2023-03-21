@@ -17,7 +17,7 @@ public static partial class Colour
     /// <summary>Gets the type (based on the index) corresponding to each <see cref="ColorModel"/> in the relevant shader file.</summary>
     internal static readonly Dictionary<int, Type> Type = new();
 
-    //...
+    ///
 
     public static readonly Dictionary<Type, Vector<Component>> Components = new();
 
@@ -114,7 +114,7 @@ public static partial class Colour
 
     public static ColorModel New<T>() where T : ColorModel => New(typeof(T));
 
-    //...
+    ///
 
     public static ColorModel New(Type i, RGB input, WorkingProfile profile)
     {
@@ -125,7 +125,7 @@ public static partial class Colour
 
     public static ColorModel New<T>(RGB input, WorkingProfile profile) where T : ColorModel => New(typeof(T), input, profile);
 
-    //...
+    ///
 
     public static ColorModel New(Type i, double all)
     {
@@ -230,7 +230,7 @@ public static partial class Colour
         return result;
     }
 
-    //...
+    ///
 
     public static T New<T>(double all) where T : ColorModel => (T)New(typeof(T), all);
 

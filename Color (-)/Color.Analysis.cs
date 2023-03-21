@@ -16,6 +16,8 @@ public static partial class Colour
         /// <param name="depth">A number in the range [1, ∞].</param>
         public static double GetAccuracy(Type model, WorkingProfile profile, uint depth = 10, int precision = 3, bool log = false)
         {
+            profile = profile == default ? WorkingProfiles.sRGB : profile;
+
             try
             {
                 var color = New(model);
@@ -64,7 +66,7 @@ public static partial class Colour
         /// <param name="depth">A number in the range [1, ∞].</param>
         public static double GetAccuracy<T>(WorkingProfile profile, uint depth = 10, int precision = 3, bool log = false) where T : ColorModel3 => GetAccuracy(typeof(T), profile, depth, precision, log);
 
-        //...
+        ///
 
         static void Compare(ColorModel m, int length, double[] minimum, double[] maximum)
         {
@@ -117,6 +119,8 @@ public static partial class Colour
         /// <param name="depth">A number in the range [1, ∞].</param>
         public static Range<Vector> GetRange(Type model, WorkingProfile profile, out double accuracy, bool reverse = false, uint depth = 10, int precision = 3, bool log = false)
         {
+            profile = profile == default ? WorkingProfiles.sRGB : profile;
+
             var rgb = new RGB();
             var xyz = New(model);
 

@@ -10,7 +10,7 @@ namespace Imagin.Core.Colors;
 /// </summary>
 /// <remarks>https://drafts.csswg.org/css-color/#the-hwb-notation</remarks>
 [Component(360, '°', "H", "Hue"), Component(100, '%', "W", "Whiteness"), Component(100, '%', "B", "Blackness")]
-[Category(Class.H), Serializable]
+[Category(Class.H), Class(Class.H), Serializable]
 [Description("A model that defines color as having hue (H), whiteness (W), and blackness (B).")]
 public class HWB : ColorModel3
 {

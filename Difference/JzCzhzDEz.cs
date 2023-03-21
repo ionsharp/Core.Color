@@ -9,7 +9,7 @@ namespace Imagin.Core.Colors;
 /// <para>https://github.com/tompazourek/Colourful</para>
 /// <para>https://observablehq.com/@jrus/jzazbz</para>
 /// </remarks>
-[DisplayName("Delta Ez"), Serializable]
+[Name("Delta Ez"), Serializable]
 public sealed class JzCzhzDEzColorDifference : IColorDifference<LCHabj>, IColorDifference
 {
     public JzCzhzDEzColorDifference() { }

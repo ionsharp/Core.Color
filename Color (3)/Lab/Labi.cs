@@ -26,7 +26,7 @@ namespace Imagin.Core.Colors;
 /// <para>https://github.com/colorjs/color-space/blob/master/osaucs.js</para>
 /// </remarks>
 [Component(-10, 8, "L", "Lightness"), Component(-6, 12, "j", "Red/green"), Component(-10, 6, "g", "Yellow/blue")]
-[Category(Class.Lab), Hidden, Serializable]
+[Category(Class.Lab), Hide, Serializable]
 [Description("A model that attempts to accurately represent uniform color differences in each direction.")]
 public class Labi : ColorModel3<XYZ>
 {

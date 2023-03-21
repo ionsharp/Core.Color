@@ -23,18 +23,18 @@ namespace Imagin.Core.Colors;
 /// </summary>
 /// <remarks>https://github.com/tompazourek/Colourful</remarks>
 [Component(255, "R", "Red"), Component(255, "G", "Green"), Component(255, "B", "Blue")]
-[Description("An additive color model in which the <b>Red</b>, <b>Green</b>, and <b>Blue</b> <i>primary</i> colors are added together.")]
+[Description("An additive model where the primary colors are added together.")]
 [Category(Class.RGB), Serializable]
 public class RGB : ColorModel3
 {
     public RGB() : base() { }
 
-    //...
+    ///
 
     /// <summary>(🗸) <see cref="RGB"/> (0) > <see cref="XYZ"/> (0) > <see cref="LMS"/> (0) > <see cref="LMS"/> (1) > <see cref="XYZ"/> (1) > <see cref="RGB"/> (1)</summary>
     public override void Adapt(WorkingProfile source, WorkingProfile target) => Value = Adapt(this, source, target);
 
-    //...
+    ///
 
     /// <summary>Gets <see cref="RGB"/> from 8-bit channels [0, 255].</summary>
     public static RGB From8Bit(in byte r, in byte g, in byte b) => Colour.New<RGB>(r, g, b);
@@ -52,7 +52,7 @@ public class RGB : ColorModel3
     /// <summary>(🗸) <see cref="RGB"/> > <see cref="RGB"/></summary>
     public override void From(RGB input, WorkingProfile profile) => Value = input.XYZ;
 
-    //...
+    ///
 
     /// <summary>Gets channel values as 8-bit values [0, 255].</summary>
     public void To8Bit(out byte r, out byte g, out byte b)

@@ -9,8 +9,13 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DocumentationFile></DocumentationFile>
-    <LangVersion>10</LangVersion>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Compression\L.cs" />
+    <Compile Remove="Compression\sRGB.cs" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="InheritDoc" Version="2.5.2" />

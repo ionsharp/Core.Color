@@ -10,19 +10,19 @@ namespace Imagin.Core.Colors;
 /// <para><see cref="RGB"/> > <see cref="Lrgb"/> > <see cref="XYZ"/> > <see cref="xyY"/> > <see cref="xy"/></para>
 /// </summary>
 [Component(1, "x"), Component(1, "y")]
-[Hidden, Serializable]
+[Hide, Serializable]
 [SuppressMessage("Style", "IDE1006:Naming Styles")]
 public class xy : ColorModel2<xyY>
 {
     public xy() : base() { }
 
-    //...
+    ///
 
     public static explicit operator xy(Vector2 input) => Colour.New<xy>(input);
 
     public static explicit operator xy(xyY input) => Colour.New<xy>(input.XY);
 
-    //...
+    ///
 
     /// <summary>(🗸) <see cref="xyY"/> > <see cref="xy"/></summary>
     public override void From(xyY input, WorkingProfile profile)
